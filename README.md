@@ -1,5 +1,5 @@
 <div align="center">
-<img src="./resources/icons/app.png" width="128" height="128" alt="Calcite" />
+<img width="100" height="95" alt="Image" src="https://github.com/user-attachments/assets/e30c6733-5446-4cbd-8024-a21308ae6b93" />
 </div>
 
 # Calcite
