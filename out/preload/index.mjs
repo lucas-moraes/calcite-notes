@@ -7,6 +7,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
   saveNote: (note) => ipcRenderer.invoke("save-note", note),
   deleteNote: (id) => ipcRenderer.invoke("delete-note", id),
   getNotesFolder: () => ipcRenderer.invoke("get-notes-folder"),
+  getDirectory: (path) => ipcRenderer.invoke("get-directory", path),
+  readFile: (path) => ipcRenderer.invoke("read-file", path),
+  hasMdFiles: (path) => ipcRenderer.invoke("has-md-files", path),
+  saveNewNote: (path, content) => ipcRenderer.invoke("save-new-note", path, content),
   onNewNote: (callback) => {
     ipcRenderer.on("menu:new-note", callback);
     return () => ipcRenderer.removeListener("menu:new-note", callback);

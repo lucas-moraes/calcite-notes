@@ -12,7 +12,26 @@ const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
 const MAIN_WINDOW_VITE_DEV_SERVER_URL = process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL;
 const MAIN_WINDOW_VITE_NAME = "main_window";
 let mainWindow;
-let NOTES_DIR = path.join(app.getPath("userData"), "notes");
+const CONFIG_PATH = path.join(app.getPath("userData"), "config.json");
+function loadConfig() {
+  try {
+    if (fs.existsSync(CONFIG_PATH)) {
+      return JSON.parse(fs.readFileSync(CONFIG_PATH, "utf-8"));
+    }
+  } catch (e) {
+    console.error("Error loading config:", e);
+  }
+  return {};
+}
+function saveConfig(config) {
+  try {
+    fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), "utf-8");
+  } catch (e) {
+    console.error("Error saving config:", e);
+  }
+}
+const savedConfig = loadConfig();
+let NOTES_DIR = savedConfig.notesDir || path.join(app.getPath("userData"), "notes");
 function ensureNotesDir() {
   if (!fs.existsSync(NOTES_DIR)) {
     fs.mkdirSync(NOTES_DIR, { recursive: true });
@@ -27,14 +46,21 @@ ipcMain.handle("get-notes", async () => {
   });
 });
 ipcMain.handle("save-note", async (_event, note) => {
-  ensureNotesDir();
-  const filepath = path.join(NOTES_DIR, `${note.id}.json`);
-  fs.writeFileSync(filepath, JSON.stringify(note, null, 2));
+  try {
+    const filePath = note.id.endsWith(".md") ? note.id : path.join(NOTES_DIR, `${note.id}.md`);
+    const content = note.content;
+    fs.writeFileSync(filePath, content, "utf-8");
+  } catch (e) {
+    console.error("Error saving note:", e);
+  }
 });
-ipcMain.handle("delete-note", async (_event, id) => {
-  const filepath = path.join(NOTES_DIR, `${id}.json`);
-  if (fs.existsSync(filepath)) {
-    fs.unlinkSync(filepath);
+ipcMain.handle("delete-note", async (_event, filePath) => {
+  try {
+    if (filePath && fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+  } catch (e) {
+    console.error("Error deleting note:", e);
   }
 });
 function createMenu() {
@@ -69,6 +95,7 @@ function createMenu() {
             });
             if (!result.canceled && result.filePaths.length > 0) {
               NOTES_DIR = result.filePaths[0];
+              saveConfig({ notesDir: result.filePaths[0] });
               ensureNotesDir();
               mainWindow.webContents.send("reload-notes");
             }
@@ -166,6 +193,7 @@ ipcMain.handle("select-notes-folder", async () => {
       const newDir = result.filePaths[0];
       console.log("Selected folder:", newDir);
       NOTES_DIR = newDir;
+      saveConfig({ notesDir: newDir });
       ensureNotesDir();
       mainWindow.webContents.send("reload-notes");
       return newDir;
@@ -176,8 +204,72 @@ ipcMain.handle("select-notes-folder", async () => {
     return null;
   }
 });
+ipcMain.handle("has-md-files", async (_event, dirPath) => {
+  const checkDir = (dir) => {
+    try {
+      const entries = fs.readdirSync(dir, { withFileTypes: true });
+      for (const entry of entries) {
+        if (entry.name.startsWith(".")) continue;
+        const fullPath = path.join(dir, entry.name);
+        if (entry.isDirectory()) {
+          if (checkDir(fullPath)) return true;
+        } else if (entry.name.endsWith(".md")) {
+          return true;
+        }
+      }
+    } catch {
+      return false;
+    }
+    return false;
+  };
+  return checkDir(dirPath);
+});
+ipcMain.handle("save-new-note", async (_event, filePath, content) => {
+  try {
+    fs.writeFileSync(filePath, content, "utf-8");
+    return true;
+  } catch (e) {
+    console.error("Error saving note:", e);
+    return false;
+  }
+});
 ipcMain.handle("get-notes-folder", () => {
   return NOTES_DIR;
+});
+ipcMain.handle("get-directory", async (_event, dirPath) => {
+  try {
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    return entries.filter((entry) => !entry.name.startsWith(".") && (entry.isDirectory() || entry.name.endsWith(".md"))).map((entry) => {
+      const fullPath = path.join(dirPath, entry.name);
+      return {
+        name: entry.name,
+        path: fullPath,
+        isDirectory: entry.isDirectory()
+      };
+    }).sort((a, b) => {
+      if (a.isDirectory !== b.isDirectory) {
+        return a.isDirectory ? -1 : 1;
+      }
+      return a.name.localeCompare(b.name);
+    });
+  } catch {
+    return [];
+  }
+});
+ipcMain.handle("read-file", async (_event, filePath) => {
+  try {
+    const content = fs.readFileSync(filePath, "utf-8");
+    const name = path.basename(filePath, ".md");
+    return {
+      id: filePath,
+      title: name,
+      content,
+      createdAt: fs.statSync(filePath).birthtimeMs,
+      updatedAt: fs.statSync(filePath).mtimeMs
+    };
+  } catch {
+    return null;
+  }
 });
 app.whenReady().then(() => {
   createMenu();

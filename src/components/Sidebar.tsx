@@ -1,7 +1,8 @@
-import { FileText, Trash2, MoreVertical, Clock } from 'lucide-react';
-import { Note } from '../types';
+import { FileText, Trash2, MoreVertical, Clock, Sparkles } from 'lucide-react';
+import { Note, GraphNode, GraphLink } from '../types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import GraphView from './GraphView';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -15,6 +16,8 @@ interface SidebarProps {
   onDeleteNote: (id: string) => void;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+  graphNodes: GraphNode[];
+  graphLinks: GraphLink[];
 }
 
 function formatDate(timestamp: number) {
@@ -38,7 +41,9 @@ export default function Sidebar({
   activeNoteId,
   onSelectNote,
   onNewNote,
-  onDeleteNote
+  onDeleteNote,
+  graphNodes,
+  graphLinks
 }: SidebarProps) {
   return (
     <aside className="w-72 flex-shrink-0 bg-base-900 border-l border-base-800 flex flex-col h-full overflow-hidden">
@@ -75,6 +80,9 @@ export default function Sidebar({
                     "text-sm font-medium truncate flex-1",
                     activeNoteId === note.id ? "text-white" : "text-base-200"
                   )}>
+                    {note.isNew && (
+                      <Sparkles size={12} className="inline mr-1 text-yellow-400" />
+                    )}
                     {note.title || 'Untitled'}
                   </h3>
                   <div className="relative">
@@ -106,6 +114,16 @@ export default function Sidebar({
       {/* Footer */}
       <div className="p-3 border-t border-base-800 flex items-center justify-between text-[10px] text-base-500 font-mono">
         <span>{notes.length} NOTES</span>
+      </div>
+
+      {/* Graph View */}
+      <div className="h-48 border-t border-base-800">
+        <GraphView
+          nodes={graphNodes}
+          links={graphLinks}
+          onNodeClick={(id) => onSelectNote(id)}
+          activeNodeId={activeNoteId || undefined}
+        />
       </div>
     </aside>
   );

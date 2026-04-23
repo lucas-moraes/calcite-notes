@@ -21,7 +21,7 @@ export default function Editor({ note, onChange, onTitleChange }: EditorProps) {
 
   return (
     <div className="flex-1 flex flex-col h-full bg-base-950 overflow-hidden">
-      {/* Tab Bar */}
+      {/* Tab Bar */} 
       <div className="h-12 border-b border-base-800 flex items-center justify-between px-6 bg-base-900/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="flex items-center gap-4 flex-1">
           <input
@@ -29,7 +29,7 @@ export default function Editor({ note, onChange, onTitleChange }: EditorProps) {
             value={note.title}
             onChange={(e) => onTitleChange(e.target.value)}
             placeholder="Untitled Note"
-            className="bg-transparent border-none outline-none text-sm font-semibold text-white w-full placeholder-base-600"
+            className="bg-transparent border-none outline-none text-sm font-semibold text-white w-60 placeholder-base-600"
           />
         </div>
         

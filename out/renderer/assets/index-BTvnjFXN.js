@@ -12599,30 +12599,57 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$7 = [
-  ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
-];
-const Clock = createLucideIcon("clock", __iconNode$7);
+const __iconNode$c = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$c);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$6 = [
+const __iconNode$b = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$b);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$a = [
+  ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
+];
+const Clock = createLucideIcon("clock", __iconNode$a);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$9 = [
   ["circle", { cx: "12", cy: "12", r: "1", key: "41hilf" }],
   ["circle", { cx: "12", cy: "5", r: "1", key: "gxeob9" }],
   ["circle", { cx: "12", cy: "19", r: "1", key: "lyex9k" }]
 ];
-const EllipsisVertical = createLucideIcon("ellipsis-vertical", __iconNode$6);
+const EllipsisVertical = createLucideIcon("ellipsis-vertical", __iconNode$9);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$5 = [
+const __iconNode$8 = [
+  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
+  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }]
+];
+const File = createLucideIcon("file", __iconNode$8);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$7 = [
   [
     "path",
     {
@@ -12631,7 +12658,37 @@ const __iconNode$5 = [
     }
   ]
 ];
-const FolderOpen = createLucideIcon("folder-open", __iconNode$5);
+const FolderOpen = createLucideIcon("folder-open", __iconNode$7);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$6 = [
+  [
+    "path",
+    {
+      d: "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z",
+      key: "1kt360"
+    }
+  ]
+];
+const Folder = createLucideIcon("folder", __iconNode$6);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$5 = [
+  ["rect", { x: "16", y: "16", width: "6", height: "6", rx: "1", key: "4q2zg0" }],
+  ["rect", { x: "2", y: "16", width: "6", height: "6", rx: "1", key: "8cvhb9" }],
+  ["rect", { x: "9", y: "2", width: "6", height: "6", rx: "1", key: "1egb70" }],
+  ["path", { d: "M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3", key: "1jsf9p" }],
+  ["path", { d: "M12 12V8", key: "2874zd" }]
+];
+const Network = createLucideIcon("network", __iconNode$5);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12639,20 +12696,6 @@ const FolderOpen = createLucideIcon("folder-open", __iconNode$5);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$4 = [
-  ["rect", { x: "16", y: "16", width: "6", height: "6", rx: "1", key: "4q2zg0" }],
-  ["rect", { x: "2", y: "16", width: "6", height: "6", rx: "1", key: "8cvhb9" }],
-  ["rect", { x: "9", y: "2", width: "6", height: "6", rx: "1", key: "1egb70" }],
-  ["path", { d: "M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3", key: "1jsf9p" }],
-  ["path", { d: "M12 12V8", key: "2874zd" }]
-];
-const Network = createLucideIcon("network", __iconNode$4);
-/**
- * @license lucide-react v0.546.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$3 = [
   [
     "path",
     {
@@ -12662,7 +12705,18 @@ const __iconNode$3 = [
   ],
   ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
 ];
-const Pencil = createLucideIcon("pencil", __iconNode$3);
+const Pencil = createLucideIcon("pencil", __iconNode$4);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$3 = [
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "M12 5v14", key: "s699le" }]
+];
+const Plus = createLucideIcon("plus", __iconNode$3);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12670,10 +12724,17 @@ const Pencil = createLucideIcon("pencil", __iconNode$3);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$2 = [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "M12 5v14", key: "s699le" }]
+  [
+    "path",
+    {
+      d: "M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z",
+      key: "1c8476"
+    }
+  ],
+  ["path", { d: "M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7", key: "1ydtos" }],
+  ["path", { d: "M7 3v4a1 1 0 0 0 1 1h7", key: "t51u73" }]
 ];
-const Plus = createLucideIcon("plus", __iconNode$2);
+const Save = createLucideIcon("save", __iconNode$2);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12681,13 +12742,18 @@ const Plus = createLucideIcon("plus", __iconNode$2);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$1 = [
-  ["path", { d: "M10 11v6", key: "nco0om" }],
-  ["path", { d: "M14 11v6", key: "outv1u" }],
-  ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
-  ["path", { d: "M3 6h18", key: "d0wm0j" }],
-  ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
+  [
+    "path",
+    {
+      d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
+      key: "1s2grr"
+    }
+  ],
+  ["path", { d: "M20 2v4", key: "1rf3ol" }],
+  ["path", { d: "M22 4h-4", key: "gwowj6" }],
+  ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
 ];
-const Trash2 = createLucideIcon("trash-2", __iconNode$1);
+const Sparkles = createLucideIcon("sparkles", __iconNode$1);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12695,10 +12761,13 @@ const Trash2 = createLucideIcon("trash-2", __iconNode$1);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode = [
-  ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
-  ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
+  ["path", { d: "M10 11v6", key: "nco0om" }],
+  ["path", { d: "M14 11v6", key: "outv1u" }],
+  ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
+  ["path", { d: "M3 6h18", key: "d0wm0j" }],
+  ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
 ];
-const X = createLucideIcon("x", __iconNode);
+const Trash2 = createLucideIcon("trash-2", __iconNode);
 function r(e) {
   var t, f, n = "";
   if ("string" == typeof e || "number" == typeof e) n += e;
@@ -15884,77 +15953,6 @@ const getDefaultConfig = () => {
   };
 };
 const twMerge = /* @__PURE__ */ createTailwindMerge(getDefaultConfig);
-function cn(...inputs) {
-  return twMerge(clsx(inputs));
-}
-function formatDate(timestamp) {
-  const date = new Date(timestamp);
-  const now2 = /* @__PURE__ */ new Date();
-  const diffDays = Math.floor((now2.getTime() - date.getTime()) / (1e3 * 60 * 60 * 24));
-  if (diffDays === 0) return "Today";
-  if (diffDays === 1) return "Yesterday";
-  if (diffDays < 7) return `${diffDays} days ago`;
-  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-}
-function getPreview(content, maxLength = 80) {
-  const cleaned = content.replace(/[#*`\[\]]/g, "").replace(/\n+/g, " ").trim();
-  return cleaned.length > maxLength ? cleaned.slice(0, maxLength) + "..." : cleaned;
-}
-function Sidebar({
-  notes,
-  activeNoteId,
-  onSelectNote,
-  onNewNote,
-  onDeleteNote
-}) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("aside", { className: "w-72 flex-shrink-0 bg-base-900 border-l border-base-800 flex flex-col h-full overflow-hidden", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-4 border-b border-base-800", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "text-xs font-semibold text-base-400 uppercase tracking-widest flex items-center gap-2", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-1.5 h-1.5 rounded-full bg-accent animate-pulse" }),
-      "Your Notes"
-    ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto p-2", children: notes.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "py-12 text-center", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-base-500", children: "No notes yet" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-base-600 mt-1", children: 'Click "New" to create one' })
-    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 gap-2", children: notes.map((note) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "button",
-      {
-        onClick: () => onSelectNote(note.id),
-        className: cn(
-          "group text-left p-3 rounded-xl transition-all duration-200",
-          activeNoteId === note.id ? "bg-accent/15 border border-accent/30" : "bg-base-800/50 border border-transparent hover:bg-base-800 hover:border-base-700"
-        ),
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-2 mb-1.5", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: cn(
-              "text-sm font-medium truncate flex-1",
-              activeNoteId === note.id ? "text-white" : "text-base-200"
-            ), children: note.title || "Untitled" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: (e) => {
-                  e.stopPropagation();
-                },
-                className: "opacity-0 group-hover:opacity-100 p-1 hover:bg-base-700 rounded text-base-500 transition-all",
-                children: /* @__PURE__ */ jsxRuntimeExports.jsx(EllipsisVertical, { size: 14 })
-              }
-            ) })
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] text-base-500 line-clamp-2 mb-2", children: getPreview(note.content) || "Empty note..." }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 text-[10px] text-base-600", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { size: 10 }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatDate(note.updatedAt) })
-          ] })
-        ]
-      },
-      note.id
-    )) }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 border-t border-base-800 flex items-center justify-between text-[10px] text-base-500 font-mono", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-      notes.length,
-      " NOTES"
-    ] }) })
-  ] });
-}
 var noop = { value: () => {
 } };
 function dispatch() {
@@ -18905,6 +18903,240 @@ function GraphView({ nodes, links, onNodeClick, activeNodeId }) {
     }
   ) });
 }
+function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+function formatDate(timestamp) {
+  const date = new Date(timestamp);
+  const now2 = /* @__PURE__ */ new Date();
+  const diffDays = Math.floor((now2.getTime() - date.getTime()) / (1e3 * 60 * 60 * 24));
+  if (diffDays === 0) return "Today";
+  if (diffDays === 1) return "Yesterday";
+  if (diffDays < 7) return `${diffDays} days ago`;
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+}
+function getPreview(content, maxLength = 80) {
+  const cleaned = content.replace(/[#*`\[\]]/g, "").replace(/\n+/g, " ").trim();
+  return cleaned.length > maxLength ? cleaned.slice(0, maxLength) + "..." : cleaned;
+}
+function Sidebar({
+  notes,
+  activeNoteId,
+  onSelectNote,
+  onNewNote,
+  onDeleteNote,
+  graphNodes,
+  graphLinks
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("aside", { className: "w-72 flex-shrink-0 bg-base-900 border-l border-base-800 flex flex-col h-full overflow-hidden", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-4 border-b border-base-800", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "text-xs font-semibold text-base-400 uppercase tracking-widest flex items-center gap-2", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-1.5 h-1.5 rounded-full bg-accent animate-pulse" }),
+      "Your Notes"
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto p-2", children: notes.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "py-12 text-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-base-500", children: "No notes yet" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-base-600 mt-1", children: 'Click "New" to create one' })
+    ] }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 gap-2", children: notes.map((note) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        onClick: () => onSelectNote(note.id),
+        className: cn(
+          "group text-left p-3 rounded-xl transition-all duration-200",
+          activeNoteId === note.id ? "bg-accent/15 border border-accent/30" : "bg-base-800/50 border border-transparent hover:bg-base-800 hover:border-base-700"
+        ),
+        children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-2 mb-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { className: cn(
+              "text-sm font-medium truncate flex-1",
+              activeNoteId === note.id ? "text-white" : "text-base-200"
+            ), children: [
+              note.isNew && /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 12, className: "inline mr-1 text-yellow-400" }),
+              note.title || "Untitled"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: (e) => {
+                  e.stopPropagation();
+                },
+                className: "opacity-0 group-hover:opacity-100 p-1 hover:bg-base-700 rounded text-base-500 transition-all",
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(EllipsisVertical, { size: 14 })
+              }
+            ) })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] text-base-500 line-clamp-2 mb-2", children: getPreview(note.content) || "Empty note..." }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 text-[10px] text-base-600", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { size: 10 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: formatDate(note.updatedAt) })
+          ] })
+        ]
+      },
+      note.id
+    )) }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 border-t border-base-800 flex items-center justify-between text-[10px] text-base-500 font-mono", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+      notes.length,
+      " NOTES"
+    ] }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-48 border-t border-base-800", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      GraphView,
+      {
+        nodes: graphNodes,
+        links: graphLinks,
+        onNodeClick: (id2) => onSelectNote(id2),
+        activeNodeId: activeNoteId || void 0
+      }
+    ) })
+  ] });
+}
+function TreeNode({
+  node,
+  level = 0,
+  onSelect,
+  onExpand,
+  isActive,
+  isExpanded,
+  onToggle,
+  checkHasMd
+}) {
+  const [children2, setChildren] = reactExports.useState([]);
+  const [loading, setLoading] = reactExports.useState(false);
+  const [hasMdFiles, setHasMdFiles] = reactExports.useState(node.hasMd ?? false);
+  const handleClick = async () => {
+    if (node.isDirectory) {
+      if (!isExpanded && children2.length === 0) {
+        setLoading(true);
+        try {
+          const result = await onExpand(node.path);
+          setChildren(result);
+          const mdCheck = await checkHasMd(node.path);
+          setHasMdFiles(mdCheck);
+        } catch {
+          console.error("Error loading directory");
+        }
+        setLoading(false);
+      }
+      onToggle(node.path);
+    } else {
+      onSelect(node.path);
+    }
+  };
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "button",
+      {
+        type: "button",
+        onClick: handleClick,
+        className: clsx(
+          "w-full flex items-center gap-1 px-2 py-1 text-sm text-left transition-colors",
+          isActive ? "bg-accent/20 text-accent" : "text-base-400 hover:text-base-200 hover:bg-base-800"
+        ),
+        style: { paddingLeft: `${level * 12 + 8}px` },
+        children: [
+          node.isDirectory ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-3 animate-pulse", children: "..." }) : isExpanded ? /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { size: 12 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronRight, { size: 12 }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Folder, { size: 14, className: hasMdFiles ? "text-yellow-400" : "text-gray-600" })
+          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-3" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(File, { size: 14, className: "text-blue-400" })
+          ] }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate", children: node.name })
+        ]
+      }
+    ),
+    isExpanded && children2.length > 0 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: children2.map((child) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TreeNode,
+      {
+        node: child,
+        level: level + 1,
+        onSelect,
+        onExpand,
+        isActive,
+        isExpanded: false,
+        onToggle,
+        checkHasMd
+      },
+      child.path
+    )) })
+  ] });
+}
+function formatPathname(path) {
+  return path.split("/").pop() || path;
+}
+function FileTree({ rootPath, onFileSelect }) {
+  const [tree, setTree] = reactExports.useState([]);
+  const [activePath, setActivePath] = reactExports.useState(null);
+  const [expandedPaths, setExpandedPaths] = reactExports.useState(/* @__PURE__ */ new Set());
+  const [loading, setLoading] = reactExports.useState(true);
+  reactExports.useEffect(() => {
+    if (rootPath) {
+      setLoading(true);
+      setExpandedPaths(/* @__PURE__ */ new Set());
+      loadTree(rootPath);
+    }
+  }, [rootPath]);
+  const loadTree = async (path) => {
+    setLoading(true);
+    try {
+      const result = await window.electronAPI?.getDirectory?.(path) || [];
+      setTree(result);
+    } catch {
+      console.error("Error loading tree");
+    }
+    setLoading(false);
+  };
+  const handleExpand = async (path) => {
+    try {
+      const result = await window.electronAPI?.getDirectory?.(path) || [];
+      return result;
+    } catch {
+      return [];
+    }
+  };
+  const checkHasMdFiles = async (path) => {
+    try {
+      return await window.electronAPI?.hasMdFiles?.(path) ?? false;
+    } catch {
+      return false;
+    }
+  };
+  const handleToggle = (path) => {
+    setExpandedPaths((prev) => {
+      const next = new Set(prev);
+      if (next.has(path)) {
+        next.delete(path);
+      } else {
+        next.add(path);
+      }
+      return next;
+    });
+  };
+  const handleSelect = (path) => {
+    setActivePath(path);
+    onFileSelect(path);
+  };
+  if (!rootPath) {
+    return null;
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-56 bg-base-900 border-r border-base-800 flex flex-col h-full overflow-hidden", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-3 border-b border-base-800 flex items-center gap-2", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Folder, { size: 14, className: "text-yellow-500" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-base-400 truncate", children: formatPathname(rootPath) })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto py-2", children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 text-xs text-base-500", children: "Loading..." }) : tree.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 text-xs text-base-500", children: "No .md files found" }) : tree.map((node) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+      TreeNode,
+      {
+        node,
+        onSelect: handleSelect,
+        onExpand: handleExpand,
+        isActive: activePath === node.path,
+        isExpanded: expandedPaths.has(node.path),
+        onToggle: handleToggle,
+        checkHasMd: checkHasMdFiles
+      },
+      node.path
+    )) })
+  ] });
+}
 const SvgComponent = (props) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
   "svg",
   {
@@ -19180,6 +19412,15 @@ function App() {
   const [searchQuery, setSearchQuery] = reactExports.useState("");
   const [isLoaded, setIsLoaded] = reactExports.useState(false);
   const [isGraphOpen, setIsGraphOpen] = reactExports.useState(false);
+  const [notesFolder, setNotesFolder] = reactExports.useState("");
+  const [fileTreeKey, setFileTreeKey] = reactExports.useState(0);
+  reactExports.useEffect(() => {
+    if (window.electronAPI) {
+      window.electronAPI.getNotesFolder().then((folder) => {
+        if (folder) setNotesFolder(folder);
+      });
+    }
+  }, []);
   reactExports.useEffect(() => {
     if (window.electronAPI) {
       window.electronAPI.getNotes().then((loadedNotes) => {
@@ -19208,7 +19449,8 @@ function App() {
   }, []);
   reactExports.useEffect(() => {
     if (isLoaded && window.electronAPI && notes.length > 0) {
-      notes.forEach((note) => {
+      const notesToSave = notes.filter((n) => !n.isNew);
+      notesToSave.forEach((note) => {
         window.electronAPI.saveNote(note);
       });
     }
@@ -19247,15 +19489,29 @@ function App() {
     return { nodes: nodes2, links: links2 };
   }, [notes]);
   const handleCreateNote = () => {
+    const noteId = crypto.randomUUID();
     const newNote = {
-      id: crypto.randomUUID(),
+      id: noteId,
       title: "",
       content: "",
       createdAt: Date.now(),
-      updatedAt: Date.now()
+      updatedAt: Date.now(),
+      isNew: true
     };
     setNotes([newNote, ...notes]);
-    setActiveNoteId(newNote.id);
+    setActiveNoteId(noteId);
+  };
+  const handleSaveNewNote = async (id2) => {
+    const noteToSave = notes.find((n) => n.id === id2);
+    if (!noteToSave || !noteToSave.title || !window.electronAPI) return;
+    const folder = await window.electronAPI.getNotesFolder();
+    const fileName = `${noteToSave.title.replace(/[^a-zA-Z0-9]/g, "-")}.md`;
+    const filePath = `${folder}/${fileName}`;
+    await window.electronAPI.saveNewNote(filePath, noteToSave.content || "");
+    setNotes((prev) => prev.map(
+      (n) => n.id === id2 ? { ...n, id: filePath, isNew: false, updatedAt: Date.now() } : n
+    ));
+    setFileTreeKey((prev) => prev + 1);
   };
   const handleUpdateNote = (id2, updates) => {
     setNotes((prev) => prev.map(
@@ -19264,30 +19520,62 @@ function App() {
   };
   const handleDeleteNote = (id2) => {
     if (confirm("Are you sure you want to delete this note?")) {
+      notes.find((n) => n.id === id2);
       setNotes((prev) => prev.filter((n) => n.id !== id2));
       if (window.electronAPI) {
         window.electronAPI.deleteNote(id2);
+        setFileTreeKey((prev) => prev + 1);
       }
       if (activeNoteId === id2) setActiveNoteId(notes.find((n) => n.id !== id2)?.id || null);
     }
   };
+  const handleOpenFile = async (path) => {
+    const note = await window.electronAPI?.readFile(path);
+    if (note) {
+      setNotes((prev) => {
+        const exists = prev.find((n) => n.id === note.id);
+        if (exists) {
+          return prev.map((n) => n.id === note.id ? note : n);
+        }
+        return [note, ...prev];
+      });
+      setActiveNoteId(note.id);
+    }
+  };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex h-screen w-full bg-base-950 overflow-hidden text-base-200", style: { flexDirection: "column" }, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("header", { className: "h-12 border-b border-base-800 flex items-center justify-between px-6 bg-base-900/50 backdrop-blur-sm sticky top-0 z-10", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4 flex-1", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 flex-1", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SvgComponent, { className: "w-6 h-6" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "input",
-          {
-            placeholder: "Untitled Note",
-            className: "bg-transparent border-none outline-none text-sm font-semibold text-white w-full placeholder-base-600",
-            type: "text",
-            value: activeNote?.title || "",
-            onChange: (e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })
-          }
-        )
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 flex-1", children: [
+          activeNote?.isNew && /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => activeNote && handleSaveNewNote(activeNote.id),
+              className: "p-1.5 hover:bg-base-800 rounded text-yellow-400 hover:text-yellow-300 transition-colors",
+              title: "Save note",
+              children: /* @__PURE__ */ jsxRuntimeExports.jsx(Save, { size: 16 })
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              placeholder: "Untitled Note",
+              maxLength: 30,
+              className: "bg-transparent border-none outline-none text-sm font-semibold text-white w-60 placeholder-base-600",
+              type: "text",
+              value: activeNote?.title || "",
+              onChange: (e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })
+            }
+          ),
+          activeNote?.isNew && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs text-base-600 whitespace-nowrap", children: [
+            activeNote?.title?.length || 0,
+            "/30"
+          ] })
+        ] })
       ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: async () => {
-        await window.electronAPI?.selectNotesFolder?.();
+        const folder = await window.electronAPI?.selectNotesFolder?.();
+        if (folder) setNotesFolder(folder);
       }, className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 16 }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: handleCreateNote, className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 16 }) }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => activeNote && handleUpdateNote(activeNote.id, { title: activeNote.title }), className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { size: 16 }) }),
@@ -19295,6 +19583,7 @@ function App() {
       /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setIsGraphOpen(true), className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Network, { size: 16 }) })
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-1 min-w-0 overflow-hidden", children: [
+      notesFolder && /* @__PURE__ */ jsxRuntimeExports.jsx(FileTree, { rootPath: notesFolder, onFileSelect: handleOpenFile }, fileTreeKey),
       /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 flex flex-col min-w-0 bg-base-950 relative", children: activeNote ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col h-full bg-base-950 overflow-hidden", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto py-12 px-8", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-6 mb-8 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900 pb-4", children: [
@@ -19349,31 +19638,11 @@ function App() {
           onNewNote: handleCreateNote,
           onDeleteNote: handleDeleteNote,
           searchQuery,
-          setSearchQuery
+          setSearchQuery,
+          graphNodes: nodes,
+          graphLinks: links
         }
       )
-    ] }),
-    isGraphOpen && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fixed inset-0 z-50 flex items-center justify-center", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-base-950/80 backdrop-blur-sm", onClick: () => setIsGraphOpen(false) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative w-[600px] h-[500px] bg-base-900 border border-base-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between p-4 border-b border-base-800", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-sm font-semibold uppercase tracking-widest text-base-400", children: "Graph View" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setIsGraphOpen(false), className: "p-1.5 hover:bg-base-800 rounded-lg text-base-500 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 18 }) })
-        ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-          GraphView,
-          {
-            nodes,
-            links,
-            onNodeClick: (id2) => {
-              setActiveNoteId(id2);
-              setIsGraphOpen(false);
-            },
-            activeNodeId: activeNoteId || void 0
-          }
-        ) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 border-t border-base-800", children: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[10px] text-base-500 text-center", children: "Connections update in real-time as you write [[Note Links]]" }) })
-      ] })
     ] })
   ] });
 }

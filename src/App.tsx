@@ -3,7 +3,8 @@ import { Note, GraphNode, GraphLink } from './types';
 import Sidebar from './components/Sidebar';
 import Editor from './components/Editor';
 import GraphView from './components/GraphView';
-import { X, Network, Plus, Pencil, Trash2, FolderOpen } from 'lucide-react';
+import FileTree from './components/FileTree';
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save } from 'lucide-react';
 import Logo from './components/Logo';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -14,8 +15,12 @@ declare global {
       getNotes: () => Promise<Note[]>;
       saveNote: (note: Note) => Promise<void>;
       deleteNote: (id: string) => Promise<void>;
-      selectNotesFolder: () => Promise<string>;
+      selectNotesFolder: () => Promise<string | null>;
       getNotesFolder: () => Promise<string>;
+      getDirectory: (path: string) => Promise<{ name: string; path: string; isDirectory: boolean }[]>;
+      readFile: (path: string) => Promise<Note | null>;
+      hasMdFiles: (path: string) => Promise<boolean>;
+      saveNewNote: (path: string, content: string) => Promise<boolean>;
       onNewNote: (callback: () => void) => () => void;
       onReloadNotes?: (callback: () => void) => () => void;
     };
@@ -48,6 +53,16 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [isGraphOpen, setIsGraphOpen] = useState(false);
+  const [notesFolder, setNotesFolder] = useState<string>('');
+  const [fileTreeKey, setFileTreeKey] = useState(0);
+
+  useEffect(() => {
+    if (window.electronAPI) {
+      window.electronAPI.getNotesFolder().then((folder) => {
+        if (folder) setNotesFolder(folder);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -81,7 +96,8 @@ export default function App() {
 
   useEffect(() => {
     if (isLoaded && window.electronAPI && notes.length > 0) {
-      notes.forEach((note) => {
+      const notesToSave = notes.filter(n => !n.isNew);
+      notesToSave.forEach((note) => {
         window.electronAPI.saveNote(note);
       });
     }
@@ -127,15 +143,34 @@ export default function App() {
   }, [notes]);
 
   const handleCreateNote = () => {
+    const noteId = crypto.randomUUID();
     const newNote: Note = {
-      id: crypto.randomUUID(),
+      id: noteId,
       title: '',
       content: '',
       createdAt: Date.now(),
-      updatedAt: Date.now()
+      updatedAt: Date.now(),
+      isNew: true
     };
     setNotes([newNote, ...notes]);
-    setActiveNoteId(newNote.id);
+    setActiveNoteId(noteId);
+  };
+
+  const handleSaveNewNote = async (id: string) => {
+    const noteToSave = notes.find(n => n.id === id);
+    if (!noteToSave || !noteToSave.title || !window.electronAPI) return;
+    
+    const folder = await window.electronAPI.getNotesFolder();
+    const fileName = `${noteToSave.title.replace(/[^a-zA-Z0-9]/g, '-')}.md`;
+    const filePath = `${folder}/${fileName}`;
+    
+    await window.electronAPI.saveNewNote(filePath, noteToSave.content || '');
+    
+    setNotes(prev => prev.map(n => 
+      n.id === id ? { ...n, id: filePath, isNew: false, updatedAt: Date.now() } : n
+    ));
+    
+    setFileTreeKey(prev => prev + 1);
   };
 
   const handleUpdateNote = (id: string, updates: Partial<Note>) => {
@@ -146,30 +181,64 @@ export default function App() {
 
   const handleDeleteNote = (id: string) => {
     if (confirm('Are you sure you want to delete this note?')) {
+      const noteToDelete = notes.find(n => n.id === id);
       setNotes(prev => prev.filter(n => n.id !== id));
       if (window.electronAPI) {
         window.electronAPI.deleteNote(id);
+        setFileTreeKey(prev => prev + 1);
       }
       if (activeNoteId === id) setActiveNoteId(notes.find(n => n.id !== id)?.id || null);
+    }
+  };
+
+  const handleOpenFile = async (path: string) => {
+    const note = await window.electronAPI?.readFile(path);
+    if (note) {
+      setNotes(prev => {
+        const exists = prev.find(n => n.id === note.id);
+        if (exists) {
+          return prev.map(n => n.id === note.id ? note : n);
+        }
+        return [note, ...prev];
+      });
+      setActiveNoteId(note.id);
     }
   };
 
   return (
     <div className="flex h-screen w-full bg-base-950 overflow-hidden text-base-200" style={{ flexDirection: 'column' }}>
       {/* Top Bar - Navigation */}
-      <header className="h-12 border-b border-base-800 flex items-center justify-between px-6 bg-base-900/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="flex items-center gap-4 flex-1">
+<header className="h-12 border-b border-base-800 flex items-center justify-between px-6 bg-base-900/50 backdrop-blur-sm sticky top-0 z-10">
+        <div className="flex items-center gap-3 flex-1">
           <Logo className="w-6 h-6" />
-          <input 
-            placeholder="Untitled Note" 
-            className="bg-transparent border-none outline-none text-sm font-semibold text-white w-full placeholder-base-600" 
-            type="text" 
-            value={activeNote?.title || ''}
-            onChange={(e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })}
-          />
+          <div className="flex items-center gap-2 flex-1">
+            {activeNote?.isNew && (
+              <button 
+                onClick={() => activeNote && handleSaveNewNote(activeNote.id)} 
+                className="p-1.5 hover:bg-base-800 rounded text-yellow-400 hover:text-yellow-300 transition-colors"
+                title="Save note"
+              >
+                <Save size={16} />
+              </button>
+            )}
+            <input 
+              placeholder="Untitled Note" 
+              maxLength={30}
+              className="bg-transparent border-none outline-none text-sm font-semibold text-white w-60 placeholder-base-600" 
+              type="text" 
+              value={activeNote?.title || ''}
+              onChange={(e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })}
+            />
+            {activeNote?.isNew && (
+              <span className="text-xs text-base-600 whitespace-nowrap">
+                {activeNote?.title?.length || 0}/30
+              </span>
+            )}
+          </div>
         </div>
         <button onClick={async () => {
           const folder = await window.electronAPI?.selectNotesFolder?.();
+          if (folder) setNotesFolder(folder);
         }} className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors">
           <FolderOpen size={16} />
         </button>
@@ -189,6 +258,11 @@ export default function App() {
 
       {/* Main Content */}
       <div className="flex flex-1 min-w-0 overflow-hidden">
+        {/* File Tree */}
+        {notesFolder && (
+          <FileTree key={fileTreeKey} rootPath={notesFolder} onFileSelect={handleOpenFile} />
+        )}
+        
         {/* Editor Area */}
         <main className="flex-1 flex flex-col min-w-0 bg-base-950 relative">
           {activeNote ? (
@@ -246,34 +320,10 @@ export default function App() {
           onDeleteNote={handleDeleteNote}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
+          graphNodes={nodes}
+          graphLinks={links}
         />
       </div>
-
-      {/* Graph Modal */}
-      {isGraphOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-base-950/80 backdrop-blur-sm" onClick={() => setIsGraphOpen(false)} />
-          <div className="relative w-[600px] h-[500px] bg-base-900 border border-base-800 rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-            <div className="flex items-center justify-between p-4 border-b border-base-800">
-              <h2 className="text-sm font-semibold uppercase tracking-widest text-base-400">Graph View</h2>
-              <button onClick={() => setIsGraphOpen(false)} className="p-1.5 hover:bg-base-800 rounded-lg text-base-500 transition-colors">
-                <X size={18} />
-              </button>
-            </div>
-            <div className="flex-1">
-              <GraphView
-                nodes={nodes}
-                links={links}
-                onNodeClick={(id) => { setActiveNoteId(id); setIsGraphOpen(false); }}
-                activeNodeId={activeNoteId || undefined}
-              />
-            </div>
-            <div className="p-3 border-t border-base-800">
-              <p className="text-[10px] text-base-500 text-center">Connections update in real-time as you write [[Note Links]]</p>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ export interface Note {
   content: string;
   updatedAt: number;
   createdAt: number;
+  isNew?: boolean;
 }
 
 export interface GraphNode {
