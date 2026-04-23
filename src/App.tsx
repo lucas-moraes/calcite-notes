@@ -4,7 +4,7 @@ import Sidebar from './components/Sidebar';
 import Editor from './components/Editor';
 import GraphView from './components/GraphView';
 import FileTree from './components/FileTree';
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save } from 'lucide-react';
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon } from 'lucide-react';
 import Logo from './components/Logo';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -21,6 +21,8 @@ declare global {
       readFile: (path: string) => Promise<Note | null>;
       hasMdFiles: (path: string) => Promise<boolean>;
       saveNewNote: (path: string, content: string) => Promise<boolean>;
+      getTheme: () => Promise<'dark' | 'light'>;
+      saveTheme: (theme: 'dark' | 'light') => Promise<boolean>;
       onNewNote: (callback: () => void) => () => void;
       onReloadNotes?: (callback: () => void) => () => void;
     };
@@ -55,11 +57,15 @@ export default function App() {
   const [isGraphOpen, setIsGraphOpen] = useState(false);
   const [notesFolder, setNotesFolder] = useState<string>('');
   const [fileTreeKey, setFileTreeKey] = useState(0);
+  const [theme, setTheme] = useState<'dark' | 'light'>('dark');
 
   useEffect(() => {
     if (window.electronAPI) {
-      window.electronAPI.getNotesFolder().then((folder) => {
-        if (folder) setNotesFolder(folder);
+      window.electronAPI.getTheme().then((savedTheme) => {
+        if (savedTheme) {
+          setTheme(savedTheme);
+          document.documentElement.classList.toggle('light', savedTheme === 'light');
+        }
       });
     }
   }, []);
@@ -224,7 +230,7 @@ export default function App() {
             <input 
               placeholder="Untitled Note" 
               maxLength={30}
-              className="bg-transparent border-none outline-none text-sm font-semibold text-white w-60 placeholder-base-600" 
+              className="bg-transparent border-none outline-none text-sm font-semibold note-title w-60 placeholder-base-600" 
               type="text" 
               value={activeNote?.title || ''}
               onChange={(e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })}
@@ -241,6 +247,14 @@ export default function App() {
           if (folder) setNotesFolder(folder);
         }} className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors">
           <FolderOpen size={16} />
+        </button>
+        <button onClick={() => {
+          const newTheme = theme === 'dark' ? 'light' : 'dark';
+          setTheme(newTheme);
+          document.documentElement.classList.toggle('light', newTheme === 'light');
+          window.electronAPI?.saveTheme(newTheme);
+        }} className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors">
+          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
         </button>
         <button onClick={handleCreateNote} className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors">
           <Plus size={16} />
@@ -269,7 +283,7 @@ export default function App() {
             <div className="flex flex-col h-full bg-base-950 overflow-hidden">
               {/* Editor Content */}
               <div className="flex-1 overflow-y-auto">
-                <div className="max-w-4xl mx-auto py-12 px-8">
+                <div className="max-w-4xl mx-auto py-8 px-8">
                   {/* Meta info */}
                   <div className="flex items-center gap-6 mb-8 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900 pb-4">
                     <div className="flex items-center gap-2">

@@ -32,6 +32,7 @@ function saveConfig(config) {
 }
 const savedConfig = loadConfig();
 let NOTES_DIR = savedConfig.notesDir || path.join(app.getPath("userData"), "notes");
+let THEME = savedConfig.theme || "dark";
 function ensureNotesDir() {
   if (!fs.existsSync(NOTES_DIR)) {
     fs.mkdirSync(NOTES_DIR, { recursive: true });
@@ -235,6 +236,19 @@ ipcMain.handle("save-new-note", async (_event, filePath, content) => {
 });
 ipcMain.handle("get-notes-folder", () => {
   return NOTES_DIR;
+});
+ipcMain.handle("get-theme", () => {
+  return THEME;
+});
+ipcMain.handle("save-theme", async (_event, theme) => {
+  try {
+    THEME = theme;
+    saveConfig({ notesDir: NOTES_DIR, theme });
+    return true;
+  } catch (e) {
+    console.error("Error saving theme:", e);
+    return false;
+  }
 });
 ipcMain.handle("get-directory", async (_event, dirPath) => {
   try {

@@ -77,31 +77,21 @@ export default function Sidebar({
               >
                 <div className="flex items-start justify-between gap-2 mb-1.5">
                   <h3 className={cn(
-                    "text-sm font-medium truncate flex-1",
-                    activeNoteId === note.id ? "text-white" : "text-base-200"
+                    "text-sm font-medium truncate flex-1 note-title",
+                    activeNoteId === note.id ? "font-semibold" : ""
                   )}>
                     {note.isNew && (
                       <Sparkles size={12} className="inline mr-1 text-yellow-400" />
                     )}
                     {note.title || 'Untitled'}
                   </h3>
-                  <div className="relative">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                      }}
-                      className="opacity-0 group-hover:opacity-100 p-1 hover:bg-base-700 rounded text-base-500 transition-all"
-                    >
-                      <MoreVertical size={14} />
-                    </button>
-                  </div>
                 </div>
                 
                 <p className="text-[11px] text-base-500 line-clamp-2 mb-2">
                   {getPreview(note.content) || 'Empty note...'}
                 </p>
                 
-                <div className="flex items-center gap-2 text-[10px] text-base-600">
+                <div className="flex items-center gap-2 text-[10px] text-base-300">
                   <Clock size={10} />
                   <span>{formatDate(note.updatedAt)}</span>
                 </div>

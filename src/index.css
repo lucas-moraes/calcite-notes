@@ -40,6 +40,61 @@
   }
 }
 
+.light {
+  --color-base-950: #ffffff;
+  --color-base-900: #f8fafc;
+  --color-base-800: #f1f5f9;
+  --color-base-700: #e2e8f0;
+  --color-base-600: #cbd5e1;
+  --color-base-500: #94a3b8;
+  --color-base-400: #64748b;
+  --color-base-300: #475569;
+  --color-base-200: #334155;
+  --color-base-100: #1e293b;
+  --color-base: #1e293b;
+}
+
+.light .markdown-content h1,
+.light .markdown-content h2,
+.light .markdown-content h3,
+.light .markdown-content strong,
+.light .note-title,
+.light input.note-title {
+  color: var(--color-base-100);
+}
+
+.dark .note-title,
+.dark input.note-title {
+  color: #fff;
+}
+
+.markdown-content h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-base-100);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+.markdown-content h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-base-100);
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.025em;
+}
+
+.markdown-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-base-100);
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.025em;
+}
+
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -132,7 +187,7 @@
 
 .markdown-content strong {
   font-weight: 600;
-  color: #fff;
+  color: var(--color-base-100);
 }
 
 .slide-in-from-right {

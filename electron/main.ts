@@ -15,7 +15,7 @@ let mainWindow: BrowserWindow | undefined;
 
 const CONFIG_PATH = path.join(app.getPath('userData'), 'config.json');
 
-function loadConfig(): { notesDir?: string } {
+function loadConfig(): { notesDir?: string; theme?: 'dark' | 'light' } {
   try {
     if (fs.existsSync(CONFIG_PATH)) {
       return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
@@ -26,7 +26,7 @@ function loadConfig(): { notesDir?: string } {
   return {};
 }
 
-function saveConfig(config: { notesDir?: string }) {
+function saveConfig(config: { notesDir?: string; theme?: 'dark' | 'light' }) {
   try {
     fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), 'utf-8');
   } catch (e) {
@@ -36,6 +36,7 @@ function saveConfig(config: { notesDir?: string }) {
 
 const savedConfig = loadConfig();
 let NOTES_DIR = savedConfig.notesDir || path.join(app.getPath('userData'), 'notes');
+let THEME = savedConfig.theme || 'dark';
 
 function ensureNotesDir() {
   if (!fs.existsSync(NOTES_DIR)) {
@@ -258,6 +259,21 @@ ipcMain.handle('save-new-note', async (_event, filePath: string, content: string
 
 ipcMain.handle('get-notes-folder', () => {
   return NOTES_DIR;
+});
+
+ipcMain.handle('get-theme', () => {
+  return THEME;
+});
+
+ipcMain.handle('save-theme', async (_event, theme: 'dark' | 'light') => {
+  try {
+    THEME = theme;
+    saveConfig({ notesDir: NOTES_DIR, theme });
+    return true;
+  } catch (e) {
+    console.error('Error saving theme:', e);
+    return false;
+  }
 });
 
 ipcMain.handle('get-directory', async (_event, dirPath: string) => {

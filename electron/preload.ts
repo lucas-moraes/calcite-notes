@@ -13,6 +13,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   readFile: (path: string) => ipcRenderer.invoke('read-file', path),
   hasMdFiles: (path: string) => ipcRenderer.invoke('has-md-files', path),
   saveNewNote: (path: string, content: string) => ipcRenderer.invoke('save-new-note', path, content),
+  getTheme: () => ipcRenderer.invoke('get-theme'),
+  saveTheme: (theme: 'dark' | 'light') => ipcRenderer.invoke('save-theme', theme),
   onNewNote: (callback: () => void) => {
     ipcRenderer.on('menu:new-note', callback);
     return () => ipcRenderer.removeListener('menu:new-note', callback);

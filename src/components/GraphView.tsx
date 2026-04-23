@@ -32,7 +32,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       .selectAll('line')
       .data(links)
       .join('line')
-      .attr('stroke', '#3f4248')
+      .attr('stroke', 'var(--color-base-600)')
       .attr('stroke-opacity', 0.6)
       .attr('stroke-width', 1);
 
@@ -49,8 +49,8 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
 
     node.append('circle')
       .attr('r', (d) => (d.id === activeNodeId ? 6 : 4))
-      .attr('fill', (d) => (d.id === activeNodeId ? '#7c4dff' : '#6b7280'))
-      .attr('stroke', '#0d0d0f')
+      .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
+      .attr('stroke', 'var(--color-base-200)')
       .attr('stroke-width', 1.5)
       .attr('class', 'transition-all duration-300');
 
@@ -58,7 +58,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       .attr('dx', 10)
       .attr('dy', 4)
       .text((d) => d.name)
-      .attr('fill', (d) => (d.id === activeNodeId ? '#ffffff' : '#9ca3af'))
+      .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-base-100)' : 'var(--color-base-500)'))
       .attr('font-size', '10px')
       .attr('class', 'pointer-events-none select-none');
 
@@ -105,7 +105,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
   }, [nodes, links, activeNodeId]);
 
   return (
-    <div className="w-full h-full bg-base-950 relative overflow-hidden">
+    <div className="w-full h-full bg-base-950 dark:bg-base-950 light:bg-base-100 relative overflow-hidden">
       <svg
         ref={svgRef}
         className="w-full h-full"
