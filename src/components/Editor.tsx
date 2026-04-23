@@ -65,8 +65,8 @@ export default function Editor({ note, onChange, onTitleChange }: EditorProps) {
       </div>
 
       {/* Editor Content */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar">
-        <div className="max-w-4xl mx-auto py-8 px-8">
+      <div className="flex-1 overflow-y-auto overflow-x-auto custom-scrollbar">
+        <div className="mx-auto p-8 min-w-0">
           {/* Metadata Bar */}
           <div className="flex items-center gap-6 mb-8 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900 pb-4">
             <div className="flex items-center gap-2">
@@ -87,6 +87,7 @@ export default function Editor({ note, onChange, onTitleChange }: EditorProps) {
                 placeholder="Start writing..."
                 className="w-full h-full min-h-[500px] bg-transparent border-none outline-none resize-none text-base-300 font-mono text-[15px] leading-relaxed placeholder-base-800"
                 spellCheck={false}
+                style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
               />
             ) : (
               <div className="prose max-w-none">

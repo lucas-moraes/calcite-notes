@@ -12599,16 +12599,27 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$d = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$d);
+const __iconNode$e = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$e);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$c = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$c);
+const __iconNode$d = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$d);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$c = [
+  ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
+];
+const Clock = createLucideIcon("clock", __iconNode$c);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12616,10 +12627,10 @@ const ChevronRight = createLucideIcon("chevron-right", __iconNode$c);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$b = [
-  ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
+  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
+  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }]
 ];
-const Clock = createLucideIcon("clock", __iconNode$b);
+const File = createLucideIcon("file", __iconNode$b);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12627,10 +12638,15 @@ const Clock = createLucideIcon("clock", __iconNode$b);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$a = [
-  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
-  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }]
+  [
+    "path",
+    {
+      d: "m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2",
+      key: "usdka0"
+    }
+  ]
 ];
-const File = createLucideIcon("file", __iconNode$a);
+const FolderOpen = createLucideIcon("folder-open", __iconNode$a);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12641,12 +12657,12 @@ const __iconNode$9 = [
   [
     "path",
     {
-      d: "m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2",
-      key: "usdka0"
+      d: "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z",
+      key: "1kt360"
     }
   ]
 ];
-const FolderOpen = createLucideIcon("folder-open", __iconNode$9);
+const Folder = createLucideIcon("folder", __iconNode$9);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12657,12 +12673,12 @@ const __iconNode$8 = [
   [
     "path",
     {
-      d: "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z",
-      key: "1kt360"
+      d: "M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401",
+      key: "kfwtm"
     }
   ]
 ];
-const Folder = createLucideIcon("folder", __iconNode$8);
+const Moon = createLucideIcon("moon", __iconNode$8);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12670,15 +12686,13 @@ const Folder = createLucideIcon("folder", __iconNode$8);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$7 = [
-  [
-    "path",
-    {
-      d: "M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401",
-      key: "kfwtm"
-    }
-  ]
+  ["rect", { x: "16", y: "16", width: "6", height: "6", rx: "1", key: "4q2zg0" }],
+  ["rect", { x: "2", y: "16", width: "6", height: "6", rx: "1", key: "8cvhb9" }],
+  ["rect", { x: "9", y: "2", width: "6", height: "6", rx: "1", key: "1egb70" }],
+  ["path", { d: "M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3", key: "1jsf9p" }],
+  ["path", { d: "M12 12V8", key: "2874zd" }]
 ];
-const Moon = createLucideIcon("moon", __iconNode$7);
+const Network = createLucideIcon("network", __iconNode$7);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12686,20 +12700,6 @@ const Moon = createLucideIcon("moon", __iconNode$7);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$6 = [
-  ["rect", { x: "16", y: "16", width: "6", height: "6", rx: "1", key: "4q2zg0" }],
-  ["rect", { x: "2", y: "16", width: "6", height: "6", rx: "1", key: "8cvhb9" }],
-  ["rect", { x: "9", y: "2", width: "6", height: "6", rx: "1", key: "1egb70" }],
-  ["path", { d: "M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3", key: "1jsf9p" }],
-  ["path", { d: "M12 12V8", key: "2874zd" }]
-];
-const Network = createLucideIcon("network", __iconNode$6);
-/**
- * @license lucide-react v0.546.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$5 = [
   [
     "path",
     {
@@ -12709,7 +12709,18 @@ const __iconNode$5 = [
   ],
   ["path", { d: "m15 5 4 4", key: "1mk7zo" }]
 ];
-const Pencil = createLucideIcon("pencil", __iconNode$5);
+const Pencil = createLucideIcon("pencil", __iconNode$6);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$5 = [
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "M12 5v14", key: "s699le" }]
+];
+const Plus = createLucideIcon("plus", __iconNode$5);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12717,17 +12728,6 @@ const Pencil = createLucideIcon("pencil", __iconNode$5);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$4 = [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "M12 5v14", key: "s699le" }]
-];
-const Plus = createLucideIcon("plus", __iconNode$4);
-/**
- * @license lucide-react v0.546.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$3 = [
   [
     "path",
     {
@@ -12738,14 +12738,14 @@ const __iconNode$3 = [
   ["path", { d: "M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7", key: "1ydtos" }],
   ["path", { d: "M7 3v4a1 1 0 0 0 1 1h7", key: "t51u73" }]
 ];
-const Save = createLucideIcon("save", __iconNode$3);
+const Save = createLucideIcon("save", __iconNode$4);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$2 = [
+const __iconNode$3 = [
   [
     "path",
     {
@@ -12757,14 +12757,14 @@ const __iconNode$2 = [
   ["path", { d: "M22 4h-4", key: "gwowj6" }],
   ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
 ];
-const Sparkles = createLucideIcon("sparkles", __iconNode$2);
+const Sparkles = createLucideIcon("sparkles", __iconNode$3);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$1 = [
+const __iconNode$2 = [
   ["circle", { cx: "12", cy: "12", r: "4", key: "4exip2" }],
   ["path", { d: "M12 2v2", key: "tus03m" }],
   ["path", { d: "M12 20v2", key: "1lh1kg" }],
@@ -12775,7 +12775,21 @@ const __iconNode$1 = [
   ["path", { d: "m6.34 17.66-1.41 1.41", key: "1m8zz5" }],
   ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
 ];
-const Sun = createLucideIcon("sun", __iconNode$1);
+const Sun = createLucideIcon("sun", __iconNode$2);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$1 = [
+  ["path", { d: "M10 11v6", key: "nco0om" }],
+  ["path", { d: "M14 11v6", key: "outv1u" }],
+  ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
+  ["path", { d: "M3 6h18", key: "d0wm0j" }],
+  ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
+];
+const Trash2 = createLucideIcon("trash-2", __iconNode$1);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12783,13 +12797,10 @@ const Sun = createLucideIcon("sun", __iconNode$1);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode = [
-  ["path", { d: "M10 11v6", key: "nco0om" }],
-  ["path", { d: "M14 11v6", key: "outv1u" }],
-  ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
-  ["path", { d: "M3 6h18", key: "d0wm0j" }],
-  ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
+  ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
+  ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
 ];
-const Trash2 = createLucideIcon("trash-2", __iconNode);
+const X = createLucideIcon("x", __iconNode);
 function r(e) {
   var t, f, n = "";
   if ("string" == typeof e || "number" == typeof e) n += e;
@@ -19441,10 +19452,7 @@ function App() {
       });
     }
   }, [notes, isLoaded]);
-  const activeNote = reactExports.useMemo(
-    () => notes.find((n) => n.id === activeNoteId) || null,
-    [notes, activeNoteId]
-  );
+  const activeNote = reactExports.useMemo(() => notes.find((n) => n.id === activeNoteId) || null, [notes, activeNoteId]);
   const filteredNotes = reactExports.useMemo(() => {
     if (!searchQuery) return notes;
     return notes.filter(
@@ -19494,15 +19502,13 @@ function App() {
     const fileName = `${noteToSave.title.replace(/[^a-zA-Z0-9]/g, "-")}.md`;
     const filePath = `${folder}/${fileName}`;
     await window.electronAPI.saveNewNote(filePath, noteToSave.content || "");
-    setNotes((prev) => prev.map(
-      (n) => n.id === id2 ? { ...n, id: filePath, isNew: false, updatedAt: Date.now() } : n
-    ));
+    setNotes(
+      (prev) => prev.map((n) => n.id === id2 ? { ...n, id: filePath, isNew: false, updatedAt: Date.now() } : n)
+    );
     setFileTreeKey((prev) => prev + 1);
   };
   const handleUpdateNote = (id2, updates) => {
-    setNotes((prev) => prev.map(
-      (n) => n.id === id2 ? { ...n, ...updates, updatedAt: Date.now() } : n
-    ));
+    setNotes((prev) => prev.map((n) => n.id === id2 ? { ...n, ...updates, updatedAt: Date.now() } : n));
   };
   const handleDeleteNote = (id2) => {
     if (confirm("Are you sure you want to delete this note?")) {
@@ -19559,65 +19565,131 @@ function App() {
           ] })
         ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: async () => {
-        const folder = await window.electronAPI?.selectNotesFolder?.();
-        if (folder) setNotesFolder(folder);
-      }, className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 16 }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => {
-        const newTheme = theme === "dark" ? "light" : "dark";
-        setTheme(newTheme);
-        document.documentElement.classList.toggle("light", newTheme === "light");
-        window.electronAPI?.saveTheme(newTheme);
-      }, className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: theme === "dark" ? /* @__PURE__ */ jsxRuntimeExports.jsx(Sun, { size: 16 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Moon, { size: 16 }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: handleCreateNote, className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 16 }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => activeNote && handleUpdateNote(activeNote.id, { title: activeNote.title }), className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { size: 16 }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => activeNote && handleDeleteNote(activeNote.id), className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 16 }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("button", { onClick: () => setIsGraphOpen(true), className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Network, { size: 16 }) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: async () => {
+            const folder = await window.electronAPI?.selectNotesFolder?.();
+            if (folder) setNotesFolder(folder);
+          },
+          className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(FolderOpen, { size: 16 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => {
+            const newTheme = theme === "dark" ? "light" : "dark";
+            setTheme(newTheme);
+            document.documentElement.classList.toggle("light", newTheme === "light");
+            window.electronAPI?.saveTheme(newTheme);
+          },
+          className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+          children: theme === "dark" ? /* @__PURE__ */ jsxRuntimeExports.jsx(Sun, { size: 16 }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Moon, { size: 16 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: handleCreateNote,
+          className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(Plus, { size: 16 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => activeNote && handleUpdateNote(activeNote.id, { title: activeNote.title }),
+          className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { size: 16 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => activeNote && handleDeleteNote(activeNote.id),
+          className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 16 })
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => setIsGraphOpen(true),
+          className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(Network, { size: 16 })
+        }
+      )
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-1 min-w-0 overflow-hidden", children: [
       notesFolder && /* @__PURE__ */ jsxRuntimeExports.jsx(FileTree, { rootPath: notesFolder, onFileSelect: handleOpenFile }, fileTreeKey),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 flex flex-col min-w-0 bg-base-950 relative", children: activeNote ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col h-full bg-base-950 overflow-hidden", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-4xl mx-auto py-8 px-8", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-6 mb-8 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900 pb-4", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { xmlns: "http://www.w3.org/2000/svg", width: "12", height: "12", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-accent/60", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 6v6l4 2" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "12", cy: "12", r: "10" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                "UPDATED ",
-                formatTime(activeNote.updatedAt)
-              ] })
-            ] }),
-            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("svg", { xmlns: "http://www.w3.org/2000/svg", width: "12", height: "12", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round", strokeLinejoin: "round", className: "text-accent/60", children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "4", x2: "20", y1: "9", y2: "9" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "4", x2: "20", y1: "15", y2: "15" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "10", x2: "8", y1: "3", y2: "21" }),
-                /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "16", x2: "14", y1: "3", y2: "21" })
-              ] }),
-              /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-                wordCount(activeNote.content),
-                " WORDS"
-              ] })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 flex flex-col min-w-0 bg-base-950 relative", children: activeNote ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-col h-full bg-base-950 overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-full p-6", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "svg",
+              {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "12",
+                height: "12",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: "2",
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: "text-accent/60",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M12 6v6l4 2" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "12", cy: "12", r: "10" })
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              "UPDATED ",
+              formatTime(activeNote.updatedAt)
             ] })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative min-h-[500px]", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "textarea",
-            {
-              placeholder: "Start writing...",
-              className: "w-full h-full min-h-[500px] bg-transparent border-none outline-none resize-none text-base-300 font-mono text-[15px] leading-relaxed placeholder-base-800",
-              spellCheck: false,
-              value: activeNote.content,
-              onChange: (e) => handleUpdateNote(activeNote.id, { content: e.target.value })
-            }
-          ) })
-        ] }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute bottom-4 right-4 flex items-center gap-2", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-base-900 border border-base-800 rounded-full px-3 py-1 flex items-center gap-2 shadow-lg backdrop-blur-md", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-[10px] font-mono text-base-500", children: "CALCITE" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" })
-        ] }) })
-      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col items-center justify-center opacity-20 select-none", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "svg",
+              {
+                xmlns: "http://www.w3.org/2000/svg",
+                width: "12",
+                height: "12",
+                viewBox: "0 0 24 24",
+                fill: "none",
+                stroke: "currentColor",
+                strokeWidth: "2",
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+                className: "text-accent/60",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "4", x2: "20", y1: "9", y2: "9" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "4", x2: "20", y1: "15", y2: "15" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "10", x2: "8", y1: "3", y2: "21" }),
+                  /* @__PURE__ */ jsxRuntimeExports.jsx("line", { x1: "16", x2: "14", y1: "3", y2: "21" })
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              wordCount(activeNote.content),
+              " WORDS"
+            ] })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative h-full pt-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "textarea",
+          {
+            placeholder: "Start writing...",
+            className: "w-full h-full min-h-[500px] bg-transparent border-none outline-none resize-none text-base-300 font-mono text-[15px] leading-relaxed placeholder-base-800",
+            spellCheck: false,
+            value: activeNote.content,
+            onChange: (e) => handleUpdateNote(activeNote.id, { content: e.target.value })
+          }
+        ) })
+      ] }) }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col items-center justify-center opacity-20 select-none", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SvgComponent, { className: "w-16 h-16 opacity-50" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm font-medium", children: "Select or create a note" })
       ] }) }),
@@ -19635,6 +19707,31 @@ function App() {
           graphLinks: links
         }
       )
+    ] }),
+    isGraphOpen && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "fixed inset-0 z-50 bg-base-950 flex flex-col", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between p-4 border-b border-base-800", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-sm font-semibold uppercase tracking-widest text-base-400", children: "Graph View" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "button",
+          {
+            onClick: () => setIsGraphOpen(false),
+            className: "p-1.5 hover:bg-base-800 rounded-lg text-base-500 transition-colors",
+            children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 18 })
+          }
+        )
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+        GraphView,
+        {
+          nodes,
+          links,
+          onNodeClick: (id2) => {
+            setActiveNoteId(id2);
+            setIsGraphOpen(false);
+          },
+          activeNodeId: activeNoteId || void 0
+        }
+      ) })
     ] })
   ] });
 }
