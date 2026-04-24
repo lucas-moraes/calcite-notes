@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { Note, GraphNode, GraphLink } from "./types";
 import Sidebar from "./components/Sidebar";
-import Editor from "./components/Editor";
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
 import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon } from "lucide-react";
@@ -68,7 +67,10 @@ export default function App() {
       window.electronAPI.getTheme().then((savedTheme) => {
         if (savedTheme) {
           setTheme(savedTheme);
-          document.documentElement.classList.toggle("light", savedTheme === "light");
+          document.documentElement.classList.remove("dark", "light");
+          document.documentElement.classList.add(savedTheme === "light" ? "light" : "dark");
+        } else {
+          document.documentElement.classList.add("dark");
         }
       });
     }
@@ -154,7 +156,7 @@ export default function App() {
   const handleCreateNote = () => {
     const noteId = crypto.randomUUID();
     const now = new Date();
-    const formattedDate = now.toISOString().split('T')[0];
+    const formattedDate = now.toISOString().split("T")[0];
     const newNote: Note = {
       id: noteId,
       title: "",
@@ -357,7 +359,7 @@ tags: []
                         onClick={() => setEditorTab("edit")}
                         className={`px-4 py-2 text-sm font-medium transition-colors ${
                           editorTab === "edit"
-                            ? "text-white border-b-2 border-accent"
+                            ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
                             : "text-base-500 hover:text-base-300"
                         }`}
                       >
@@ -367,7 +369,7 @@ tags: []
                         onClick={() => setEditorTab("preview")}
                         className={`px-4 py-2 text-sm font-medium transition-colors ${
                           editorTab === "preview"
-                            ? "text-white border-b-2 border-accent"
+                            ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
                             : "text-base-500 hover:text-base-300"
                         }`}
                       >
