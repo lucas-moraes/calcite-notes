@@ -59,7 +59,9 @@
 .light .markdown-content h3,
 .light .markdown-content strong,
 .light .note-title,
-.light input.note-title {
+.light input.note-title,
+.light .markdown-content p,
+.light .markdown-content li {
   color: var(--color-base-100);
 }
 
@@ -68,60 +70,21 @@
   color: #fff;
 }
 
-.markdown-content h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-base-100);
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  letter-spacing: -0.025em;
-}
-
-.markdown-content h2 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--color-base-100);
-  margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
-  letter-spacing: -0.025em;
-}
-
-.markdown-content h3 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-base-100);
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.025em;
-}
-
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-base-700);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-base-600);
-}
-
 .markdown-content {
   color: var(--color-base-300);
   line-height: 1.625;
 }
 
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3,
+.markdown-content strong {
+  color: var(--color-base-100);
+}
+
 .markdown-content h1 {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #fff;
   margin-top: 2rem;
   margin-bottom: 1rem;
   letter-spacing: -0.025em;
@@ -130,7 +93,6 @@
 .markdown-content h2 {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #fff;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   letter-spacing: -0.025em;
@@ -139,7 +101,6 @@
 .markdown-content h3 {
   font-size: 1.125rem;
   font-weight: 600;
-  color: #fff;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   letter-spacing: -0.025em;
@@ -183,11 +144,7 @@
 
 .markdown-content li {
   margin: 0.25rem 0;
-}
-
-.markdown-content strong {
-  font-weight: 600;
-  color: var(--color-base-100);
+  color: var(--color-base-300);
 }
 
 .slide-in-from-right {

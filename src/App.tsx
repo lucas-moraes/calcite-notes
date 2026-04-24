@@ -8,6 +8,8 @@ import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon } from "l
 import Logo from "./components/Logo";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 declare global {
   interface Window {
@@ -59,6 +61,7 @@ export default function App() {
   const [notesFolder, setNotesFolder] = useState<string>("");
   const [fileTreeKey, setFileTreeKey] = useState(0);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [editorTab, setEditorTab] = useState<"edit" | "preview">("edit");
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -348,13 +351,46 @@ tags: []
 
                   {/* Textarea */}
                   <div className="relative h-full pt-6">
-                    <textarea
-                      placeholder="Start writing..."
-                      className="w-full h-full min-h-[500px] bg-transparent border-none outline-none resize-none text-base-300 font-mono text-[15px] leading-relaxed placeholder-base-800"
-                      spellCheck={false}
-                      value={activeNote.content}
-                      onChange={(e) => handleUpdateNote(activeNote.id, { content: e.target.value })}
-                    />
+                    {/* Tabs */}
+                    <div className="flex items-center gap-1 border-b border-base-800 mb-4">
+                      <button
+                        onClick={() => setEditorTab("edit")}
+                        className={`px-4 py-2 text-sm font-medium transition-colors ${
+                          editorTab === "edit"
+                            ? "text-white border-b-2 border-accent"
+                            : "text-base-500 hover:text-base-300"
+                        }`}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => setEditorTab("preview")}
+                        className={`px-4 py-2 text-sm font-medium transition-colors ${
+                          editorTab === "preview"
+                            ? "text-white border-b-2 border-accent"
+                            : "text-base-500 hover:text-base-300"
+                        }`}
+                      >
+                        Preview
+                      </button>
+                    </div>
+
+                    {/* Content */}
+                    {editorTab === "edit" ? (
+                      <textarea
+                        placeholder="Start writing..."
+                        className="w-full h-full min-h-[500px] bg-transparent border-none outline-none resize-none text-base-300 font-mono text-[15px] leading-relaxed placeholder-base-800"
+                        spellCheck={false}
+                        value={activeNote.content}
+                        onChange={(e) => handleUpdateNote(activeNote.id, { content: e.target.value })}
+                      />
+                    ) : (
+                      <div className="markdown-content h-full overflow-y-auto">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                          {activeNote.content || "*No content*"}
+                        </ReactMarkdown>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

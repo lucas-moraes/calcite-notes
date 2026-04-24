@@ -295,9 +295,7 @@ app.whenReady().then(() => {
   });
 });
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  app.quit();
 });
 export {
   MAIN_WINDOW_VITE_DEV_SERVER_URL,
