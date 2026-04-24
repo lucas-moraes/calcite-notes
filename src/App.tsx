@@ -150,10 +150,18 @@ export default function App() {
 
   const handleCreateNote = () => {
     const noteId = crypto.randomUUID();
+    const now = new Date();
+    const formattedDate = now.toISOString().split('T')[0];
     const newNote: Note = {
       id: noteId,
       title: "",
-      content: "",
+      content: `---
+title: 
+date: ${formattedDate}
+tags: []
+---
+
+`,
       createdAt: Date.now(),
       updatedAt: Date.now(),
       isNew: true,
