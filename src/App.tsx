@@ -3,25 +3,44 @@ import { Note, GraphNode, GraphLink } from "./types";
 import Sidebar from "./components/Sidebar";
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon } from "lucide-react";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen } from "lucide-react";
 import Logo from "./components/Logo";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
+
+interface IPCResult {
+  success: boolean;
+  error?: string;
+}
+
+interface RenameResult extends IPCResult {
+  newPath?: string;
+}
+
+interface CreateFolderResult extends IPCResult {
+  path?: string;
+}
 
 declare global {
   interface Window {
     electronAPI?: {
       getNotes: () => Promise<Note[]>;
-      saveNote: (note: Note) => Promise<void>;
-      deleteNote: (id: string) => Promise<void>;
+      saveNote: (note: Note) => Promise<IPCResult>;
+      deleteNote: (id: string) => Promise<IPCResult>;
+      deleteFolder: (path: string) => Promise<IPCResult>;
       selectNotesFolder: () => Promise<string | null>;
       getNotesFolder: () => Promise<string>;
       getDirectory: (path: string) => Promise<{ name: string; path: string; isDirectory: boolean }[]>;
       readFile: (path: string) => Promise<Note | null>;
       hasMdFiles: (path: string) => Promise<boolean>;
-      saveNewNote: (path: string, content: string) => Promise<boolean>;
+      saveNewNote: (path: string, content: string) => Promise<IPCResult>;
+      renameNote: (oldPath: string, newFileName: string) => Promise<RenameResult>;
+      createFolder: (parentPath: string, folderName: string) => Promise<CreateFolderResult>;
+      renameFolder: (oldPath: string, newName: string) => Promise<RenameResult>;
+      moveFile: (sourcePath: string, destFolder: string) => Promise<RenameResult>;
       getTheme: () => Promise<"dark" | "light">;
       saveTheme: (theme: "dark" | "light") => Promise<boolean>;
       onNewNote: (callback: () => void) => () => void;
@@ -61,6 +80,8 @@ export default function App() {
   const [fileTreeKey, setFileTreeKey] = useState(0);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [editorTab, setEditorTab] = useState<"edit" | "preview">("edit");
+  const [renamingNoteId, setRenamingNoteId] = useState<string | null>(null);
+  const [renamingNoteName, setRenamingNoteName] = useState("");
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -71,6 +92,17 @@ export default function App() {
           document.documentElement.classList.add(savedTheme === "light" ? "light" : "dark");
         } else {
           document.documentElement.classList.add("dark");
+        }
+      });
+    }
+  }, []);
+
+  // Load saved notes folder on initialization
+  useEffect(() => {
+    if (window.electronAPI) {
+      window.electronAPI.getNotesFolder().then((folder) => {
+        if (folder) {
+          setNotesFolder(folder);
         }
       });
     }
@@ -183,7 +215,13 @@ tags: []
     const fileName = `${noteToSave.title.replace(/[^a-zA-Z0-9]/g, "-")}.md`;
     const filePath = `${folder}/${fileName}`;
 
-    await window.electronAPI.saveNewNote(filePath, noteToSave.content || "");
+    const result = await window.electronAPI.saveNewNote(filePath, noteToSave.content || "");
+    
+    if (!result.success) {
+      console.error('Failed to save note:', result.error);
+      alert(`Failed to save note: ${result.error || 'Unknown error'}`);
+      return;
+    }
 
     setNotes((prev) =>
       prev.map((n) => (n.id === id ? { ...n, id: filePath, isNew: false, updatedAt: Date.now() } : n)),
@@ -192,18 +230,52 @@ tags: []
     setFileTreeKey((prev) => prev + 1);
   };
 
+  const handleRenameNote = async (id: string, newFileName?: string) => {
+    const noteToRename = notes.find((n) => n.id === id);
+    if (!noteToRename || noteToRename.isNew || !window.electronAPI) return;
+    
+    const fileName = newFileName || renamingNoteName.trim();
+    if (!fileName) {
+      setRenamingNoteId(null);
+      return;
+    }
+
+    const result = await window.electronAPI.renameNote(noteToRename.id, fileName);
+    
+    if (!result.success) {
+      alert(`Failed to rename: ${result.error || 'Unknown error'}`);
+      return;
+    }
+
+    setNotes((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, id: result.newPath || n.id, updatedAt: Date.now() } : n)),
+    );
+    
+    setActiveNoteId(result.newPath || id);
+    setRenamingNoteId(null);
+    setRenamingNoteName("");
+    setFileTreeKey((prev) => prev + 1);
+  };
+
   const handleUpdateNote = (id: string, updates: Partial<Note>) => {
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates, updatedAt: Date.now() } : n)));
   };
 
-  const handleDeleteNote = (id: string) => {
+  const handleDeleteNote = async (id: string) => {
     if (confirm("Are you sure you want to delete this note?")) {
       const noteToDelete = notes.find((n) => n.id === id);
-      setNotes((prev) => prev.filter((n) => n.id !== id));
+      
       if (window.electronAPI) {
-        window.electronAPI.deleteNote(id);
+        const result = await window.electronAPI.deleteNote(id);
+        if (!result.success) {
+          console.error('Failed to delete note:', result.error);
+          alert(`Failed to delete note: ${result.error || 'Unknown error'}`);
+          return;
+        }
         setFileTreeKey((prev) => prev + 1);
       }
+      
+      setNotes((prev) => prev.filter((n) => n.id !== id));
       if (activeNoteId === id) setActiveNoteId(notes.find((n) => n.id !== id)?.id || null);
     }
   };
@@ -229,25 +301,60 @@ tags: []
         <div className="flex items-center gap-3 flex-1">
           <Logo className="w-6 h-6" />
           <div className="flex items-center gap-2 flex-1">
-            {activeNote?.isNew && (
+            {(activeNote?.isNew || renamingNoteId) && (
               <button
-                onClick={() => activeNote && handleSaveNewNote(activeNote.id)}
+                onClick={() => {
+                  if (renamingNoteId && activeNote) {
+                    handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                    setRenamingNoteId(null);
+                  } else if (activeNote) {
+                    handleSaveNewNote(activeNote.id);
+                  }
+                }}
                 className="p-1.5 hover:bg-base-800 rounded text-yellow-400 hover:text-yellow-300 transition-colors"
                 title="Save note"
               >
                 <Save size={16} />
               </button>
             )}
-            <input
-              placeholder="Untitled Note"
-              maxLength={30}
-              className="bg-transparent border-none outline-none text-sm font-semibold note-title w-60 placeholder-base-600"
-              type="text"
-              value={activeNote?.title || ""}
-              onChange={(e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })}
-            />
-            {activeNote?.isNew && (
-              <span className="text-xs text-base-600 whitespace-nowrap">{activeNote?.title?.length || 0}/30</span>
+            {renamingNoteId === activeNote?.id ? (
+              <input
+                autoFocus
+                type="text"
+                value={renamingNoteName}
+                onChange={(e) => setRenamingNoteName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (renamingNoteName.trim() && activeNote) {
+                      handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                    }
+                    setRenamingNoteId(null);
+                  }
+                  if (e.key === "Escape") setRenamingNoteId(null);
+                }}
+                onBlur={() => {
+                  if (renamingNoteName.trim() && activeNote) {
+                    handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                  }
+                  setRenamingNoteId(null);
+                }}
+                className="bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-60 px-2 py-1"
+              />
+            ) : (
+              <>
+                <input
+                  placeholder="Untitled Note"
+                  maxLength={30}
+                  className="bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600"
+                  type="text"
+                  value={activeNote?.title || ""}
+                  onChange={(e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })}
+                />
+                {activeNote?.isNew && (
+                  <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">{activeNote?.title?.length || 0}/30</span>
+                )}
+              </>
             )}
           </div>
         </div>
@@ -283,6 +390,18 @@ tags: []
         >
           <Pencil size={16} />
         </button>
+        {!activeNote?.isNew && activeNote && (
+          <button
+            onClick={() => {
+              const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
+              setRenamingNoteName(fileName);
+              setRenamingNoteId(activeNote.id);
+            }}
+            className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+          >
+            <FilePen size={16} />
+          </button>
+        )}
         <button
           onClick={() => activeNote && handleDeleteNote(activeNote.id)}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
@@ -296,6 +415,42 @@ tags: []
           <Network size={16} />
         </button>
       </header>
+
+      {/* Main Content */}
+      {false && (
+        <div className="">
+          <div className="X" onClick={() => setRenamingNoteId(null)} />
+          <div className="Z">
+            <h3 className="R"></h3>
+            <input
+              type="text"
+              value=""
+              onChange={() => null}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") activeNote && handleRenameNote(activeNote.id);
+                if (e.key === "Escape") setRenamingNoteId(null);
+              }}
+              className="w-full bg-base-800 border border-base-700 rounded-lg px-3 py-2 text-sm dark:text-base-300 placeholder-base-500 outline-none focus:border-accent"
+              placeholder="File name"
+              autoFocus
+            />
+            <div className="Q">
+              <button
+onClick={() => null}
+                className="px-3 py-1.5 text-xs text-base-400 hover:text-white transition-colors"
+              >
+                X
+              </button>
+              <button
+                onClick={() => activeNote && handleRenameNote(activeNote.id)}
+                className="px-3 py-1.5 text-xs bg-accent text-white rounded-lg hover:bg-accent/80 transition-colors"
+              >
+                Rename
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main Content */}
       <div className="flex flex-1 min-w-0 overflow-hidden">
@@ -388,7 +543,7 @@ tags: []
                       />
                     ) : (
                       <div className="markdown-content h-full overflow-y-auto">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
                           {activeNote.content || "*No content*"}
                         </ReactMarkdown>
                       </div>

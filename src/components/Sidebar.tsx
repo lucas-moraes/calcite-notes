@@ -77,7 +77,7 @@ export default function Sidebar({
               >
                 <div className="flex items-start justify-between gap-2 mb-1.5">
                   <h3 className={cn(
-                    "text-sm font-medium truncate flex-1 note-title",
+                    "text-sm font-medium truncate flex-1",
                     activeNoteId === note.id ? "font-semibold" : ""
                   )}>
                     {note.isNew && (
@@ -85,6 +85,16 @@ export default function Sidebar({
                     )}
                     {note.title || 'Untitled'}
                   </h3>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteNote(note.id);
+                    }}
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/20 rounded text-base-500 hover:text-red-400 transition-all"
+                    title="Delete note"
+                  >
+                    <Trash2 size={14} />
+                  </button>
                 </div>
                 
                 <p className="text-[11px] text-base-500 line-clamp-2 mb-2">

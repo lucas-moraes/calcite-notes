@@ -12602,16 +12602,45 @@ const createLucideIcon = (iconName, iconNode) => {
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$e = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-const ChevronDown = createLucideIcon("chevron-down", __iconNode$e);
+const __iconNode$g = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+const ChevronDown = createLucideIcon("chevron-down", __iconNode$g);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
  * This source code is licensed under the ISC license.
  * See the LICENSE file in the root directory of this source tree.
  */
-const __iconNode$d = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
-const ChevronRight = createLucideIcon("chevron-right", __iconNode$d);
+const __iconNode$f = [["path", { d: "m9 18 6-6-6-6", key: "mthhwq" }]];
+const ChevronRight = createLucideIcon("chevron-right", __iconNode$f);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$e = [
+  ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
+];
+const Clock = createLucideIcon("clock", __iconNode$e);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$d = [
+  ["path", { d: "M12.5 22H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v9.5", key: "1couwa" }],
+  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }],
+  [
+    "path",
+    {
+      d: "M13.378 15.626a1 1 0 1 0-3.004-3.004l-5.01 5.012a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506z",
+      key: "1y4qbx"
+    }
+  ]
+];
+const FilePen = createLucideIcon("file-pen", __iconNode$d);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12619,10 +12648,10 @@ const ChevronRight = createLucideIcon("chevron-right", __iconNode$d);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$c = [
-  ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
+  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
+  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }]
 ];
-const Clock = createLucideIcon("clock", __iconNode$c);
+const File = createLucideIcon("file", __iconNode$c);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -12630,17 +12659,6 @@ const Clock = createLucideIcon("clock", __iconNode$c);
  * See the LICENSE file in the root directory of this source tree.
  */
 const __iconNode$b = [
-  ["path", { d: "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z", key: "1rqfz7" }],
-  ["path", { d: "M14 2v4a2 2 0 0 0 2 2h4", key: "tnqrlb" }]
-];
-const File = createLucideIcon("file", __iconNode$b);
-/**
- * @license lucide-react v0.546.0 - ISC
- *
- * This source code is licensed under the ISC license.
- * See the LICENSE file in the root directory of this source tree.
- */
-const __iconNode$a = [
   [
     "path",
     {
@@ -12649,7 +12667,25 @@ const __iconNode$a = [
     }
   ]
 ];
-const FolderOpen = createLucideIcon("folder-open", __iconNode$a);
+const FolderOpen = createLucideIcon("folder-open", __iconNode$b);
+/**
+ * @license lucide-react v0.546.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */
+const __iconNode$a = [
+  ["path", { d: "M12 10v6", key: "1bos4e" }],
+  ["path", { d: "M9 13h6", key: "1uhe8q" }],
+  [
+    "path",
+    {
+      d: "M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z",
+      key: "1kt360"
+    }
+  ]
+];
+const FolderPlus = createLucideIcon("folder-plus", __iconNode$a);
 /**
  * @license lucide-react v0.546.0 - ISC
  *
@@ -18981,13 +19017,27 @@ function Sidebar({
           activeNoteId === note.id ? "bg-accent/15 border border-accent/30" : "bg-base-800/50 border border-transparent hover:bg-base-800 hover:border-base-700"
         ),
         children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex items-start justify-between gap-2 mb-1.5", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { className: cn(
-            "text-sm font-medium truncate flex-1 note-title",
-            activeNoteId === note.id ? "font-semibold" : ""
-          ), children: [
-            note.isNew && /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 12, className: "inline mr-1 text-yellow-400" }),
-            note.title || "Untitled"
-          ] }) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-start justify-between gap-2 mb-1.5", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { className: cn(
+              "text-sm font-medium truncate flex-1",
+              activeNoteId === note.id ? "font-semibold" : ""
+            ), children: [
+              note.isNew && /* @__PURE__ */ jsxRuntimeExports.jsx(Sparkles, { size: 12, className: "inline mr-1 text-yellow-400" }),
+              note.title || "Untitled"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: (e) => {
+                  e.stopPropagation();
+                  onDeleteNote(note.id);
+                },
+                className: "opacity-0 group-hover:opacity-100 p-1 hover:bg-red-500/20 rounded text-base-500 hover:text-red-400 transition-all",
+                title: "Delete note",
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 14 })
+              }
+            )
+          ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-[11px] text-base-500 line-clamp-2 mb-2", children: getPreview(note.content) || "Empty note..." }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 text-[10px] text-base-300", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(Clock, { size: 10 }),
@@ -19020,12 +19070,31 @@ function TreeNode({
   isActive,
   isExpanded,
   onToggle,
-  checkHasMd
+  checkHasMd,
+  onContextMenu,
+  renamingPath,
+  onStartRename,
+  onRenameConfirm,
+  onRenameCancel,
+  dropTargetPath,
+  onDragStart,
+  onDragOver,
+  onDrop,
+  onDragEnd
 }) {
   const [children2, setChildren] = reactExports.useState([]);
   const [loading, setLoading] = reactExports.useState(false);
   const [hasMdFiles, setHasMdFiles] = reactExports.useState(node2.hasMd ?? false);
+  const [renameValue, setRenameValue] = reactExports.useState(node2.name);
+  const inputRef = reactExports.useRef(null);
+  reactExports.useEffect(() => {
+    if (renamingPath === node2.path && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [renamingPath, node2.path]);
   const handleClick = async () => {
+    if (renamingPath === node2.path) return;
     if (node2.isDirectory) {
       if (!isExpanded && children2.length === 0) {
         setLoading(true);
@@ -19044,15 +19113,30 @@ function TreeNode({
       onSelect(node2.path);
     }
   };
+  const handleRenameKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      onRenameConfirm(node2.path, renameValue);
+    } else if (e.key === "Escape") {
+      onRenameCancel();
+    }
+  };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "button",
       {
         type: "button",
         onClick: handleClick,
+        onContextMenu: (e) => onContextMenu(e, node2),
+        draggable: true,
+        onDragStart: (e) => onDragStart(e, node2.path),
+        onDragOver: (e) => onDragOver(e, node2.path),
+        onDrop: (e) => onDrop(e, node2.path),
+        onDragEnd,
         className: clsx(
           "w-full flex items-center gap-1 px-2 py-1 text-sm text-left transition-colors",
-          isActive ? "bg-accent/20 text-accent" : "text-base-400 hover:text-base-200 hover:bg-base-800"
+          isActive ? "bg-accent/20 text-accent" : "text-base-400 hover:text-base-200 hover:bg-base-800",
+          dropTargetPath === node2.path && node2.isDirectory ? "border-2 border-accent rounded" : ""
         ),
         style: { paddingLeft: `${level * 12 + 8}px` },
         children: [
@@ -19063,7 +19147,19 @@ function TreeNode({
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "w-3" }),
             /* @__PURE__ */ jsxRuntimeExports.jsx(File, { size: 14, className: "text-blue-400" })
           ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate", children: node2.name })
+          renamingPath === node2.path ? /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "input",
+            {
+              ref: inputRef,
+              type: "text",
+              value: renameValue,
+              onChange: (e) => setRenameValue(e.target.value),
+              onKeyDown: handleRenameKeyDown,
+              onBlur: () => onRenameConfirm(node2.path, renameValue),
+              onClick: (e) => e.stopPropagation(),
+              className: "flex-1 bg-base-700 px-1 py-0.5 text-sm text-white rounded outline-none focus:border-accent border border-accent"
+            }
+          ) : /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "truncate", children: node2.name })
         ]
       }
     ),
@@ -19074,10 +19170,20 @@ function TreeNode({
         level: level + 1,
         onSelect,
         onExpand,
-        isActive,
+        isActive: false,
         isExpanded: false,
         onToggle,
-        checkHasMd
+        checkHasMd,
+        onContextMenu,
+        renamingPath,
+        onStartRename,
+        onRenameConfirm,
+        onRenameCancel,
+        dropTargetPath,
+        onDragStart,
+        onDragOver,
+        onDrop,
+        onDragEnd
       },
       child.path
     )) })
@@ -19091,6 +19197,13 @@ function FileTree({ rootPath, onFileSelect }) {
   const [activePath, setActivePath] = reactExports.useState(null);
   const [expandedPaths, setExpandedPaths] = reactExports.useState(/* @__PURE__ */ new Set());
   const [loading, setLoading] = reactExports.useState(true);
+  const [contextMenu, setContextMenu] = reactExports.useState({ show: false, x: 0, y: 0, type: "empty" });
+  const [renamingPath, setRenamingPath] = reactExports.useState(null);
+  const [creatingInPath, setCreatingInPath] = reactExports.useState(null);
+  const [newFolderName, setNewFolderName] = reactExports.useState("");
+  const [dropTargetPath, setDropTargetPath] = reactExports.useState(null);
+  const inputNewFolderRef = reactExports.useRef(null);
+  const contextMenuRef = reactExports.useRef(null);
   reactExports.useEffect(() => {
     if (rootPath) {
       setLoading(true);
@@ -19098,6 +19211,20 @@ function FileTree({ rootPath, onFileSelect }) {
       loadTree(rootPath);
     }
   }, [rootPath]);
+  reactExports.useEffect(() => {
+    if (creatingInPath && inputNewFolderRef.current) {
+      inputNewFolderRef.current.focus();
+    }
+  }, [creatingInPath]);
+  reactExports.useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
+        setContextMenu((prev) => ({ ...prev, show: false }));
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
   const loadTree = async (path2) => {
     setLoading(true);
     try {
@@ -19138,6 +19265,113 @@ function FileTree({ rootPath, onFileSelect }) {
     setActivePath(path2);
     onFileSelect(path2);
   };
+  const handleContextMenu = (e, node2) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setContextMenu({
+      show: true,
+      x: e.clientX,
+      y: e.clientY,
+      type: node2.isDirectory ? "folder" : "file",
+      path: node2.path
+    });
+  };
+  const handleContextMenuEmpty = (e) => {
+    e.preventDefault();
+    setContextMenu({
+      show: true,
+      x: e.clientX,
+      y: e.clientY,
+      type: "empty",
+      path: rootPath
+    });
+  };
+  const handleStartRename = (path2, currentName) => {
+    setRenamingPath(path2);
+    setContextMenu((prev) => ({ ...prev, show: false }));
+  };
+  const handleRenameConfirm = async (oldPath, newName) => {
+    if (!newName.trim() || !window.electronAPI) {
+      setRenamingPath(null);
+      return;
+    }
+    const result = await window.electronAPI.renameFolder(oldPath, newName.trim());
+    if (!result.success) {
+      alert(`Failed to rename: ${result.error}`);
+    } else {
+      await loadTree(rootPath);
+    }
+    setRenamingPath(null);
+  };
+  const handleRenameCancel = () => {
+    setRenamingPath(null);
+  };
+  const handleDragStart = (e, path2) => {
+    e.dataTransfer.setData("text/plain", path2);
+  };
+  const handleDragOver = (e, path2) => {
+    e.preventDefault();
+    setDropTargetPath(path2);
+  };
+  const handleDrop = async (e, folderPath) => {
+    e.preventDefault();
+    const sourcePath = e.dataTransfer.getData("text/plain");
+    if (sourcePath && sourcePath !== folderPath && window.electronAPI) {
+      const result = await window.electronAPI.moveFile(sourcePath, folderPath);
+      if (!result.success) {
+        alert(`Failed to move: ${result.error}`);
+      } else {
+        await loadTree(rootPath);
+      }
+    }
+    setDropTargetPath(null);
+  };
+  const handleDragEnd = () => {
+    setDropTargetPath(null);
+  };
+  const handleCreateFolder = async () => {
+    if (!newFolderName.trim() || !window.electronAPI || !creatingInPath) return;
+    const result = await window.electronAPI.createFolder(creatingInPath, newFolderName.trim());
+    if (!result.success) {
+      alert(`Failed to create folder: ${result.error}`);
+    } else {
+      await loadTree(rootPath);
+      setExpandedPaths((prev) => {
+        const next = new Set(prev);
+        next.add(creatingInPath);
+        return next;
+      });
+    }
+    setCreatingInPath(null);
+    setNewFolderName("");
+    setContextMenu((prev) => ({ ...prev, show: false }));
+  };
+  const handleDeleteFolder = async () => {
+    if (!contextMenu.path || !window.electronAPI) return;
+    if (!confirm("Are you sure you want to delete this folder and all its contents?")) return;
+    try {
+      const result = await window.electronAPI.deleteFolder(contextMenu.path);
+      if (!result.success) {
+        alert(`Failed to delete: ${result.error}`);
+      } else {
+        await loadTree(rootPath);
+      }
+    } catch (e) {
+      console.error("Error deleting folder:", e);
+      alert("Failed to delete folder");
+    }
+    setContextMenu((prev) => ({ ...prev, show: false }));
+  };
+  const handleCreateFolderKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleCreateFolder();
+    } else if (e.key === "Escape") {
+      setCreatingInPath(null);
+      setNewFolderName("");
+      setContextMenu((prev) => ({ ...prev, show: false }));
+    }
+  };
   if (!rootPath) {
     return null;
   }
@@ -19146,7 +19380,7 @@ function FileTree({ rootPath, onFileSelect }) {
       /* @__PURE__ */ jsxRuntimeExports.jsx(Folder, { size: 14, className: "text-yellow-500" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-base-400 truncate", children: formatPathname(rootPath) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto py-2", children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 text-xs text-base-500", children: "Loading..." }) : tree.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 text-xs text-base-500", children: "No .md files found" }) : tree.map((node2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto py-2", onContextMenu: handleContextMenuEmpty, children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 text-xs text-base-500", children: "Loading..." }) : tree.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-3 text-xs text-base-500", children: "No .md files found" }) : tree.map((node2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
       TreeNode,
       {
         node: node2,
@@ -19155,10 +19389,103 @@ function FileTree({ rootPath, onFileSelect }) {
         isActive: activePath === node2.path,
         isExpanded: expandedPaths.has(node2.path),
         onToggle: handleToggle,
-        checkHasMd: checkHasMdFiles
+        checkHasMd: checkHasMdFiles,
+        onContextMenu: handleContextMenu,
+        renamingPath,
+        onStartRename: handleStartRename,
+        onRenameConfirm: handleRenameConfirm,
+        onRenameCancel: handleRenameCancel,
+        dropTargetPath,
+        onDragStart: handleDragStart,
+        onDragOver: handleDragOver,
+        onDrop: handleDrop,
+        onDragEnd: handleDragEnd
       },
       node2.path
-    )) })
+    )) }),
+    creatingInPath && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-2 border-t border-base-800", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(FolderPlus, { size: 14, className: "text-yellow-400" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "input",
+        {
+          ref: inputNewFolderRef,
+          type: "text",
+          value: newFolderName,
+          onChange: (e) => setNewFolderName(e.target.value),
+          onKeyDown: handleCreateFolderKeyDown,
+          onBlur: handleCreateFolder,
+          placeholder: "New folder name",
+          className: "flex-1 bg-base-800 px-2 py-1 text-sm text-white rounded outline-none focus:border-accent border border-base-700"
+        }
+      )
+    ] }) }),
+    contextMenu.show && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+      "div",
+      {
+        ref: contextMenuRef,
+        className: "fixed z-50 bg-base-800 border border-base-700 rounded-lg shadow-xl py-1 min-w-[160px]",
+        style: { left: contextMenu.x, top: contextMenu.y },
+        children: [
+          contextMenu.type === "folder" && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => {
+                  setCreatingInPath(contextMenu.path || "");
+                  setContextMenu((prev) => ({ ...prev, show: false }));
+                },
+                className: "w-full px-3 py-1.5 text-sm text-left text-base-300 hover:bg-base-700 hover:text-white flex items-center gap-2",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(FolderPlus, { size: 14 }),
+                  "New folder inside"
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: () => {
+                  const path2 = contextMenu.path || "";
+                  path2.split("/").pop() || "";
+                  handleStartRename(path2);
+                },
+                className: "w-full px-3 py-1.5 text-sm text-left text-base-300 hover:bg-base-700 hover:text-white flex items-center gap-2",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { size: 14 }),
+                  "Rename folder"
+                ]
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "my-1 border-t border-base-700" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs(
+              "button",
+              {
+                onClick: handleDeleteFolder,
+                className: "w-full px-3 py-1.5 text-sm text-left text-red-400 hover:bg-base-700 flex items-center gap-2",
+                children: [
+                  /* @__PURE__ */ jsxRuntimeExports.jsx(Trash2, { size: 14 }),
+                  "Delete folder"
+                ]
+              }
+            )
+          ] }),
+          contextMenu.type === "empty" && /* @__PURE__ */ jsxRuntimeExports.jsxs(
+            "button",
+            {
+              onClick: () => {
+                setCreatingInPath(contextMenu.path || rootPath);
+                setContextMenu((prev) => ({ ...prev, show: false }));
+              },
+              className: "w-full px-3 py-1.5 text-sm text-left text-base-300 hover:bg-base-700 hover:text-white flex items-center gap-2",
+              children: [
+                /* @__PURE__ */ jsxRuntimeExports.jsx(FolderPlus, { size: 14 }),
+                "New folder here"
+              ]
+            }
+          )
+        ]
+      }
+    )
   ] });
 }
 const SvgComponent = (props) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -30473,14 +30800,14 @@ function enterCell(token) {
 function exitCodeText(token) {
   let value = this.resume();
   if (this.data.inTable) {
-    value = value.replace(/\\([\\|])/g, replace);
+    value = value.replace(/\\([\\|])/g, replace$1);
   }
   const node2 = this.stack[this.stack.length - 1];
   ok$1(node2.type === "inlineCode");
   node2.value = value;
   this.exit(token);
 }
-function replace($0, $1) {
+function replace$1($0, $1) {
   return $1 === "|" ? $1 : $0;
 }
 function gfmTableToMarkdown(options) {
@@ -31953,6 +32280,17 @@ function remarkGfm(options) {
   fromMarkdownExtensions.push(gfmFromMarkdown());
   toMarkdownExtensions.push(gfmToMarkdown(settings));
 }
+function newlineToBreak(tree) {
+  findAndReplace(tree, [/\r?\n|\r/g, replace]);
+}
+function replace() {
+  return { type: "break" };
+}
+function remarkBreaks() {
+  return function(tree) {
+    newlineToBreak(tree);
+  };
+}
 const defaultNote = {
   id: "welcome",
   title: "Bem-vindo ao Calcite",
@@ -31976,6 +32314,8 @@ function App() {
   const [fileTreeKey, setFileTreeKey] = reactExports.useState(0);
   const [theme, setTheme] = reactExports.useState("dark");
   const [editorTab, setEditorTab] = reactExports.useState("edit");
+  const [renamingNoteId, setRenamingNoteId] = reactExports.useState(null);
+  const [renamingNoteName, setRenamingNoteName] = reactExports.useState("");
   reactExports.useEffect(() => {
     if (window.electronAPI) {
       window.electronAPI.getTheme().then((savedTheme) => {
@@ -31985,6 +32325,15 @@ function App() {
           document.documentElement.classList.add(savedTheme === "light" ? "light" : "dark");
         } else {
           document.documentElement.classList.add("dark");
+        }
+      });
+    }
+  }, []);
+  reactExports.useEffect(() => {
+    if (window.electronAPI) {
+      window.electronAPI.getNotesFolder().then((folder) => {
+        if (folder) {
+          setNotesFolder(folder);
         }
       });
     }
@@ -32080,23 +32429,54 @@ tags: []
     const folder = await window.electronAPI.getNotesFolder();
     const fileName = `${noteToSave.title.replace(/[^a-zA-Z0-9]/g, "-")}.md`;
     const filePath = `${folder}/${fileName}`;
-    await window.electronAPI.saveNewNote(filePath, noteToSave.content || "");
+    const result = await window.electronAPI.saveNewNote(filePath, noteToSave.content || "");
+    if (!result.success) {
+      console.error("Failed to save note:", result.error);
+      alert(`Failed to save note: ${result.error || "Unknown error"}`);
+      return;
+    }
     setNotes(
       (prev) => prev.map((n) => n.id === id2 ? { ...n, id: filePath, isNew: false, updatedAt: Date.now() } : n)
     );
     setFileTreeKey((prev) => prev + 1);
   };
+  const handleRenameNote = async (id2, newFileName) => {
+    const noteToRename = notes.find((n) => n.id === id2);
+    if (!noteToRename || noteToRename.isNew || !window.electronAPI) return;
+    const fileName = newFileName || renamingNoteName.trim();
+    if (!fileName) {
+      setRenamingNoteId(null);
+      return;
+    }
+    const result = await window.electronAPI.renameNote(noteToRename.id, fileName);
+    if (!result.success) {
+      alert(`Failed to rename: ${result.error || "Unknown error"}`);
+      return;
+    }
+    setNotes(
+      (prev) => prev.map((n) => n.id === id2 ? { ...n, id: result.newPath || n.id, updatedAt: Date.now() } : n)
+    );
+    setActiveNoteId(result.newPath || id2);
+    setRenamingNoteId(null);
+    setRenamingNoteName("");
+    setFileTreeKey((prev) => prev + 1);
+  };
   const handleUpdateNote = (id2, updates) => {
     setNotes((prev) => prev.map((n) => n.id === id2 ? { ...n, ...updates, updatedAt: Date.now() } : n));
   };
-  const handleDeleteNote = (id2) => {
+  const handleDeleteNote = async (id2) => {
     if (confirm("Are you sure you want to delete this note?")) {
       notes.find((n) => n.id === id2);
-      setNotes((prev) => prev.filter((n) => n.id !== id2));
       if (window.electronAPI) {
-        window.electronAPI.deleteNote(id2);
+        const result = await window.electronAPI.deleteNote(id2);
+        if (!result.success) {
+          console.error("Failed to delete note:", result.error);
+          alert(`Failed to delete note: ${result.error || "Unknown error"}`);
+          return;
+        }
         setFileTreeKey((prev) => prev + 1);
       }
+      setNotes((prev) => prev.filter((n) => n.id !== id2));
       if (activeNoteId === id2) setActiveNoteId(notes.find((n) => n.id !== id2)?.id || null);
     }
   };
@@ -32118,29 +32498,63 @@ tags: []
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 flex-1", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SvgComponent, { className: "w-6 h-6" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2 flex-1", children: [
-          activeNote?.isNew && /* @__PURE__ */ jsxRuntimeExports.jsx(
+          (activeNote?.isNew || renamingNoteId) && /* @__PURE__ */ jsxRuntimeExports.jsx(
             "button",
             {
-              onClick: () => activeNote && handleSaveNewNote(activeNote.id),
+              onClick: () => {
+                if (renamingNoteId && activeNote) {
+                  handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                  setRenamingNoteId(null);
+                } else if (activeNote) {
+                  handleSaveNewNote(activeNote.id);
+                }
+              },
               className: "p-1.5 hover:bg-base-800 rounded text-yellow-400 hover:text-yellow-300 transition-colors",
               title: "Save note",
               children: /* @__PURE__ */ jsxRuntimeExports.jsx(Save, { size: 16 })
             }
           ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(
+          renamingNoteId === activeNote?.id ? /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
-              placeholder: "Untitled Note",
-              maxLength: 30,
-              className: "bg-transparent border-none outline-none text-sm font-semibold note-title w-60 placeholder-base-600",
+              autoFocus: true,
               type: "text",
-              value: activeNote?.title || "",
-              onChange: (e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })
+              value: renamingNoteName,
+              onChange: (e) => setRenamingNoteName(e.target.value),
+              onKeyDown: (e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  if (renamingNoteName.trim() && activeNote) {
+                    handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                  }
+                  setRenamingNoteId(null);
+                }
+                if (e.key === "Escape") setRenamingNoteId(null);
+              },
+              onBlur: () => {
+                if (renamingNoteName.trim() && activeNote) {
+                  handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                }
+                setRenamingNoteId(null);
+              },
+              className: "bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-60 px-2 py-1"
             }
-          ),
-          activeNote?.isNew && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs text-base-600 whitespace-nowrap", children: [
-            activeNote?.title?.length || 0,
-            "/30"
+          ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                placeholder: "Untitled Note",
+                maxLength: 30,
+                className: "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600",
+                type: "text",
+                value: activeNote?.title || "",
+                onChange: (e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })
+              }
+            ),
+            activeNote?.isNew && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs dark:text-base-300 text-base-600 whitespace-nowrap", children: [
+              activeNote?.title?.length || 0,
+              "/30"
+            ] })
           ] })
         ] })
       ] }),
@@ -32184,6 +32598,18 @@ tags: []
           children: /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { size: 16 })
         }
       ),
+      !activeNote?.isNew && activeNote && /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => {
+            const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
+            setRenamingNoteName(fileName);
+            setRenamingNoteId(activeNote.id);
+          },
+          className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+          children: /* @__PURE__ */ jsxRuntimeExports.jsx(FilePen, { size: 16 })
+        }
+      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
@@ -32201,6 +32627,7 @@ tags: []
         }
       )
     ] }),
+    false,
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-1 min-w-0 overflow-hidden", children: [
       notesFolder && /* @__PURE__ */ jsxRuntimeExports.jsx(FileTree, { rootPath: notesFolder, onFileSelect: handleOpenFile }, fileTreeKey),
       /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 flex flex-col min-w-0 bg-base-950 relative", children: activeNote ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-col h-full bg-base-950 overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-full p-6", children: [
@@ -32286,7 +32713,7 @@ tags: []
               value: activeNote.content,
               onChange: (e) => handleUpdateNote(activeNote.id, { content: e.target.value })
             }
-          ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "markdown-content h-full overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Markdown, { remarkPlugins: [remarkGfm], children: activeNote.content || "*No content*" }) })
+          ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "markdown-content h-full overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Markdown, { remarkPlugins: [remarkGfm, remarkBreaks], children: activeNote.content || "*No content*" }) })
         ] })
       ] }) }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col items-center justify-center opacity-20 select-none", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SvgComponent, { className: "w-16 h-16 opacity-50" }),

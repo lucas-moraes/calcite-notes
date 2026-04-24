@@ -1,7 +1,8 @@
-import { app, ipcMain, dialog, BrowserWindow, Menu, shell } from "electron";
+import { app, dialog, ipcMain, BrowserWindow, Menu, shell } from "electron";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import fs from "node:fs";
+import log from "electron-log";
 import __cjs_mod__ from "node:module";
 const __filename = import.meta.filename;
 const __dirname = import.meta.dirname;
@@ -12,6 +13,18 @@ const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
 const MAIN_WINDOW_VITE_DEV_SERVER_URL = process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL;
 const MAIN_WINDOW_VITE_NAME = "main_window";
 let mainWindow;
+log.initialize();
+log.transports.file.level = "info";
+log.transports.console.level = app.isPackaged ? "warn" : "debug";
+process.on("uncaughtException", (error) => {
+  log.error("Uncaught Exception:", error);
+  if (app.isPackaged) {
+    dialog.showErrorBox("Application Error", `An unexpected error occurred: ${error.message}`);
+  }
+});
+process.on("unhandledRejection", (reason, promise) => {
+  log.error("Unhandled Rejection at:", promise, "reason:", reason);
+});
 const CONFIG_PATH = path.join(app.getPath("userData"), "config.json");
 function loadConfig() {
   try {
@@ -19,7 +32,7 @@ function loadConfig() {
       return JSON.parse(fs.readFileSync(CONFIG_PATH, "utf-8"));
     }
   } catch (e) {
-    console.error("Error loading config:", e);
+    log.error("Error loading config:", e);
   }
   return {};
 }
@@ -27,7 +40,7 @@ function saveConfig(config) {
   try {
     fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), "utf-8");
   } catch (e) {
-    console.error("Error saving config:", e);
+    log.error("Error saving config:", e);
   }
 }
 const savedConfig = loadConfig();
@@ -38,30 +51,92 @@ function ensureNotesDir() {
     fs.mkdirSync(NOTES_DIR, { recursive: true });
   }
 }
+function isPathWithinNotesDir(filePath) {
+  const resolvedPath = path.resolve(filePath);
+  const resolvedNotesDir = path.resolve(NOTES_DIR);
+  return resolvedPath.startsWith(resolvedNotesDir);
+}
 ipcMain.handle("get-notes", async () => {
-  ensureNotesDir();
-  const files = fs.readdirSync(NOTES_DIR).filter((f) => f.endsWith(".json"));
-  return files.map((file) => {
-    const content = fs.readFileSync(path.join(NOTES_DIR, file), "utf-8");
-    return JSON.parse(content);
-  });
+  try {
+    ensureNotesDir();
+    const files = fs.readdirSync(NOTES_DIR).filter((f) => f.endsWith(".md"));
+    return files.map((file) => {
+      const filePath = path.join(NOTES_DIR, file);
+      const content = fs.readFileSync(filePath, "utf-8");
+      const name = path.basename(file, ".md");
+      const stats = fs.statSync(filePath);
+      return {
+        id: filePath,
+        title: name,
+        content,
+        createdAt: stats.birthtimeMs,
+        updatedAt: stats.mtimeMs
+      };
+    });
+  } catch (e) {
+    log.error("Error getting notes:", e);
+    return [];
+  }
 });
 ipcMain.handle("save-note", async (_event, note) => {
   try {
+    if (!note || typeof note !== "object") {
+      return { success: false, error: "Invalid note object" };
+    }
+    if (!note.id || typeof note.id !== "string") {
+      return { success: false, error: "Note ID is required" };
+    }
+    if (note.content === void 0 || note.content === null) {
+      return { success: false, error: "Note content is required" };
+    }
     const filePath = note.id.endsWith(".md") ? note.id : path.join(NOTES_DIR, `${note.id}.md`);
-    const content = note.content;
-    fs.writeFileSync(filePath, content, "utf-8");
+    if (!isPathWithinNotesDir(filePath)) {
+      log.error("Attempted to save file outside notes directory:", filePath);
+      return { success: false, error: "Access denied: path outside notes directory" };
+    }
+    fs.writeFileSync(filePath, note.content, "utf-8");
+    return { success: true };
   } catch (e) {
-    console.error("Error saving note:", e);
+    log.error("Error saving note:", e);
+    return { success: false, error: String(e) };
   }
 });
 ipcMain.handle("delete-note", async (_event, filePath) => {
   try {
-    if (filePath && fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
+    if (!filePath || typeof filePath !== "string") {
+      return { success: false, error: "Invalid file path" };
     }
+    if (!isPathWithinNotesDir(filePath)) {
+      log.error("Attempted to delete file outside notes directory:", filePath);
+      return { success: false, error: "Access denied: path outside notes directory" };
+    }
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+      return { success: true };
+    }
+    return { success: false, error: "File not found" };
   } catch (e) {
-    console.error("Error deleting note:", e);
+    log.error("Error deleting note:", e);
+    return { success: false, error: String(e) };
+  }
+});
+ipcMain.handle("delete-folder", async (_event, folderPath) => {
+  try {
+    if (!folderPath || typeof folderPath !== "string") {
+      return { success: false, error: "Invalid folder path" };
+    }
+    if (!isPathWithinNotesDir(folderPath)) {
+      log.error("Attempted to delete folder outside notes directory:", folderPath);
+      return { success: false, error: "Access denied: path outside notes directory" };
+    }
+    if (fs.existsSync(folderPath)) {
+      fs.rmSync(folderPath, { recursive: true, force: true });
+      return { success: true };
+    }
+    return { success: false, error: "Folder not found" };
+  } catch (e) {
+    log.error("Error deleting folder:", e);
+    return { success: false, error: String(e) };
   }
 });
 function createMenu() {
@@ -151,28 +226,72 @@ function createMenu() {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 }
+const WINDOW_STATE_FILE = path.join(app.getPath("userData"), "window-state.json");
+function loadWindowState() {
+  try {
+    if (fs.existsSync(WINDOW_STATE_FILE)) {
+      return JSON.parse(fs.readFileSync(WINDOW_STATE_FILE, "utf-8"));
+    }
+  } catch (e) {
+    log.error("Error loading window state:", e);
+  }
+  return { width: 1200, height: 800 };
+}
+function saveWindowState(state) {
+  try {
+    fs.writeFileSync(WINDOW_STATE_FILE, JSON.stringify(state, null, 2), "utf-8");
+  } catch (e) {
+    log.error("Error saving window state:", e);
+  }
+}
 async function createWindow() {
+  const windowState = loadWindowState();
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: windowState.width,
+    height: windowState.height,
+    x: windowState.x,
+    y: windowState.y,
     minWidth: 800,
     minHeight: 600,
     title: "Calcite",
+    show: false,
+    // Don't show until ready
     webPreferences: {
-      preload: path.join(__dirname$1, "..", "preload", "index.mjs"),
+      preload: path.join(__dirname$1, "..", "preload", "index.js"),
       contextIsolation: true,
       nodeIntegration: false,
-      sandbox: false
+      sandbox: true
     }
   });
+  if (windowState.isMaximized) {
+    mainWindow.maximize();
+  }
   const isDev = !app.isPackaged;
   if (isDev && process.env["VITE_DEV_SERVER_URL"]) {
-    console.log("Loading dev URL:", process.env["VITE_DEV_SERVER_URL"]);
+    log.debug("Loading dev URL:", process.env["VITE_DEV_SERVER_URL"]);
     await mainWindow.loadURL(process.env["VITE_DEV_SERVER_URL"]);
   } else {
     const indexPath = isDev ? path.join(__dirname$1, "..", "renderer", "index.html") : path.join(__dirname$1, "..", "renderer", "index.html");
     await mainWindow.loadFile(indexPath);
   }
+  mainWindow.once("ready-to-show", () => {
+    mainWindow?.show();
+  });
+  const saveCurrentState = () => {
+    if (!mainWindow) return;
+    const bounds = mainWindow.getBounds();
+    saveWindowState({
+      width: bounds.width,
+      height: bounds.height,
+      x: bounds.x,
+      y: bounds.y,
+      isMaximized: mainWindow.isMaximized()
+    });
+  };
+  mainWindow.on("resize", saveCurrentState);
+  mainWindow.on("move", saveCurrentState);
+  mainWindow.on("maximize", saveCurrentState);
+  mainWindow.on("unmaximize", saveCurrentState);
   mainWindow.on("closed", () => {
     mainWindow = void 0;
   });
@@ -183,7 +302,7 @@ app.on("browser-window-created", () => {
 ipcMain.handle("select-notes-folder", async () => {
   try {
     if (!mainWindow) {
-      console.error("mainWindow is not defined");
+      log.error("mainWindow is not defined");
       return null;
     }
     const result = await dialog.showOpenDialog(mainWindow, {
@@ -192,7 +311,7 @@ ipcMain.handle("select-notes-folder", async () => {
     });
     if (!result.canceled && result.filePaths.length > 0) {
       const newDir = result.filePaths[0];
-      console.log("Selected folder:", newDir);
+      log.info("Selected folder:", newDir);
       NOTES_DIR = newDir;
       saveConfig({ notesDir: newDir });
       ensureNotesDir();
@@ -201,11 +320,14 @@ ipcMain.handle("select-notes-folder", async () => {
     }
     return null;
   } catch (e) {
-    console.error("Error in select-notes-folder:", e);
+    log.error("Error in select-notes-folder:", e);
     return null;
   }
 });
 ipcMain.handle("has-md-files", async (_event, dirPath) => {
+  if (!dirPath || typeof dirPath !== "string") {
+    return false;
+  }
   const checkDir = (dir) => {
     try {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -227,11 +349,46 @@ ipcMain.handle("has-md-files", async (_event, dirPath) => {
 });
 ipcMain.handle("save-new-note", async (_event, filePath, content) => {
   try {
+    if (!filePath || typeof filePath !== "string") {
+      return { success: false, error: "Invalid file path" };
+    }
+    if (content === void 0 || content === null) {
+      return { success: false, error: "Content is required" };
+    }
+    if (!isPathWithinNotesDir(filePath)) {
+      log.error("Attempted to save file outside notes directory:", filePath);
+      return { success: false, error: "Access denied: path outside notes directory" };
+    }
     fs.writeFileSync(filePath, content, "utf-8");
-    return true;
+    return { success: true };
   } catch (e) {
-    console.error("Error saving note:", e);
-    return false;
+    log.error("Error saving note:", e);
+    return { success: false, error: String(e) };
+  }
+});
+ipcMain.handle("rename-note", async (_event, oldPath, newFileName) => {
+  try {
+    if (!oldPath || typeof oldPath !== "string") {
+      return { success: false, error: "Invalid old path" };
+    }
+    if (!newFileName || typeof newFileName !== "string") {
+      return { success: false, error: "Invalid new file name" };
+    }
+    const sanitizedName = newFileName.replace(/[^a-zA-Z0-9\-]/g, "-");
+    if (!isPathWithinNotesDir(oldPath)) {
+      log.error("Attempted to rename file outside notes directory:", oldPath);
+      return { success: false, error: "Access denied: path outside notes directory" };
+    }
+    const dir = path.dirname(oldPath);
+    const newPath = path.join(dir, `${sanitizedName}.md`);
+    if (fs.existsSync(newPath)) {
+      return { success: false, error: "A file with this name already exists" };
+    }
+    fs.renameSync(oldPath, newPath);
+    return { success: true, newPath };
+  } catch (e) {
+    log.error("Error renaming note:", e);
+    return { success: false, error: String(e) };
   }
 });
 ipcMain.handle("get-notes-folder", () => {
@@ -246,12 +403,100 @@ ipcMain.handle("save-theme", async (_event, theme) => {
     saveConfig({ notesDir: NOTES_DIR, theme });
     return true;
   } catch (e) {
-    console.error("Error saving theme:", e);
+    log.error("Error saving theme:", e);
     return false;
+  }
+});
+ipcMain.handle("create-folder", async (_event, parentPath, folderName) => {
+  try {
+    if (!parentPath || typeof parentPath !== "string") {
+      return { success: false, error: "Invalid parent path" };
+    }
+    if (!folderName || typeof folderName !== "string") {
+      return { success: false, error: "Invalid folder name" };
+    }
+    const sanitizedName = folderName.replace(/[^a-zA-Z0-9\-]/g, "-");
+    if (!isPathWithinNotesDir(parentPath)) {
+      log.error("Attempted to create folder outside notes directory:", parentPath);
+      return { success: false, error: "Access denied" };
+    }
+    const newPath = path.join(parentPath, sanitizedName);
+    if (fs.existsSync(newPath)) {
+      return { success: false, error: "A folder with this name already exists" };
+    }
+    fs.mkdirSync(newPath, { recursive: true });
+    return { success: true, path: newPath };
+  } catch (e) {
+    log.error("Error creating folder:", e);
+    return { success: false, error: String(e) };
+  }
+});
+ipcMain.handle("rename-folder", async (_event, oldPath, newName) => {
+  try {
+    if (!oldPath || typeof oldPath !== "string") {
+      return { success: false, error: "Invalid folder path" };
+    }
+    if (!newName || typeof newName !== "string") {
+      return { success: false, error: "Invalid folder name" };
+    }
+    const sanitizedName = newName.replace(/[^a-zA-Z0-9\-]/g, "-");
+    if (!isPathWithinNotesDir(oldPath)) {
+      log.error("Attempted to rename folder outside notes directory:", oldPath);
+      return { success: false, error: "Access denied" };
+    }
+    const dir = path.dirname(oldPath);
+    const newPath = path.join(dir, sanitizedName);
+    if (fs.existsSync(newPath) && newPath !== oldPath) {
+      return { success: false, error: "A folder with this name already exists" };
+    }
+    fs.renameSync(oldPath, newPath);
+    return { success: true, newPath };
+  } catch (e) {
+    log.error("Error renaming folder:", e);
+    return { success: false, error: String(e) };
+  }
+});
+ipcMain.handle("move-file", async (_event, sourcePath, destFolder) => {
+  try {
+    if (!sourcePath || typeof sourcePath !== "string") {
+      return { success: false, error: "Invalid source path" };
+    }
+    if (!destFolder || typeof destFolder !== "string") {
+      return { success: false, error: "Invalid destination folder" };
+    }
+    if (!isPathWithinNotesDir(sourcePath)) {
+      log.error("Attempted to move file outside notes directory:", sourcePath);
+      return { success: false, error: "Access denied" };
+    }
+    if (!isPathWithinNotesDir(destFolder)) {
+      log.error("Attempted to move file to outside notes directory:", destFolder);
+      return { success: false, error: "Access denied" };
+    }
+    const fileName = path.basename(sourcePath);
+    let destPath = path.join(destFolder, fileName);
+    if (fs.existsSync(destPath)) {
+      const nameWithoutExt = fileName.replace(/\.md$/, "");
+      let counter = 1;
+      let newFileName = `${nameWithoutExt}-${counter}.md`;
+      destPath = path.join(destFolder, newFileName);
+      while (fs.existsSync(destPath)) {
+        counter++;
+        newFileName = `${nameWithoutExt}-${counter}.md`;
+        destPath = path.join(destFolder, newFileName);
+      }
+    }
+    fs.renameSync(sourcePath, destPath);
+    return { success: true, newPath: destPath };
+  } catch (e) {
+    log.error("Error moving file:", e);
+    return { success: false, error: String(e) };
   }
 });
 ipcMain.handle("get-directory", async (_event, dirPath) => {
   try {
+    if (!dirPath || typeof dirPath !== "string") {
+      return [];
+    }
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
     return entries.filter((entry) => !entry.name.startsWith(".") && (entry.isDirectory() || entry.name.endsWith(".md"))).map((entry) => {
       const fullPath = path.join(dirPath, entry.name);
@@ -266,36 +511,58 @@ ipcMain.handle("get-directory", async (_event, dirPath) => {
       }
       return a.name.localeCompare(b.name);
     });
-  } catch {
+  } catch (e) {
+    log.error("Error reading directory:", e);
     return [];
   }
 });
 ipcMain.handle("read-file", async (_event, filePath) => {
   try {
+    if (!filePath || typeof filePath !== "string") {
+      return null;
+    }
     const content = fs.readFileSync(filePath, "utf-8");
     const name = path.basename(filePath, ".md");
+    const stats = fs.statSync(filePath);
     return {
       id: filePath,
       title: name,
       content,
-      createdAt: fs.statSync(filePath).birthtimeMs,
-      updatedAt: fs.statSync(filePath).mtimeMs
+      createdAt: stats.birthtimeMs,
+      updatedAt: stats.mtimeMs
     };
-  } catch {
+  } catch (e) {
+    log.error("Error reading file:", e);
     return null;
   }
 });
-app.whenReady().then(() => {
-  createMenu();
-  createWindow();
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow();
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  log.info("Another instance is already running. Quitting...");
+  app.quit();
+} else {
+  app.on("second-instance", () => {
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore();
+      }
+      mainWindow.focus();
     }
   });
-});
+  app.whenReady().then(() => {
+    createMenu();
+    createWindow();
+    app.on("activate", () => {
+      if (BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+      }
+    });
+  });
+}
 app.on("window-all-closed", () => {
-  app.quit();
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
 });
 export {
   MAIN_WINDOW_VITE_DEV_SERVER_URL,
