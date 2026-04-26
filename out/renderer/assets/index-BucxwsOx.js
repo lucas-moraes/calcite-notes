@@ -32503,7 +32503,7 @@ tags: []
             {
               onClick: () => {
                 if (renamingNoteId && activeNote) {
-                  handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                  handleRenameNote(activeNote.id, renamingNoteName.trim());
                   setRenamingNoteId(null);
                 } else if (activeNote) {
                   handleSaveNewNote(activeNote.id);
@@ -32514,32 +32514,39 @@ tags: []
               children: /* @__PURE__ */ jsxRuntimeExports.jsx(Save, { size: 16 })
             }
           ),
-          renamingNoteId === activeNote?.id ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "input",
-            {
-              autoFocus: true,
-              type: "text",
-              value: renamingNoteName,
-              onChange: (e) => setRenamingNoteName(e.target.value),
-              onKeyDown: (e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
+          renamingNoteId === activeNote?.id ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "input",
+              {
+                autoFocus: true,
+                maxLength: 30,
+                type: "text",
+                value: renamingNoteName,
+                onChange: (e) => setRenamingNoteName(e.target.value),
+                onKeyDown: (e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    if (renamingNoteName.trim() && activeNote) {
+                      handleRenameNote(activeNote.id, renamingNoteName.trim());
+                    }
+                    setRenamingNoteId(null);
+                  }
+                  if (e.key === "Escape") setRenamingNoteId(null);
+                },
+                onBlur: () => {
                   if (renamingNoteName.trim() && activeNote) {
-                    handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                    handleRenameNote(activeNote.id, renamingNoteName.trim());
                   }
                   setRenamingNoteId(null);
-                }
-                if (e.key === "Escape") setRenamingNoteId(null);
-              },
-              onBlur: () => {
-                if (renamingNoteName.trim() && activeNote) {
-                  handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
-                }
-                setRenamingNoteId(null);
-              },
-              className: "bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-60 px-2 py-1"
-            }
-          ) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
+                },
+                className: "bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-65 px-2 py-1"
+              }
+            ),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs dark:text-base-300 text-base-600 whitespace-nowrap", children: [
+              renamingNoteName.length,
+              "/30"
+            ] })
+          ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {

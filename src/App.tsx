@@ -305,7 +305,7 @@ tags: []
               <button
                 onClick={() => {
                   if (renamingNoteId && activeNote) {
-                    handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                    handleRenameNote(activeNote.id, renamingNoteName.trim());
                     setRenamingNoteId(null);
                   } else if (activeNote) {
                     handleSaveNewNote(activeNote.id);
@@ -318,8 +318,10 @@ tags: []
               </button>
             )}
             {renamingNoteId === activeNote?.id ? (
+              <>
               <input
                 autoFocus
+                maxLength={30}
                 type="text"
                 value={renamingNoteName}
                 onChange={(e) => setRenamingNoteName(e.target.value)}
@@ -327,7 +329,7 @@ tags: []
                   if (e.key === "Enter") {
                     e.preventDefault();
                     if (renamingNoteName.trim() && activeNote) {
-                      handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                      handleRenameNote(activeNote.id, renamingNoteName.trim());
                     }
                     setRenamingNoteId(null);
                   }
@@ -335,12 +337,14 @@ tags: []
                 }}
                 onBlur={() => {
                   if (renamingNoteName.trim() && activeNote) {
-                    handleRenameNote(activeNote.id, renamingNoteName.trim() + ".md");
+                    handleRenameNote(activeNote.id, renamingNoteName.trim());
                   }
                   setRenamingNoteId(null);
                 }}
-                className="bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-60 px-2 py-1"
+                className="bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-65 px-2 py-1"
               />
+              <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">{renamingNoteName.length}/30</span>
+              </>
             ) : (
               <>
                 <input
