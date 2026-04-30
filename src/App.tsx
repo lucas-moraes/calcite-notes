@@ -43,6 +43,8 @@ declare global {
       moveFile: (sourcePath: string, destFolder: string) => Promise<RenameResult>;
       getTheme: () => Promise<"dark" | "light">;
       saveTheme: (theme: "dark" | "light") => Promise<boolean>;
+      getTreeWidth: () => Promise<number>;
+      saveTreeWidth: (width: number) => Promise<boolean>;
       onNewNote: (callback: () => void) => () => void;
       onReloadNotes?: (callback: () => void) => () => void;
     };
@@ -82,6 +84,8 @@ export default function App() {
   const [editorTab, setEditorTab] = useState<"edit" | "preview">("edit");
   const [renamingNoteId, setRenamingNoteId] = useState<string | null>(null);
   const [renamingNoteName, setRenamingNoteName] = useState("");
+  const [treeWidth, setTreeWidth] = useState(220);
+  const [isResizing, setIsResizing] = useState(false);
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -94,8 +98,42 @@ export default function App() {
           document.documentElement.classList.add("dark");
         }
       });
+      window.electronAPI.getTreeWidth?.().then((width) => {
+        if (width) setTreeWidth(width);
+      });
     }
   }, []);
+
+  // Tree resize handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+      const newWidth = Math.max(200, Math.min(500, e.clientX));
+      setTreeWidth(newWidth);
+    };
+
+    const handleMouseUp = () => {
+      if (isResizing) {
+        setIsResizing(false);
+        window.electronAPI?.saveTreeWidth?.(treeWidth);
+      }
+    };
+
+    if (isResizing) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isResizing, treeWidth]);
 
   // Load saved notes folder on initialization
   useEffect(() => {
@@ -344,19 +382,54 @@ tags: []
                 className="bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-65 px-2 py-1"
               />
               <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">{renamingNoteName.length}/30</span>
+              <button
+                onClick={() => setRenamingNoteId(null)}
+                className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+                title="Cancel rename"
+              >
+                <X size={14} />
+              </button>
               </>
             ) : (
               <>
                 <input
                   placeholder="Untitled Note"
                   maxLength={30}
-                  className="bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600"
+                  readOnly={!activeNote?.isNew}
+                  title={!activeNote?.isNew ? "Click the edit button to rename" : ""}
+                  className={activeNote?.isNew ? "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-text" : "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-not-allowed opacity-70"}
                   type="text"
                   value={activeNote?.title || ""}
-                  onChange={(e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })}
+                  onChange={(e) => activeNote?.isNew && handleUpdateNote(activeNote.id, { title: e.target.value })}
                 />
                 {activeNote?.isNew && (
                   <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">{activeNote?.title?.length || 0}/30</span>
+                )}
+                {activeNote?.isNew && (
+                  <button
+                    onClick={() => {
+                      setNotes(prev => prev.filter(n => n.id !== activeNote?.id));
+                      const nextNote = notes.find(n => !n.isNew);
+                      setActiveNoteId(nextNote?.id || null);
+                    }}
+                    className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-red-400 transition-colors"
+                    title="Cancel new note"
+                  >
+                    <X size={14} />
+                  </button>
+                )}
+                {!activeNote?.isNew && activeNote && (
+                  <button
+                    onClick={() => {
+                      const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
+                      setRenamingNoteName(fileName);
+                      setRenamingNoteId(activeNote.id);
+                    }}
+                    className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+                    title="Rename file"
+                  >
+                    <FilePen size={16} />
+                  </button>
                 )}
               </>
             )}
@@ -394,18 +467,6 @@ tags: []
         >
           <Pencil size={16} />
         </button>
-        {!activeNote?.isNew && activeNote && (
-          <button
-            onClick={() => {
-              const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
-              setRenamingNoteName(fileName);
-              setRenamingNoteId(activeNote.id);
-            }}
-            className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
-          >
-            <FilePen size={16} />
-          </button>
-        )}
         <button
           onClick={() => activeNote && handleDeleteNote(activeNote.id)}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
@@ -459,7 +520,15 @@ onClick={() => null}
       {/* Main Content */}
       <div className="flex flex-1 min-w-0 overflow-hidden">
         {/* File Tree */}
-        {notesFolder && <FileTree key={fileTreeKey} rootPath={notesFolder} onFileSelect={handleOpenFile} />}
+        {notesFolder && (
+          <div style={{ width: treeWidth }} className="flex">
+            <FileTree key={fileTreeKey} rootPath={notesFolder} onFileSelect={handleOpenFile} width={treeWidth} />
+            <div
+              onMouseDown={handleMouseDown}
+              className="w-1 hover:bg-accent cursor-col-resize transition-colors flex-shrink-0"
+            />
+          </div>
+        )}
 
         {/* Editor Area */}
         <main className="flex-1 flex flex-col min-w-0 bg-base-950 relative">

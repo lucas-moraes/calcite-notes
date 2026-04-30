@@ -46,6 +46,7 @@ function saveConfig(config) {
 const savedConfig = loadConfig();
 let NOTES_DIR = savedConfig.notesDir || path.join(app.getPath("userData"), "notes");
 let THEME = savedConfig.theme || "dark";
+let TREE_WIDTH = savedConfig.treeWidth || 220;
 function ensureNotesDir() {
   if (!fs.existsSync(NOTES_DIR)) {
     fs.mkdirSync(NOTES_DIR, { recursive: true });
@@ -400,10 +401,23 @@ ipcMain.handle("get-theme", () => {
 ipcMain.handle("save-theme", async (_event, theme) => {
   try {
     THEME = theme;
-    saveConfig({ notesDir: NOTES_DIR, theme });
+    saveConfig({ notesDir: NOTES_DIR, theme, treeWidth: TREE_WIDTH });
     return true;
   } catch (e) {
     log.error("Error saving theme:", e);
+    return false;
+  }
+});
+ipcMain.handle("get-tree-width", () => {
+  return TREE_WIDTH;
+});
+ipcMain.handle("save-tree-width", async (_event, width) => {
+  try {
+    TREE_WIDTH = width;
+    saveConfig({ notesDir: NOTES_DIR, theme: THEME, treeWidth: width });
+    return true;
+  } catch (e) {
+    log.error("Error saving tree width:", e);
     return false;
   }
 });

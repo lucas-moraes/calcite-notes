@@ -19,6 +19,8 @@ electron.contextBridge.exposeInMainWorld("electronAPI", {
   moveFile: (sourcePath, destFolder) => electron.ipcRenderer.invoke("move-file", sourcePath, destFolder),
   getTheme: () => electron.ipcRenderer.invoke("get-theme"),
   saveTheme: (theme) => electron.ipcRenderer.invoke("save-theme", theme),
+  getTreeWidth: () => electron.ipcRenderer.invoke("get-tree-width"),
+  saveTreeWidth: (width) => electron.ipcRenderer.invoke("save-tree-width", width),
   onNewNote: (callback) => {
     electron.ipcRenderer.on("menu:new-note", callback);
     return () => electron.ipcRenderer.removeListener("menu:new-note", callback);

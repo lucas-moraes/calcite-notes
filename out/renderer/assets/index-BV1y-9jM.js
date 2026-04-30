@@ -19192,7 +19192,7 @@ function TreeNode({
 function formatPathname(path2) {
   return path2.split("/").pop() || path2;
 }
-function FileTree({ rootPath, onFileSelect }) {
+function FileTree({ rootPath, onFileSelect, width }) {
   const [tree, setTree] = reactExports.useState([]);
   const [activePath, setActivePath] = reactExports.useState(null);
   const [expandedPaths, setExpandedPaths] = reactExports.useState(/* @__PURE__ */ new Set());
@@ -19375,7 +19375,7 @@ function FileTree({ rootPath, onFileSelect }) {
   if (!rootPath) {
     return null;
   }
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "w-56 bg-base-900 border-r border-base-800 flex flex-col h-full overflow-hidden", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { width }, className: "bg-base-900 border-r border-base-800 flex flex-col h-full overflow-hidden", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-3 border-b border-base-800 flex items-center gap-2", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Folder, { size: 14, className: "text-yellow-500" }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs text-base-400 truncate", children: formatPathname(rootPath) })
@@ -32316,6 +32316,8 @@ function App() {
   const [editorTab, setEditorTab] = reactExports.useState("edit");
   const [renamingNoteId, setRenamingNoteId] = reactExports.useState(null);
   const [renamingNoteName, setRenamingNoteName] = reactExports.useState("");
+  const [treeWidth, setTreeWidth] = reactExports.useState(220);
+  const [isResizing, setIsResizing] = reactExports.useState(false);
   reactExports.useEffect(() => {
     if (window.electronAPI) {
       window.electronAPI.getTheme().then((savedTheme) => {
@@ -32327,8 +32329,36 @@ function App() {
           document.documentElement.classList.add("dark");
         }
       });
+      window.electronAPI.getTreeWidth?.().then((width) => {
+        if (width) setTreeWidth(width);
+      });
     }
   }, []);
+  const handleMouseDown = (e) => {
+    e.preventDefault();
+    setIsResizing(true);
+  };
+  reactExports.useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isResizing) return;
+      const newWidth = Math.max(200, Math.min(500, e.clientX));
+      setTreeWidth(newWidth);
+    };
+    const handleMouseUp = () => {
+      if (isResizing) {
+        setIsResizing(false);
+        window.electronAPI?.saveTreeWidth?.(treeWidth);
+      }
+    };
+    if (isResizing) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isResizing, treeWidth]);
   reactExports.useEffect(() => {
     if (window.electronAPI) {
       window.electronAPI.getNotesFolder().then((folder) => {
@@ -32545,23 +32575,60 @@ tags: []
             /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs dark:text-base-300 text-base-600 whitespace-nowrap", children: [
               renamingNoteName.length,
               "/30"
-            ] })
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => setRenamingNoteId(null),
+                className: "p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+                title: "Cancel rename",
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 14 })
+              }
+            )
           ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 placeholder: "Untitled Note",
                 maxLength: 30,
-                className: "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600",
+                readOnly: !activeNote?.isNew,
+                title: !activeNote?.isNew ? "Click the edit button to rename" : "",
+                className: activeNote?.isNew ? "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-text" : "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-not-allowed opacity-70",
                 type: "text",
                 value: activeNote?.title || "",
-                onChange: (e) => activeNote && handleUpdateNote(activeNote.id, { title: e.target.value })
+                onChange: (e) => activeNote?.isNew && handleUpdateNote(activeNote.id, { title: e.target.value })
               }
             ),
             activeNote?.isNew && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs dark:text-base-300 text-base-600 whitespace-nowrap", children: [
               activeNote?.title?.length || 0,
               "/30"
-            ] })
+            ] }),
+            activeNote?.isNew && /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  setNotes((prev) => prev.filter((n) => n.id !== activeNote?.id));
+                  const nextNote = notes.find((n) => !n.isNew);
+                  setActiveNoteId(nextNote?.id || null);
+                },
+                className: "p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-red-400 transition-colors",
+                title: "Cancel new note",
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(X, { size: 14 })
+              }
+            ),
+            !activeNote?.isNew && activeNote && /* @__PURE__ */ jsxRuntimeExports.jsx(
+              "button",
+              {
+                onClick: () => {
+                  const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
+                  setRenamingNoteName(fileName);
+                  setRenamingNoteId(activeNote.id);
+                },
+                className: "p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
+                title: "Rename file",
+                children: /* @__PURE__ */ jsxRuntimeExports.jsx(FilePen, { size: 16 })
+              }
+            )
           ] })
         ] })
       ] }),
@@ -32605,18 +32672,6 @@ tags: []
           children: /* @__PURE__ */ jsxRuntimeExports.jsx(Pencil, { size: 16 })
         }
       ),
-      !activeNote?.isNew && activeNote && /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "button",
-        {
-          onClick: () => {
-            const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
-            setRenamingNoteName(fileName);
-            setRenamingNoteId(activeNote.id);
-          },
-          className: "p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors",
-          children: /* @__PURE__ */ jsxRuntimeExports.jsx(FilePen, { size: 16 })
-        }
-      ),
       /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
@@ -32636,7 +32691,16 @@ tags: []
     ] }),
     false,
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-1 min-w-0 overflow-hidden", children: [
-      notesFolder && /* @__PURE__ */ jsxRuntimeExports.jsx(FileTree, { rootPath: notesFolder, onFileSelect: handleOpenFile }, fileTreeKey),
+      notesFolder && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { width: treeWidth }, className: "flex", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(FileTree, { rootPath: notesFolder, onFileSelect: handleOpenFile, width: treeWidth }, fileTreeKey),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "div",
+          {
+            onMouseDown: handleMouseDown,
+            className: "w-1 hover:bg-accent cursor-col-resize transition-colors flex-shrink-0"
+          }
+        )
+      ] }),
       /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 flex flex-col min-w-0 bg-base-950 relative", children: activeNote ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-col h-full bg-base-950 overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-full p-6", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [

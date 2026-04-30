@@ -20,6 +20,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   moveFile: (sourcePath: string, destFolder: string) => ipcRenderer.invoke('move-file', sourcePath, destFolder),
   getTheme: () => ipcRenderer.invoke('get-theme'),
   saveTheme: (theme: 'dark' | 'light') => ipcRenderer.invoke('save-theme', theme),
+  getTreeWidth: () => ipcRenderer.invoke('get-tree-width'),
+  saveTreeWidth: (width: number) => ipcRenderer.invoke('save-tree-width', width),
   onNewNote: (callback: () => void) => {
     ipcRenderer.on('menu:new-note', callback);
     return () => ipcRenderer.removeListener('menu:new-note', callback);
