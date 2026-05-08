@@ -254,10 +254,10 @@ tags: []
     const filePath = `${folder}/${fileName}`;
 
     const result = await window.electronAPI.saveNewNote(filePath, noteToSave.content || "");
-    
+
     if (!result.success) {
-      console.error('Failed to save note:', result.error);
-      alert(`Failed to save note: ${result.error || 'Unknown error'}`);
+      console.error("Failed to save note:", result.error);
+      alert(`Failed to save note: ${result.error || "Unknown error"}`);
       return;
     }
 
@@ -271,7 +271,7 @@ tags: []
   const handleRenameNote = async (id: string, newFileName?: string) => {
     const noteToRename = notes.find((n) => n.id === id);
     if (!noteToRename || noteToRename.isNew || !window.electronAPI) return;
-    
+
     const fileName = newFileName || renamingNoteName.trim();
     if (!fileName) {
       setRenamingNoteId(null);
@@ -279,16 +279,16 @@ tags: []
     }
 
     const result = await window.electronAPI.renameNote(noteToRename.id, fileName);
-    
+
     if (!result.success) {
-      alert(`Failed to rename: ${result.error || 'Unknown error'}`);
+      alert(`Failed to rename: ${result.error || "Unknown error"}`);
       return;
     }
 
     setNotes((prev) =>
       prev.map((n) => (n.id === id ? { ...n, id: result.newPath || n.id, updatedAt: Date.now() } : n)),
     );
-    
+
     setActiveNoteId(result.newPath || id);
     setRenamingNoteId(null);
     setRenamingNoteName("");
@@ -302,17 +302,17 @@ tags: []
   const handleDeleteNote = async (id: string) => {
     if (confirm("Are you sure you want to delete this note?")) {
       const noteToDelete = notes.find((n) => n.id === id);
-      
+
       if (window.electronAPI) {
         const result = await window.electronAPI.deleteNote(id);
         if (!result.success) {
-          console.error('Failed to delete note:', result.error);
-          alert(`Failed to delete note: ${result.error || 'Unknown error'}`);
+          console.error("Failed to delete note:", result.error);
+          alert(`Failed to delete note: ${result.error || "Unknown error"}`);
           return;
         }
         setFileTreeKey((prev) => prev + 1);
       }
-      
+
       setNotes((prev) => prev.filter((n) => n.id !== id));
       if (activeNoteId === id) setActiveNoteId(notes.find((n) => n.id !== id)?.id || null);
     }
@@ -357,38 +357,40 @@ tags: []
             )}
             {renamingNoteId === activeNote?.id ? (
               <>
-              <input
-                autoFocus
-                maxLength={30}
-                type="text"
-                value={renamingNoteName}
-                onChange={(e) => setRenamingNoteName(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
+                <input
+                  autoFocus
+                  maxLength={30}
+                  type="text"
+                  value={renamingNoteName}
+                  onChange={(e) => setRenamingNoteName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      if (renamingNoteName.trim() && activeNote) {
+                        handleRenameNote(activeNote.id, renamingNoteName.trim());
+                      }
+                      setRenamingNoteId(null);
+                    }
+                    if (e.key === "Escape") setRenamingNoteId(null);
+                  }}
+                  onBlur={() => {
                     if (renamingNoteName.trim() && activeNote) {
                       handleRenameNote(activeNote.id, renamingNoteName.trim());
                     }
                     setRenamingNoteId(null);
-                  }
-                  if (e.key === "Escape") setRenamingNoteId(null);
-                }}
-                onBlur={() => {
-                  if (renamingNoteName.trim() && activeNote) {
-                    handleRenameNote(activeNote.id, renamingNoteName.trim());
-                  }
-                  setRenamingNoteId(null);
-                }}
-                className="bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-65 px-2 py-1"
-              />
-              <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">{renamingNoteName.length}/30</span>
-              <button
-                onClick={() => setRenamingNoteId(null)}
-                className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
-                title="Cancel rename"
-              >
-                <X size={14} />
-              </button>
+                  }}
+                  className="bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-65 px-2 py-1"
+                />
+                <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">
+                  {renamingNoteName.length}/30
+                </span>
+                <button
+                  onClick={() => setRenamingNoteId(null)}
+                  className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+                  title="Cancel rename"
+                >
+                  <X size={14} />
+                </button>
               </>
             ) : (
               <>
@@ -397,19 +399,25 @@ tags: []
                   maxLength={30}
                   readOnly={!activeNote?.isNew}
                   title={!activeNote?.isNew ? "Click the edit button to rename" : ""}
-                  className={activeNote?.isNew ? "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-text" : "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-not-allowed opacity-70"}
+                  className={
+                    activeNote?.isNew
+                      ? "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-text"
+                      : "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-not-allowed opacity-70"
+                  }
                   type="text"
                   value={activeNote?.title || ""}
                   onChange={(e) => activeNote?.isNew && handleUpdateNote(activeNote.id, { title: e.target.value })}
                 />
                 {activeNote?.isNew && (
-                  <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">{activeNote?.title?.length || 0}/30</span>
+                  <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">
+                    {activeNote?.title?.length || 0}/30
+                  </span>
                 )}
                 {activeNote?.isNew && (
                   <button
                     onClick={() => {
-                      setNotes(prev => prev.filter(n => n.id !== activeNote?.id));
-                      const nextNote = notes.find(n => !n.isNew);
+                      setNotes((prev) => prev.filter((n) => n.id !== activeNote?.id));
+                      const nextNote = notes.find((n) => !n.isNew);
                       setActiveNoteId(nextNote?.id || null);
                     }}
                     className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-red-400 transition-colors"
@@ -501,7 +509,7 @@ tags: []
             />
             <div className="Q">
               <button
-onClick={() => null}
+                onClick={() => null}
                 className="px-3 py-1.5 text-xs text-base-400 hover:text-white transition-colors"
               >
                 X
@@ -533,97 +541,109 @@ onClick={() => null}
         {/* Editor Area */}
         <main className="flex-1 flex flex-col min-w-0 bg-base-950 relative">
           {activeNote ? (
-            <div className="flex flex-col h-full bg-base-950 overflow-hidden">
-              {/* Editor Content */}
-              <div className="flex-1 overflow-y-auto">
-                <div className="h-full p-6">
-                  {/* Meta info */}
-                  <div className="flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900">
-                    <div className="flex items-center gap-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-accent/60"
-                      >
-                        <path d="M12 6v6l4 2"></path>
-                        <circle cx="12" cy="12" r="10"></circle>
-                      </svg>
-                      <span>UPDATED {formatTime(activeNote.updatedAt)}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-accent/60"
-                      >
-                        <line x1="4" x2="20" y1="9" y2="9"></line>
-                        <line x1="4" x2="20" y1="15" y2="15"></line>
-                        <line x1="10" x2="8" y1="3" y2="21"></line>
-                        <line x1="16" x2="14" y1="3" y2="21"></line>
-                      </svg>
-                      <span>{wordCount(activeNote.content)} WORDS</span>
-                    </div>
-                  </div>
-
-                  {/* Textarea */}
-                  <div className="relative h-full pt-6">
-                    {/* Tabs */}
-                    <div className="flex items-center gap-1 border-b border-base-800 mb-4">
-                      <button
-                        onClick={() => setEditorTab("edit")}
-                        className={`px-4 py-2 text-sm font-medium transition-colors ${
-                          editorTab === "edit"
-                            ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
-                            : "text-base-500 hover:text-base-300"
-                        }`}
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => setEditorTab("preview")}
-                        className={`px-4 py-2 text-sm font-medium transition-colors ${
-                          editorTab === "preview"
-                            ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
-                            : "text-base-500 hover:text-base-300"
-                        }`}
-                      >
-                        Preview
-                      </button>
-                    </div>
-
-                    {/* Content */}
-                    {editorTab === "edit" ? (
-                      <textarea
-                        placeholder="Start writing..."
-                        className="w-full h-full min-h-[500px] bg-transparent border-none outline-none resize-none text-base-300 font-mono text-[15px] leading-relaxed placeholder-base-800"
-                        spellCheck={false}
-                        value={activeNote.content}
-                        onChange={(e) => handleUpdateNote(activeNote.id, { content: e.target.value })}
-                      />
-                    ) : (
-                      <div className="markdown-content h-full overflow-y-auto">
-                        <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
-                          {activeNote.content || "*No content*"}
-                        </ReactMarkdown>
-                      </div>
-                    )}
-                  </div>
+            <div className="flex flex-col h-full p-6 bg-base-950 overflow-hidden">
+              {/* Meta info */}
+              <div className="flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900">
+                <div className="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-accent/60"
+                  >
+                    <path d="M12 6v6l4 2"></path>
+                    <circle cx="12" cy="12" r="10"></circle>
+                  </svg>
+                  <span>UPDATED {formatTime(activeNote.updatedAt)}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-accent/60"
+                  >
+                    <line x1="4" x2="20" y1="9" y2="9"></line>
+                    <line x1="4" x2="20" y1="15" y2="15"></line>
+                    <line x1="10" x2="8" y1="3" y2="21"></line>
+                    <line x1="16" x2="14" y1="3" y2="21"></line>
+                  </svg>
+                  <span>{wordCount(activeNote.content)} WORDS</span>
                 </div>
               </div>
+              {/* Tabs */}
+              <div className="flex items-center gap-1 border-b border-base-800 mt-4 mb-4">
+                <button
+                  onClick={() => setEditorTab("edit")}
+                  className={`px-4 py-2 text-sm font-medium transition-colors ${
+                    editorTab === "edit"
+                      ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
+                      : "text-base-500 hover:text-base-300"
+                  }`}
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => setEditorTab("preview")}
+                  className={`px-4 py-2 text-sm font-medium transition-colors ${
+                    editorTab === "preview"
+                      ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
+                      : "text-base-500 hover:text-base-300"
+                  }`}
+                >
+                  Preview
+                </button>
+              </div>
+
+              {/* Editor Content */}
+              {editorTab === "edit" ? (
+                <div className="flex-1">
+                  <div className="h-full pb-4">
+                    <textarea
+                      placeholder="Start writing..."
+                      className={`
+                          w-full 
+                          h-auto 
+                          min-h-full 
+                          bg-transparent 
+                          border-none 
+                          outline-none 
+                          resize-none 
+                          text-base-300 
+                          font-mono 
+                          text-[15px] 
+                          leading-relaxed 
+                          placeholder-base-800
+                        `}
+                      spellCheck={false}
+                      value={activeNote.content}
+                      onChange={(e) => handleUpdateNote(activeNote.id, { content: e.target.value })}
+                    />
+                  </div>
+                </div>
+              ) : (
+                <div className="flex-1 overflow-y-auto">
+                  <div className="h-full pb-4">
+                    <div className="markdown-content h-full">
+                      <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+                        {activeNote.content || "*No content*"}
+                      </ReactMarkdown>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center opacity-20 select-none">

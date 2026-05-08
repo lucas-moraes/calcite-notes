@@ -32701,7 +32701,7 @@ tags: []
           }
         )
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 flex flex-col min-w-0 bg-base-950 relative", children: activeNote ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-col h-full bg-base-950 overflow-hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "h-full p-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "flex-1 flex flex-col min-w-0 bg-base-950 relative", children: activeNote ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col h-full p-6 bg-base-950 overflow-hidden", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900", children: [
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsxs(
@@ -32756,37 +32756,48 @@ tags: []
             ] })
           ] })
         ] }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative h-full pt-6", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1 border-b border-base-800 mb-4", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setEditorTab("edit"),
-                className: `px-4 py-2 text-sm font-medium transition-colors ${editorTab === "edit" ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent" : "text-base-500 hover:text-base-300"}`,
-                children: "Edit"
-              }
-            ),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(
-              "button",
-              {
-                onClick: () => setEditorTab("preview"),
-                className: `px-4 py-2 text-sm font-medium transition-colors ${editorTab === "preview" ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent" : "text-base-500 hover:text-base-300"}`,
-                children: "Preview"
-              }
-            )
-          ] }),
-          editorTab === "edit" ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "textarea",
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-1 border-b border-base-800 mt-4 mb-4", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
             {
-              placeholder: "Start writing...",
-              className: "w-full h-full min-h-[500px] bg-transparent border-none outline-none resize-none text-base-300 font-mono text-[15px] leading-relaxed placeholder-base-800",
-              spellCheck: false,
-              value: activeNote.content,
-              onChange: (e) => handleUpdateNote(activeNote.id, { content: e.target.value })
+              onClick: () => setEditorTab("edit"),
+              className: `px-4 py-2 text-sm font-medium transition-colors ${editorTab === "edit" ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent" : "text-base-500 hover:text-base-300"}`,
+              children: "Edit"
             }
-          ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "markdown-content h-full overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Markdown, { remarkPlugins: [remarkGfm, remarkBreaks], children: activeNote.content || "*No content*" }) })
-        ] })
-      ] }) }) }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col items-center justify-center opacity-20 select-none", children: [
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            "button",
+            {
+              onClick: () => setEditorTab("preview"),
+              className: `px-4 py-2 text-sm font-medium transition-colors ${editorTab === "preview" ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent" : "text-base-500 hover:text-base-300"}`,
+              children: "Preview"
+            }
+          )
+        ] }),
+        editorTab === "edit" ? /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full pb-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "textarea",
+          {
+            placeholder: "Start writing...",
+            className: `
+                          w-full 
+                          h-auto 
+                          min-h-full 
+                          bg-transparent 
+                          border-none 
+                          outline-none 
+                          resize-none 
+                          text-base-300 
+                          font-mono 
+                          text-[15px] 
+                          leading-relaxed 
+                          placeholder-base-800
+                        `,
+            spellCheck: false,
+            value: activeNote.content,
+            onChange: (e) => handleUpdateNote(activeNote.id, { content: e.target.value })
+          }
+        ) }) }) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-1 overflow-y-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "h-full pb-4", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "markdown-content h-full", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Markdown, { remarkPlugins: [remarkGfm, remarkBreaks], children: activeNote.content || "*No content*" }) }) }) })
+      ] }) : /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1 flex flex-col items-center justify-center opacity-20 select-none", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(SvgComponent, { className: "w-16 h-16 opacity-50" }),
         /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-4 text-sm font-medium", children: "Select or create a note" })
       ] }) }),
