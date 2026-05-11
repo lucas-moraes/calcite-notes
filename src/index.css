@@ -27,6 +27,28 @@
   to { transform: translateX(0); }
 }
 
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out;
+}
+
+/* Button effects */
+.btn-effect {
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out;
+}
+
+.btn-effect:active {
+  transform: scale(0.92);
+}
+
+.btn-effect:hover {
+  background-color: var(--color-base-800);
+}
+
 @layer base {
   body {
     background-color: var(--color-base-950);

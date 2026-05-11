@@ -415,7 +415,7 @@ tags: []
             const folder = await window.electronAPI?.selectNotesFolder?.();
             if (folder) setNotesFolder(folder);
           }}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
         >
           <FolderOpen size={16} />
         </button>
@@ -426,19 +426,19 @@ tags: []
             document.documentElement.classList.toggle("light", newTheme === "light");
             window.electronAPI?.saveTheme(newTheme);
           }}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
         >
           {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
         </button>
         <button
           onClick={handleCreateNote}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
         >
           <Plus size={16} />
         </button>
         <button
           onClick={() => activeNote && handleUpdateNote(activeNote.id, { title: activeNote.title })}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
         >
           <Pencil size={16} />
         </button>
@@ -456,13 +456,13 @@ tags: []
         </div>
         <button
           onClick={() => activeNote && handleDeleteNote(activeNote.id)}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
         >
           <Trash2 size={16} />
         </button>
         <button
           onClick={() => setIsGraphOpen(true)}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
+          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
         >
           <Network size={16} />
         </button>
@@ -557,9 +557,9 @@ tags: []
               </div>
 
               {/* Editor Content */}
-              {editorTab === "edit" ? (
-                <div className="flex-1">
-                  <div className="h-full pb-4">
+              <div className="flex-1 relative overflow-hidden">
+                {editorTab === "edit" ? (
+                  <div className="absolute inset-0 p-6 pb-4 animate-fade-in">
                     <textarea
                       placeholder="Start writing..."
                       className={`
@@ -581,18 +581,16 @@ tags: []
                       onChange={(e) => handleUpdateNote(activeNote.id, { content: e.target.value })}
                     />
                   </div>
-                </div>
-              ) : (
-                <div className="flex-1 overflow-y-auto">
-                  <div className="h-full pb-4">
+                ) : (
+                  <div className="absolute inset-0 p-6 pb-4 overflow-y-auto animate-fade-in">
                     <div className="markdown-content h-full">
                       <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
                         {activeNote.content || "*No content*"}
                       </ReactMarkdown>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center opacity-20 select-none">

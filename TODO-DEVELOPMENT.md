@@ -89,9 +89,9 @@
 5. [x] Save indicator
 
 ### Média
-6. Transição Edit/Preview
-7. Efeito em botões
-8. Glow no nó ativo
+6. [x] Transição Edit/Preview
+7. [x] Efeito em botões
+8. [x] Glow no nó ativo
 
 ### Baixa
 9. Background graduado
