@@ -6,6 +6,21 @@ import { isPathWithinNotesDir, ensureNotesDir } from '../utils/config';
 
 let notesDir: string;
 
+function parseFrontmatter(content: string): string[] {
+  const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+  const match = content.match(frontmatterRegex);
+  if (!match) return [];
+  
+  const frontmatter = match[1];
+  const tagsMatch = frontmatter.match(/tags:\s*\[(.*?)\]/);
+  if (!tagsMatch || !tagsMatch[1]) return [];
+  
+  const tagsStr = tagsMatch[1].replace(/['"]/g, '');
+  if (!tagsStr.trim()) return [];
+  
+  return tagsStr.split(',').map(t => t.trim()).filter(Boolean);
+}
+
 export function setNotesDir(dir: string): void {
   notesDir = dir;
 }
@@ -18,7 +33,7 @@ export function registerNotesHandlers(): void {
       }
       ensureNotesDir(notesDir);
 
-      const notes: { id: string; title: string; content: string; createdAt: number; updatedAt: number }[] = [];
+      const notes: { id: string; title: string; content: string; createdAt: number; updatedAt: number; tags: string[] }[] = [];
 
       const readDirRecursive = (dir: string) => {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -30,12 +45,14 @@ export function registerNotesHandlers(): void {
             const content = fs.readFileSync(fullPath, 'utf-8');
             const name = path.basename(entry.name, '.md');
             const stats = fs.statSync(fullPath);
+            const tags = parseFrontmatter(content);
             notes.push({
               id: fullPath,
               title: name,
               content: content,
               createdAt: stats.birthtimeMs,
-              updatedAt: stats.mtimeMs
+              updatedAt: stats.mtimeMs,
+              tags: tags
             });
           }
         }
@@ -189,6 +206,42 @@ export function registerNotesHandlers(): void {
       return { success: true, newPath };
     } catch (e) {
       log.error('Error renaming note:', e);
+      return { success: false, error: String(e) };
+    }
+  });
+
+  ipcMain.handle('update-note-tags', async (_event, noteId: string, tags: string[]) => {
+    try {
+      if (!noteId || typeof noteId !== 'string') {
+        return { success: false, error: 'Invalid note ID' };
+      }
+
+      if (!isPathWithinNotesDir(noteId, notesDir)) {
+        return { success: false, error: 'Access denied' };
+      }
+
+      const content = fs.readFileSync(noteId, 'utf-8');
+      const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+      const match = content.match(frontmatterRegex);
+
+      if (!match) {
+        return { success: false, error: 'No frontmatter found' };
+      }
+
+      let frontmatter = match[1];
+      const tagsLine = `tags: [${tags.map(t => `'${t}'`).join(', ')}]`;
+
+      if (frontmatter.includes('tags:')) {
+        frontmatter = frontmatter.replace(/tags:\s*\[.*?\]/, tagsLine);
+      } else {
+        frontmatter = frontmatter + '\n' + tagsLine;
+      }
+
+      const newContent = content.replace(frontmatterRegex, `---\n${frontmatter}\n---`);
+      fs.writeFileSync(noteId, newContent, 'utf-8');
+      return { success: true };
+    } catch (e) {
+      log.error('Error updating tags:', e);
       return { success: false, error: String(e) };
     }
   });

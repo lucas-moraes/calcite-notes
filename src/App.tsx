@@ -7,6 +7,7 @@ import FileTree from "./components/FileTree";
 import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, CheckCircle, Loader, Search } from "lucide-react";
 import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
+import TagManager from "./components/TagManager";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
@@ -277,6 +278,15 @@ tags: []
   const handleUpdateNote = (id: string, updates: Partial<Note>) => {
     setSaveStatus('unsaved');
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates, updatedAt: Date.now() } : n)));
+  };
+
+  const handleTagsChange = async (id: string, tags: string[]) => {
+    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, tags, updatedAt: Date.now() } : n)));
+    setSaveStatus('saving');
+    if (window.electronAPI) {
+      await window.electronAPI.updateNoteTags(id, tags);
+      setSaveStatus('saved');
+    }
   };
 
   const handleDeleteNote = async (id: string) => {
@@ -573,6 +583,14 @@ tags: []
                 >
                   Preview
                 </button>
+              </div>
+
+              {/* Tags */}
+              <div className="flex items-center gap-2 mt-2 mb-4">
+                <TagManager
+                  tags={activeNote.tags || []}
+                  onTagsChange={(tags) => handleTagsChange(activeNote.id, tags)}
+                />
               </div>
 
               {/* Editor Content */}

@@ -5,6 +5,7 @@ export interface Note {
   updatedAt: number;
   createdAt: number;
   isNew?: boolean;
+  tags?: string[];
 }
 
 export interface GraphNode {

@@ -33,6 +33,7 @@ export interface ElectronAPI {
   getTreeWidth: () => Promise<number>;
   saveTreeWidth: (width: number) => Promise<boolean>;
   getAllNotesForGraph?: () => Promise<{ id: string; name: string; content: string }[]>;
+  updateNoteTags: (noteId: string, tags: string[]) => Promise<IPCResult>;
   onNewNote: (callback: () => void) => () => void;
   onReloadNotes?: (callback: () => void) => () => void;
 }
