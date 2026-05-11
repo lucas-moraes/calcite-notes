@@ -16,7 +16,7 @@ const defaultNote: Note = {
   id: "welcome",
   title: "Bem-vindo ao Calcite",
   content:
-    "# Bem-vindo ao Calcite\n\nEste é o seu banco de conhecimentos local.\n\n### Recursos Principais\n- **Markdown**: Suporte total a GFM.\n- **Graph View**: Veja como suas notas se conectam.\n- **Links Bi-direcionais**: Use `[[Nome da Nota]]` para criar conexões.\n\nTente criar uma nova nota e vincular a esta!",
+    "# Bem-vindo ao Calcite\n\n---\ndate: 2024-01-01\ntags: []\n---\n\nEste é o seu banco de conhecimentos local.\n\n### Recursos Principais\n- **Markdown**: Suporte total a GFM.\n- **Graph View**: Veja como suas notas se conectam.\n- **Tags**: Use tags para organizar notas.\n- **Links**: Use `[[Nome da Nota]]` para criar conexões.\n\nTente criar uma nova nota e vincular a esta!",
   createdAt: Date.now(),
   updatedAt: Date.now(),
 };
@@ -228,7 +228,6 @@ export default function App() {
       id: noteId,
       title: "",
       content: `---
-title: 
 date: ${formattedDate}
 tags: []
 ---

@@ -222,12 +222,14 @@ function registerNotesHandlers() {
             const content = fs.readFileSync(fullPath, "utf-8");
             const name = path.basename(entry.name, ".md");
             const stats = fs.statSync(fullPath);
+            const tags = parseFrontmatter(content);
             notes.push({
               id: fullPath,
               name,
               content,
               createdAt: stats.birthtimeMs,
-              updatedAt: stats.mtimeMs
+              updatedAt: stats.mtimeMs,
+              tags
             });
           }
         }
