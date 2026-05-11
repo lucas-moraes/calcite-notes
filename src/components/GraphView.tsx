@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { GraphNode, GraphLink } from '../types';
+import { Plus, Minus, RotateCcw, Maximize2 } from 'lucide-react';
 
 interface GraphViewProps {
   nodes: GraphNode[];
@@ -11,6 +12,8 @@ interface GraphViewProps {
 
 export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: GraphViewProps) {
   const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
     if (!svgRef.current || nodes.length === 0) return;
@@ -21,14 +24,25 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
     const width = svgRef.current.clientWidth;
     const height = svgRef.current.clientHeight;
 
+    const g = svg.append('g');
+
+    const zoomBehavior = d3.zoom<SVGSVGElement, unknown>()
+      .scaleExtent([0.1, 4])
+      .on('zoom', (event) => {
+        g.attr('transform', event.transform);
+        setZoom(event.transform.k);
+      });
+
+    svg.call(zoomBehavior);
+
     const simulation = d3.forceSimulation(nodes as any)
       .force('link', d3.forceLink(links).id((d: any) => d.id).distance(100))
-      .force('charge', d3.forceManyBody().strength(-150))
+      .force('charge', d3.forceManyBody().strength(-300))
       .force('center', d3.forceCenter(width / 2, height / 2))
       .force('x', d3.forceX(width / 2).strength(0.05))
       .force('y', d3.forceY(height / 2).strength(0.05));
 
-    const link = svg.append('g')
+    const link = g.append('g')
       .selectAll('line')
       .data(links)
       .join('line')
@@ -36,7 +50,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       .attr('stroke-opacity', 0.6)
       .attr('stroke-width', 1);
 
-    const node = svg.append('g')
+    const node = g.append('g')
       .selectAll('g')
       .data(nodes)
       .join('g')
@@ -45,17 +59,26 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
         .on('start', dragstarted)
         .on('drag', dragged)
         .on('end', dragended) as any)
-      .on('click', (event, d) => onNodeClick(d.id));
+      .on('click', (event, d) => {
+        event.stopPropagation();
+        onNodeClick(d.id);
+      });
 
     node.append('circle')
-      .attr('r', (d) => (d.id === activeNodeId ? 6 : 4))
+      .attr('r', (d) => (d.id === activeNodeId ? 8 : 5))
       .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
       .attr('stroke', 'var(--color-base-200)')
       .attr('stroke-width', 1.5)
-      .attr('class', 'transition-all duration-300');
+      .attr('class', 'transition-all duration-300')
+      .on('mouseenter', function() {
+        d3.select(this).attr('fill', 'var(--color-accent)').attr('r', 8);
+      })
+      .on('mouseleave', function(event, d) {
+        d3.select(this).attr('fill', d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)').attr('r', d.id === activeNodeId ? 8 : 5);
+      });
 
     node.append('text')
-      .attr('dx', 10)
+      .attr('dx', 12)
       .attr('dy', 4)
       .text((d) => d.name)
       .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-base-100)' : 'var(--color-base-500)'))
@@ -102,14 +125,59 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       simulation.stop();
       resizeObserver.disconnect();
     };
-  }, [nodes, links, activeNodeId]);
+  }, [nodes, links, activeNodeId, onNodeClick]);
+
+  const handleZoomIn = () => {
+    if (!svgRef.current) return;
+    const svg = d3.select(svgRef.current);
+    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 1.3);
+  };
+
+  const handleZoomOut = () => {
+    if (!svgRef.current) return;
+    const svg = d3.select(svgRef.current);
+    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 0.7);
+  };
+
+  const handleReset = () => {
+    if (!svgRef.current) return;
+    const svg = d3.select(svgRef.current);
+    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().transform as any, d3.zoomIdentity);
+  };
 
   return (
-    <div className="w-full h-full bg-base-950 dark:bg-base-950 light:bg-base-100 relative overflow-hidden">
-      <svg
-        ref={svgRef}
-        className="w-full h-full"
-      />
+    <div ref={containerRef} className="w-full h-full bg-base-950 relative overflow-hidden">
+      <svg ref={svgRef} className="w-full h-full" />
+      
+      {/* Controls */}
+      <div className="absolute top-3 right-3 flex flex-col gap-1 bg-base-800/80 backdrop-blur-sm rounded-lg p-1">
+        <button
+          onClick={handleZoomIn}
+          className="p-1.5 hover:bg-base-700 rounded text-base-400 hover:text-base-200 transition-colors"
+          title="Zoom In"
+        >
+          <Plus size={16} />
+        </button>
+        <button
+          onClick={handleZoomOut}
+          className="p-1.5 hover:bg-base-700 rounded text-base-400 hover:text-base-200 transition-colors"
+          title="Zoom Out"
+        >
+          <Minus size={16} />
+        </button>
+        <button
+          onClick={handleReset}
+          className="p-1.5 hover:bg-base-700 rounded text-base-400 hover:text-base-200 transition-colors"
+          title="Reset View"
+        >
+          <RotateCcw size={16} />
+        </button>
+      </div>
+
+      {/* Zoom indicator */}
+      <div className="absolute bottom-3 right-3 text-xs text-base-500 font-mono bg-base-800/80 backdrop-blur-sm px-2 py-1 rounded">
+        {Math.round(zoom * 100)}%
+      </div>
     </div>
   );
 }
