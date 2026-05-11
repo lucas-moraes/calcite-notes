@@ -73,7 +73,7 @@ export function registerNotesHandlers(): void {
       }
       ensureNotesDir(notesDir);
 
-      const notes: { id: string; name: string; content: string; createdAt: number; updatedAt: number }[] = [];
+      const notes: { id: string; name: string; content: string; createdAt: number; updatedAt: number; tags: string[] }[] = [];
 
       const readDirRecursive = (dir: string) => {
         const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -85,12 +85,14 @@ export function registerNotesHandlers(): void {
             const content = fs.readFileSync(fullPath, 'utf-8');
             const name = path.basename(entry.name, '.md');
             const stats = fs.statSync(fullPath);
+            const tags = parseFrontmatter(content);
             notes.push({
               id: fullPath,
               name: name,
               content: content,
               createdAt: stats.birthtimeMs,
-              updatedAt: stats.mtimeMs
+              updatedAt: stats.mtimeMs,
+              tags: tags
             });
           }
         }

@@ -32,7 +32,7 @@ export interface ElectronAPI {
   saveTheme: (theme: "dark" | "light") => Promise<boolean>;
   getTreeWidth: () => Promise<number>;
   saveTreeWidth: (width: number) => Promise<boolean>;
-  getAllNotesForGraph?: () => Promise<{ id: string; name: string; content: string }[]>;
+  getAllNotesForGraph?: () => Promise<{ id: string; name: string; content: string; tags?: string[] }[]>;
   updateNoteTags: (noteId: string, tags: string[]) => Promise<IPCResult>;
   onNewNote: (callback: () => void) => () => void;
   onReloadNotes?: (callback: () => void) => () => void;

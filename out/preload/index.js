@@ -15,6 +15,7 @@ electron.contextBridge.exposeInMainWorld("electronAPI", {
   hasMdFiles: (path) => electron.ipcRenderer.invoke("has-md-files", path),
   saveNewNote: (path, content) => electron.ipcRenderer.invoke("save-new-note", path, content),
   renameNote: (oldPath, newFileName) => electron.ipcRenderer.invoke("rename-note", oldPath, newFileName),
+  updateNoteTags: (noteId, tags) => electron.ipcRenderer.invoke("update-note-tags", noteId, tags),
   createFolder: (parentPath, folderName) => electron.ipcRenderer.invoke("create-folder", parentPath, folderName),
   renameFolder: (oldPath, newName) => electron.ipcRenderer.invoke("rename-folder", oldPath, newName),
   moveFile: (sourcePath, destFolder) => electron.ipcRenderer.invoke("move-file", sourcePath, destFolder),

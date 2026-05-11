@@ -35,7 +35,7 @@ export default function App() {
   const [renamingNoteName, setRenamingNoteName] = useState("");
   const [treeWidth, setTreeWidth] = useState(220);
   const [isResizing, setIsResizing] = useState(false);
-  const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string }[]>([]);
+  const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string; tags?: string[] }[]>([]);
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
@@ -175,7 +175,7 @@ export default function App() {
   const { nodes, links } = useMemo(() => {
     const allNotes = allNotesFromDisk.length > 0
       ? allNotesFromDisk
-      : notes.map(n => ({ id: n.id, name: n.title || '', content: n.content || '' }));
+      : notes.map(n => ({ id: n.id, name: n.title || '', content: n.content || '', tags: n.tags || [] }));
     
     const nodes: GraphNode[] = allNotes.map((n) => ({
       id: n.id,
@@ -186,6 +186,7 @@ export default function App() {
     const links: GraphLink[] = [];
     const linkRegex = /\[\[(.*?)\]\]/g;
 
+    // Links por [[Nota]]
     for (const note of allNotes) {
       let match;
       while ((match = linkRegex.exec(note.content || '')) !== null) {
@@ -195,6 +196,22 @@ export default function App() {
           links.push({
             source: note.id,
             target: targetNote.id,
+          });
+        }
+      }
+    }
+
+    // Links por tags compartilhadas
+    const notesWithTags = allNotes.filter(n => n.tags && n.tags.length > 0);
+    for (let i = 0; i < notesWithTags.length; i++) {
+      for (let j = i + 1; j < notesWithTags.length; j++) {
+        const note1 = notesWithTags[i];
+        const note2 = notesWithTags[j];
+        const sharedTags = note1.tags!.filter(t => note2.tags!.includes(t));
+        if (sharedTags.length > 0) {
+          links.push({
+            source: note1.id,
+            target: note2.id,
           });
         }
       }

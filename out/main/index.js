@@ -154,6 +154,17 @@ function createMenu(mainWindow2) {
   Menu.setApplicationMenu(menu);
 }
 let notesDir$2;
+function parseFrontmatter(content) {
+  const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+  const match = content.match(frontmatterRegex);
+  if (!match) return [];
+  const frontmatter = match[1];
+  const tagsMatch = frontmatter.match(/tags:\s*\[(.*?)\]/);
+  if (!tagsMatch || !tagsMatch[1]) return [];
+  const tagsStr = tagsMatch[1].replace(/['"]/g, "");
+  if (!tagsStr.trim()) return [];
+  return tagsStr.split(",").map((t) => t.trim()).filter(Boolean);
+}
 function setNotesDir$1(dir) {
   notesDir$2 = dir;
 }
@@ -175,12 +186,14 @@ function registerNotesHandlers() {
             const content = fs.readFileSync(fullPath, "utf-8");
             const name = path.basename(entry.name, ".md");
             const stats = fs.statSync(fullPath);
+            const tags = parseFrontmatter(content);
             notes.push({
               id: fullPath,
               title: name,
               content,
               createdAt: stats.birthtimeMs,
-              updatedAt: stats.mtimeMs
+              updatedAt: stats.mtimeMs,
+              tags
             });
           }
         }
@@ -309,6 +322,37 @@ function registerNotesHandlers() {
       return { success: true, newPath };
     } catch (e) {
       log.error("Error renaming note:", e);
+      return { success: false, error: String(e) };
+    }
+  });
+  ipcMain.handle("update-note-tags", async (_event, noteId, tags) => {
+    try {
+      if (!noteId || typeof noteId !== "string") {
+        return { success: false, error: "Invalid note ID" };
+      }
+      if (!isPathWithinNotesDir(noteId, notesDir$2)) {
+        return { success: false, error: "Access denied" };
+      }
+      const content = fs.readFileSync(noteId, "utf-8");
+      const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+      const match = content.match(frontmatterRegex);
+      if (!match) {
+        return { success: false, error: "No frontmatter found" };
+      }
+      let frontmatter = match[1];
+      const tagsLine = `tags: [${tags.map((t) => `'${t}'`).join(", ")}]`;
+      if (frontmatter.includes("tags:")) {
+        frontmatter = frontmatter.replace(/tags:\s*\[.*?\]/, tagsLine);
+      } else {
+        frontmatter = frontmatter + "\n" + tagsLine;
+      }
+      const newContent = content.replace(frontmatterRegex, `---
+${frontmatter}
+---`);
+      fs.writeFileSync(noteId, newContent, "utf-8");
+      return { success: true };
+    } catch (e) {
+      log.error("Error updating tags:", e);
       return { success: false, error: String(e) };
     }
   });
