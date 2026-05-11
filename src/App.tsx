@@ -35,6 +35,8 @@ export default function App() {
   const [renamingNoteName, setRenamingNoteName] = useState("");
   const [treeWidth, setTreeWidth] = useState(220);
   const [isResizing, setIsResizing] = useState(false);
+  const [splitRatio, setSplitRatio] = useState(0.5);
+  const [isResizingSplit, setIsResizingSplit] = useState(false);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string; tags?: string[] }[]>([]);
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
@@ -64,9 +66,18 @@ export default function App() {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (!isResizing) return;
-      const newWidth = Math.max(200, Math.min(500, e.clientX));
-      setTreeWidth(newWidth);
+      if (isResizing) {
+        const newWidth = Math.max(200, Math.min(500, e.clientX));
+        setTreeWidth(newWidth);
+      }
+      if (isResizingSplit) {
+        const container = document.getElementById('main-content');
+        if (container) {
+          const rect = container.getBoundingClientRect();
+          const ratio = (e.clientX - rect.left) / rect.width;
+          setSplitRatio(Math.max(0.2, Math.min(0.8, ratio)));
+        }
+      }
     };
 
     const handleMouseUp = () => {
@@ -74,9 +85,12 @@ export default function App() {
         setIsResizing(false);
         window.electronAPI?.saveTreeWidth?.(treeWidth);
       }
+      if (isResizingSplit) {
+        setIsResizingSplit(false);
+      }
     };
 
-    if (isResizing) {
+    if (isResizing || isResizingSplit) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     }
@@ -85,7 +99,7 @@ export default function App() {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isResizing, treeWidth]);
+  }, [isResizing, isResizingSplit, treeWidth]);
 
   // Load saved notes folder on initialization
   useEffect(() => {
@@ -517,9 +531,9 @@ tags: []
       </header>
 
       {/* Main Content */}
-      <div className="flex flex-1 min-w-0 overflow-hidden">
+      <div id="main-content" className="flex flex-1 min-w-0 overflow-hidden" style={{ cursor: isResizingSplit ? 'col-resize' : 'default' }}>
         {/* Graph View - Panel Principal */}
-        <div className="flex-1 border-r border-base-800">
+        <div style={{ width: `${splitRatio * 100}%` }} className="border-r border-base-800 relative">
           <GraphView
             nodes={nodes}
             links={links}
@@ -535,8 +549,25 @@ tags: []
           />
         </div>
 
+        {/* Resizable Divider */}
+        <div
+          className="w-1.5 bg-base-800 hover:bg-base-700 cursor-col-resize flex items-center justify-center transition-colors group"
+          onMouseDown={(e) => {
+            e.preventDefault();
+            setIsResizingSplit(true);
+          }}
+        >
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+            <svg width="8" height="24" viewBox="0 0 8 24" fill="none" stroke="currentColor" className="text-base-400">
+              <circle cx="4" cy="4" r="1.5" fill="currentColor" />
+              <circle cx="4" cy="12" r="1.5" fill="currentColor" />
+              <circle cx="4" cy="20" r="1.5" fill="currentColor" />
+            </svg>
+          </div>
+        </div>
+
         {/* Editor Area - Só mostra quando há nota ativa */}
-        <main className="flex-1 flex flex-col min-w-0 bg-base-950 relative">
+        <main style={{ width: `${(1 - splitRatio) * 100}%` }} className="flex flex-col min-w-0 bg-base-950 relative">
           {activeNote ? (
             <div className="flex flex-col h-full p-6 bg-base-950 overflow-hidden slide-in-from-right">
               {/* Meta info */}
