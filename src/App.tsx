@@ -124,7 +124,8 @@ export default function App() {
       window.electronAPI.getNotes().then((loadedNotes) => {
         if (loadedNotes.length > 0) {
           setNotes(loadedNotes);
-          setActiveNoteId(loadedNotes[0].id);
+          const indexNote = loadedNotes.find(n => n.title.toLowerCase() === 'index');
+          setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0].id);
         }
         setIsLoaded(true);
       });
@@ -136,7 +137,8 @@ export default function App() {
       const unsubscribeReload = window.electronAPI.onReloadNotes?.(() => {
         window.electronAPI.getNotes().then((loadedNotes) => {
           setNotes(loadedNotes);
-          setActiveNoteId(loadedNotes[0]?.id || null);
+          const indexNote = loadedNotes.find(n => n.title.toLowerCase() === 'index');
+          setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0]?.id || null);
         });
       });
 
