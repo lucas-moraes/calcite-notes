@@ -430,6 +430,7 @@ tags: []
             if (folder) setNotesFolder(folder);
           }}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
+          title="Select notes folder"
         >
           <FolderOpen size={16} />
         </button>
@@ -441,23 +442,26 @@ tags: []
             window.electronAPI?.saveTheme(newTheme);
           }}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
+          title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
         >
           {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
         </button>
         <button
           onClick={handleCreateNote}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
+          title="Create new note"
         >
           <Plus size={16} />
         </button>
         <button
           onClick={() => activeNote && handleUpdateNote(activeNote.id, { title: activeNote.title })}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
+          title="Refresh title"
         >
           <Pencil size={16} />
         </button>
         {/* Save Status Indicator */}
-        <div className="flex items-center gap-1 px-2">
+        <div className="flex items-center gap-1 px-2" title={saveStatus === 'saving' ? 'Saving...' : saveStatus === 'saved' ? 'Saved' : 'Unsaved changes'}>
           {saveStatus === 'saving' && (
             <Loader size={14} className="text-base-500 animate-spin" />
           )}
@@ -471,14 +475,23 @@ tags: []
         <button
           onClick={() => activeNote && handleDeleteNote(activeNote.id)}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
+          title="Delete note"
         >
           <Trash2 size={16} />
         </button>
         <button
           onClick={() => setIsGraphOpen(true)}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
+          title="Open graph view"
         >
           <Network size={16} />
+        </button>
+        <button
+          onClick={() => setIsCommandPaletteOpen(true)}
+          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
+          title="Command palette (Ctrl+K)"
+        >
+          <Search size={16} />
         </button>
       </header>
 
