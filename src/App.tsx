@@ -453,18 +453,24 @@ tags: []
 
       {/* Main Content */}
       <div className="flex flex-1 min-w-0 overflow-hidden">
-        {/* File Tree */}
-        {notesFolder && (
-          <div style={{ width: treeWidth }} className="flex">
-            <FileTree key={fileTreeKey} rootPath={notesFolder} onFileSelect={handleOpenFile} width={treeWidth} />
-            <div
-              onMouseDown={handleMouseDown}
-              className="w-1 hover:bg-accent cursor-col-resize transition-colors flex-shrink-0"
-            />
-          </div>
-        )}
+        {/* Graph View - Panel Principal */}
+        <div className="flex-1 border-r border-base-800">
+          <GraphView
+            nodes={nodes}
+            links={links}
+            onNodeClick={(id) => {
+              const note = notes.find(n => n.id === id);
+              if (note) {
+                setActiveNoteId(id);
+              } else {
+                handleOpenFile(id);
+              }
+            }}
+            activeNodeId={activeNoteId || undefined}
+          />
+        </div>
 
-        {/* Editor Area */}
+        {/* Editor Area - Só mostra quando há nota ativa */}
         <main className="flex-1 flex flex-col min-w-0 bg-base-950 relative">
           {activeNote ? (
             <div className="flex flex-col h-full p-6 bg-base-950 overflow-hidden">
