@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Note, GraphNode, GraphLink } from "./types";
 import { cn, formatTime, wordCount } from "./lib/utils";
-import Sidebar from "./components/Sidebar";
+
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
 import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen } from "lucide-react";
@@ -590,14 +590,6 @@ tags: []
             />
           </div>
         </main>
-        <Sidebar
-          notes={filteredNotes}
-          activeNoteId={activeNoteId}
-          onSelectNote={setActiveNoteId}
-          onDeleteNote={handleDeleteNote}
-          graphNodes={nodes}
-          graphLinks={links}
-        />
       </div>
 
       {/* Graph Fullscreen Modal */}

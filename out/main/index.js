@@ -160,9 +160,7 @@ function setNotesDir$1(dir) {
 function registerNotesHandlers() {
   ipcMain.handle("get-notes", async () => {
     try {
-      log.info("get-notes called, notesDir:", notesDir$2);
       if (!notesDir$2) {
-        log.error("notesDir is not set");
         return [];
       }
       ensureNotesDir(notesDir$2);
@@ -188,7 +186,6 @@ function registerNotesHandlers() {
         }
       };
       readDirRecursive(notesDir$2);
-      log.info("Found files:", notes.length);
       return notes;
     } catch (e) {
       log.error("Error getting notes:", e);
@@ -197,9 +194,7 @@ function registerNotesHandlers() {
   });
   ipcMain.handle("get-all-notes-for-graph", async () => {
     try {
-      log.info("get-all-notes-for-graph called, notesDir:", notesDir$2);
       if (!notesDir$2) {
-        log.error("notesDir is not set for graph");
         return [];
       }
       ensureNotesDir(notesDir$2);
@@ -225,7 +220,6 @@ function registerNotesHandlers() {
         }
       };
       readDirRecursive(notesDir$2);
-      log.info("Found files for graph:", notes.length);
       return notes;
     } catch (e) {
       log.error("Error getting all notes for graph:", e);
