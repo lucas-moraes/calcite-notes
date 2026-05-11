@@ -661,6 +661,16 @@ tags: []
               window.electronAPI?.saveTheme(newTheme);
             },
           },
+          ...notes.flatMap(n => 
+            n.tags?.map((tag) => ({
+              id: `tag-${tag}-${n.id}`,
+              label: `Tag: ${tag} → ${n.title}`,
+              icon: <Search size={16} />,
+              action: () => {
+                setActiveNoteId(n.id);
+              },
+            })) || []
+          ).slice(0, 20),
         ]}
       />
     </div>
