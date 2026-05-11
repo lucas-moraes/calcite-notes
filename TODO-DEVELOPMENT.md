@@ -82,11 +82,11 @@
 ## Prioridade
 
 ### Alta
-1. Animação de entrada no Graph
-2. Nó ativo pulsante
-3. Hover highlight
-4. Editor slide-in
-5. Save indicator
+1. [x] Animação de entrada no Graph
+2. [x] Nó ativo pulsante
+3. [x] Hover highlight
+4. [x] Editor slide-in
+5. [x] Save indicator
 
 ### Média
 6. Transição Edit/Preview

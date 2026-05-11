@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { GraphNode, GraphLink } from '../types';
-import { Plus, Minus, RotateCcw } from 'lucide-react';
+import { Plus, Minus, RotateCcw, Maximize2 } from 'lucide-react';
 
 interface GraphViewProps {
   nodes: GraphNode[];
@@ -10,65 +10,11 @@ interface GraphViewProps {
   activeNodeId?: string;
 }
 
-const CLUSTER_COLORS = [
-  '#6366f1', // Indigo
-  '#22d3ee', // Cyan
-  '#f472b6', // Pink
-  '#34d399', // Emerald
-  '#fbbf24', // Amber
-  '#a78bfa', // Violet
-  '#fb7185', // Rose
-  '#2dd4bf', // Teal
-];
-
-function findClusters(nodes: GraphNode[], links: GraphLink[]): Map<string, number> {
-  const adjacency = new Map<string, Set<string>>();
-  
-  nodes.forEach(n => adjacency.set(n.id, new Set()));
-  links.forEach(l => {
-    if (adjacency.has(l.source) && adjacency.has(l.target)) {
-      adjacency.get(l.source)!.add(l.target);
-      adjacency.get(l.target)!.add(l.source);
-    }
-  });
-
-  const visited = new Set<string>();
-  const clusterMap = new Map<string, number>();
-  let clusterId = 0;
-
-  nodes.forEach(node => {
-    if (visited.has(node.id)) return;
-
-    const queue = [node.id];
-    visited.add(node.id);
-    clusterMap.set(node.id, clusterId);
-
-    while (queue.length > 0) {
-      const current = queue.shift()!;
-      const neighbors = adjacency.get(current);
-      if (neighbors) {
-        neighbors.forEach(neighbor => {
-          if (!visited.has(neighbor)) {
-            visited.add(neighbor);
-            clusterMap.set(neighbor, clusterId);
-            queue.push(neighbor);
-          }
-        });
-      }
-    }
-    clusterId++;
-  });
-
-  return clusterMap;
-}
-
 export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: GraphViewProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const zoomBehaviorRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const [zoom, setZoom] = useState(1);
-
-  const clusterMap = useMemo(() => findClusters(nodes, links), [nodes, links]);
 
   useEffect(() => {
     if (!svgRef.current || nodes.length === 0) return;
@@ -91,74 +37,27 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
     zoomBehaviorRef.current = zoomBehavior;
     svg.call(zoomBehavior);
 
-    const nodesWithClusters = nodes.map(n => ({
-      ...n,
-      cluster: clusterMap.get(n.id) ?? -1
-    }));
-
-    const simulation = d3.forceSimulation(nodesWithClusters as any)
-      .force('link', d3.forceLink(links)
-        .id((d: any) => d.id)
-        .distance(80)
-        .strength(0.5))
-      .force('charge', d3.forceManyBody().strength(-200))
-      .force('collide', d3.forceCollide().radius(30))
-      .force('cluster', (alpha) => {
-        const clusterCenters = new Map<number, { x: number; y: number; count: number }>();
-        
-        nodesWithClusters.forEach((d: any) => {
-          if (d.cluster === -1) return;
-          if (!clusterCenters.has(d.cluster)) {
-            clusterCenters.set(d.cluster, { x: 0, y: 0, count: 0 });
-          }
-          const center = clusterCenters.get(d.cluster)!;
-          center.x += d.x || 0;
-          center.y += d.y || 0;
-          center.count++;
-        });
-
-        clusterCenters.forEach((center, clusterId) => {
-          center.x /= center.count;
-          center.y /= center.count;
-        });
-
-        const clusterSpacing = 250;
-        const cols = Math.ceil(Math.sqrt(clusterCenters.size));
-        
-        let col = 0, row = 0;
-        clusterCenters.forEach((center, clusterId) => {
-          const targetX = width / 2 + (col - cols / 2) * clusterSpacing;
-          const targetY = height / 2 + (row - cols / 2) * clusterSpacing;
-          
-          nodesWithClusters.forEach((d: any) => {
-            if (d.cluster === clusterId) {
-              d.vx! += (targetX - center.x) * alpha * 0.1;
-              d.vy! += (targetY - center.y) * alpha * 0.1;
-            }
-          });
-          
-          col++;
-          if (col >= cols) {
-            col = 0;
-            row++;
-          }
-        });
-      });
+    const simulation = d3.forceSimulation(nodes as any)
+      .force('link', d3.forceLink(links).id((d: any) => d.id).distance(100))
+      .force('charge', d3.forceManyBody().strength(-300))
+      .force('center', d3.forceCenter(width / 2, height / 2))
+      .force('x', d3.forceX(width / 2).strength(0.05))
+      .force('y', d3.forceY(height / 2).strength(0.05));
 
     const link = g.append('g')
       .selectAll('line')
       .data(links)
       .join('line')
       .attr('stroke', 'var(--color-base-600)')
-      .attr('stroke-opacity', 0.4)
-      .attr('stroke-width', 1.5)
-      .attr('stroke-dasharray', '4,4');
+      .attr('stroke-opacity', 0)
+      .attr('stroke-width', 1);
 
     const node = g.append('g')
       .selectAll('g')
-      .data(nodesWithClusters)
+      .data(nodes)
       .join('g')
       .attr('class', 'cursor-pointer')
+      .attr('opacity', 0)
       .call(d3.drag<any, any>()
         .on('start', dragstarted)
         .on('drag', dragged)
@@ -169,24 +68,73 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       });
 
     node.append('circle')
-      .attr('r', (d: any) => (d.id === activeNodeId ? 10 : 6))
-      .attr('fill', (d: any) => {
-        if (d.id === activeNodeId) return 'var(--color-accent)';
-        if (d.cluster === -1) return 'var(--color-base-500)';
-        return CLUSTER_COLORS[d.cluster % CLUSTER_COLORS.length];
+      .attr('r', (d) => (d.id === activeNodeId ? 8 : 5))
+      .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
+      .attr('stroke', 'var(--color-base-200)')
+      .attr('stroke-width', 1.5)
+      .style('filter', (d) => d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none')
+      .on('mouseenter', function() {
+        d3.select(this)
+          .transition()
+          .duration(150)
+          .attr('fill', 'var(--color-accent)')
+          .attr('r', 8)
+          .style('filter', 'drop-shadow(0 0 8px var(--color-accent))');
       })
-      .attr('stroke', (d: any) => d.id === activeNodeId ? 'var(--color-base-100)' : 'transparent')
-      .attr('stroke-width', 2)
-      .style('filter', (d: any) => d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none');
+      .on('mouseleave', function(event, d) {
+        d3.select(this)
+          .transition()
+          .duration(150)
+          .attr('fill', d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)')
+          .attr('r', d.id === activeNodeId ? 8 : 5)
+          .style('filter', d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none');
+      });
 
     node.append('text')
-      .attr('dx', 14)
+      .attr('dx', 12)
       .attr('dy', 4)
-      .text((d: any) => d.name)
-      .attr('fill', (d: any) => (d.id === activeNodeId ? 'var(--color-base-100)' : 'var(--color-base-400)'))
-      .attr('font-size', '11px')
-      .attr('font-weight', (d: any) => d.id === activeNodeId ? '600' : '400')
+      .text((d) => d.name)
+      .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-base-100)' : 'var(--color-base-500)'))
+      .attr('font-size', '10px')
       .attr('class', 'pointer-events-none select-none');
+
+    // Animação de entrada
+    node.transition()
+      .delay((d, i) => i * 50)
+      .duration(400)
+      .attr('opacity', 1);
+
+    link.transition()
+      .delay((d, i) => nodes.length * 50 + i * 30)
+      .duration(400)
+      .attr('stroke-opacity', 0.6);
+
+    // Animação de pulse para nó ativo
+    const activeNode = nodes.find(n => n.id === activeNodeId);
+    if (activeNode) {
+      const pulseGroup = g.append('g').attr('class', 'pulse-group');
+      
+      const animatePulse = () => {
+        pulseGroup.selectAll('circle')
+          .data([activeNode])
+          .join('circle')
+          .attr('r', 8)
+          .attr('fill', 'none')
+          .attr('stroke', 'var(--color-accent)')
+          .attr('stroke-width', 2)
+          .attr('opacity', 0.8)
+          .attr('cx', (d: any) => d.x)
+          .attr('cy', (d: any) => d.y)
+          .transition()
+          .duration(1500)
+          .ease(d3.easeLinear)
+          .attr('r', 25)
+          .attr('opacity', 0)
+          .on('end', animatePulse);
+      };
+      
+      animatePulse();
+    }
 
     simulation.on('tick', () => {
       link
@@ -218,6 +166,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
     const resizeObserver = new ResizeObserver(() => {
       const w = svgRef.current?.clientWidth || 0;
       const h = svgRef.current?.clientHeight || 0;
+      simulation.force('center', d3.forceCenter(w / 2, h / 2));
       simulation.alpha(0.3).restart();
     });
 
@@ -227,7 +176,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       simulation.stop();
       resizeObserver.disconnect();
     };
-  }, [nodes, links, activeNodeId, onNodeClick, clusterMap]);
+  }, [nodes, links, activeNodeId, onNodeClick]);
 
   const handleZoomIn = () => {
     if (!svgRef.current || !zoomBehaviorRef.current) return;
@@ -279,15 +228,6 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       {/* Zoom indicator */}
       <div className="absolute bottom-3 right-3 text-xs text-base-500 font-mono bg-base-800/80 backdrop-blur-sm px-2 py-1 rounded">
         {Math.round(zoom * 100)}%
-      </div>
-
-      {/* Legend */}
-      <div className="absolute bottom-3 left-3 text-xs text-base-500 font-mono bg-base-800/80 backdrop-blur-sm px-2 py-1 rounded flex items-center gap-2">
-        <span className="text-[10px] text-base-400">Clusters:</span>
-        {CLUSTER_COLORS.slice(0, Math.min(clusterMap.size, 6)).map((color, i) => (
-          <span key={i} className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
-        ))}
-        {clusterMap.size === 0 && <span className="text-base-500">No connections</span>}
       </div>
     </div>
   );

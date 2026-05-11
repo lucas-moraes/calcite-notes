@@ -4,7 +4,7 @@ import { cn, formatTime, wordCount } from "./lib/utils";
 
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen } from "lucide-react";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, CheckCircle, Loader } from "lucide-react";
 import Logo from "./components/Logo";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -35,6 +35,7 @@ export default function App() {
   const [treeWidth, setTreeWidth] = useState(220);
   const [isResizing, setIsResizing] = useState(false);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string }[]>([]);
+  const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -138,7 +139,10 @@ export default function App() {
     if (isLoaded && window.electronAPI && notes.length > 0) {
       const notesToSave = notes.filter((n) => !n.isNew);
       notesToSave.forEach((note) => {
-        window.electronAPI.saveNote(note);
+        setSaveStatus('saving');
+        window.electronAPI.saveNote(note).then(() => {
+          setSaveStatus('saved');
+        });
       });
     }
   }, [notes, isLoaded]);
@@ -258,6 +262,7 @@ tags: []
   };
 
   const handleUpdateNote = (id: string, updates: Partial<Note>) => {
+    setSaveStatus('unsaved');
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates, updatedAt: Date.now() } : n)));
   };
 
@@ -437,6 +442,18 @@ tags: []
         >
           <Pencil size={16} />
         </button>
+        {/* Save Status Indicator */}
+        <div className="flex items-center gap-1 px-2">
+          {saveStatus === 'saving' && (
+            <Loader size={14} className="text-base-500 animate-spin" />
+          )}
+          {saveStatus === 'saved' && (
+            <CheckCircle size={14} className="text-green-500" />
+          )}
+          {saveStatus === 'unsaved' && (
+            <div className="w-2 h-2 rounded-full bg-yellow-500" title="Unsaved changes" />
+          )}
+        </div>
         <button
           onClick={() => activeNote && handleDeleteNote(activeNote.id)}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
@@ -473,7 +490,7 @@ tags: []
         {/* Editor Area - Só mostra quando há nota ativa */}
         <main className="flex-1 flex flex-col min-w-0 bg-base-950 relative">
           {activeNote ? (
-            <div className="flex flex-col h-full p-6 bg-base-950 overflow-hidden">
+            <div className="flex flex-col h-full p-6 bg-base-950 overflow-hidden slide-in-from-right">
               {/* Meta info */}
               <div className="flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900">
                 <div className="flex items-center gap-2">
