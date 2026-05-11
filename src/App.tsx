@@ -578,18 +578,7 @@ tags: []
             </div>
           )}
 
-          {/* Graph View - always visible at bottom */}
-          <div className="h-48 border-t border-base-800">
-            <GraphView
-              nodes={nodes}
-              links={links}
-              onNodeClick={(id) => {
-                setActiveNoteId(id);
-              }}
-              activeNodeId={activeNoteId || undefined}
-            />
-          </div>
-        </main>
+          </main>
       </div>
 
       {/* Graph Fullscreen Modal */}
