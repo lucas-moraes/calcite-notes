@@ -186,6 +186,16 @@ export default function App() {
 const links: (GraphLink & { type: 'wiki' | 'tag' })[] = [];
     const linkRegex = /\[\[(.*?)\]\]/g;
 
+    const addLink = (source: string, target: string, type: 'wiki' | 'tag') => {
+      const exists = links.some(l => 
+        (l.source === source && l.target === target) ||
+        (l.source === target && l.target === source)
+      );
+      if (!exists) {
+        links.push({ source, target, type });
+      }
+    };
+
     // Links por [[Nota]]
     for (const note of allNotes) {
       let match;
@@ -193,11 +203,7 @@ const links: (GraphLink & { type: 'wiki' | 'tag' })[] = [];
         const targetTitle = match[1];
         const targetNote = allNotes.find((n) => (n.name || '').toLowerCase() === targetTitle.toLowerCase());
         if (targetNote && targetNote.id !== note.id) {
-          links.push({
-            source: note.id,
-            target: targetNote.id,
-            type: 'wiki'
-          });
+          addLink(note.id, targetNote.id, 'wiki');
         }
       }
     }
@@ -210,11 +216,7 @@ const links: (GraphLink & { type: 'wiki' | 'tag' })[] = [];
         const note2 = notesWithTags[j];
         const sharedTags = note1.tags!.filter(t => note2.tags!.includes(t));
         if (sharedTags.length > 0) {
-          links.push({
-            source: note1.id,
-            target: note2.id,
-            type: 'tag'
-          });
+          addLink(note1.id, note2.id, 'tag');
         }
       }
     }
