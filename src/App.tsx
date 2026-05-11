@@ -26,7 +26,6 @@ export default function App() {
   const [activeNoteId, setActiveNoteId] = useState<string | null>("welcome");
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isGraphOpen, setIsGraphOpen] = useState(false);
   const [notesFolder, setNotesFolder] = useState<string>("");
   const [fileTreeKey, setFileTreeKey] = useState(0);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
@@ -480,13 +479,6 @@ tags: []
           <Trash2 size={16} />
         </button>
         <button
-          onClick={() => setIsGraphOpen(true)}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
-          title="Open graph view"
-        >
-          <Network size={16} />
-        </button>
-        <button
           onClick={() => setIsCommandPaletteOpen(true)}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
           title="Command palette (Ctrl+K)"
@@ -629,32 +621,6 @@ tags: []
           </main>
       </div>
 
-      {/* Graph Fullscreen Modal */}
-      {isGraphOpen && (
-        <div className="fixed inset-0 z-50 bg-base-950 flex flex-col">
-          <div className="flex items-center justify-between p-4 border-b border-base-800">
-            <h2 className="text-sm font-semibold uppercase tracking-widest text-base-400">Graph View</h2>
-            <button
-              onClick={() => setIsGraphOpen(false)}
-              className="p-1.5 hover:bg-base-800 rounded-lg text-base-500 transition-colors"
-            >
-              <X size={18} />
-            </button>
-          </div>
-          <div className="flex-1">
-            <GraphView
-              nodes={nodes}
-              links={links}
-              onNodeClick={(id) => {
-                setActiveNoteId(id);
-                setIsGraphOpen(false);
-              }}
-              activeNodeId={activeNoteId || undefined}
-            />
-          </div>
-        </div>
-      )}
-
       {/* Command Palette */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
@@ -676,12 +642,6 @@ tags: []
               document.documentElement.classList.toggle('light', newTheme === 'light');
               window.electronAPI?.saveTheme(newTheme);
             },
-          },
-          {
-            id: 'toggle-graph',
-            label: 'Open Graph View',
-            icon: <Search size={16} />,
-            action: () => setIsGraphOpen(true),
           },
         ]}
       />
