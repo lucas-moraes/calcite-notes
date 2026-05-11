@@ -94,6 +94,6 @@
 8. [x] Glow no nó ativo
 
 ### Baixa
-9. Background graduado
-10. Loading states
-11. Command palette
+9. [x] Background graduado
+10. [x] Loading states
+11. [x] Command palette

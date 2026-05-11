@@ -4,8 +4,9 @@ import { cn, formatTime, wordCount } from "./lib/utils";
 
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, CheckCircle, Loader } from "lucide-react";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, CheckCircle, Loader, Search } from "lucide-react";
 import Logo from "./components/Logo";
+import CommandPalette from "./components/CommandPalette";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
@@ -36,6 +37,7 @@ export default function App() {
   const [isResizing, setIsResizing] = useState(false);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string }[]>([]);
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -104,6 +106,18 @@ export default function App() {
       });
     }
   }, [notesFolder, fileTreeKey]);
+
+  // Keyboard shortcut for command palette
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -627,6 +641,37 @@ tags: []
           </div>
         </div>
       )}
+
+      {/* Command Palette */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        commands={[
+          {
+            id: 'new-note',
+            label: 'New Note',
+            icon: <Plus size={16} />,
+            action: handleCreateNote,
+          },
+          {
+            id: 'toggle-theme',
+            label: theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode',
+            icon: theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />,
+            action: () => {
+              const newTheme = theme === 'dark' ? 'light' : 'dark';
+              setTheme(newTheme);
+              document.documentElement.classList.toggle('light', newTheme === 'light');
+              window.electronAPI?.saveTheme(newTheme);
+            },
+          },
+          {
+            id: 'toggle-graph',
+            label: 'Open Graph View',
+            icon: <Search size={16} />,
+            action: () => setIsGraphOpen(true),
+          },
+        ]}
+      />
     </div>
   );
 }

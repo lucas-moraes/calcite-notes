@@ -197,7 +197,17 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
   };
 
   return (
-    <div ref={containerRef} className="w-full h-full bg-base-950 relative overflow-hidden">
+    <div ref={containerRef} className="w-full h-full relative overflow-hidden" style={{ 
+      backgroundImage: 'radial-gradient(ellipse at 30% 20%, rgba(201, 139, 90, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(201, 139, 90, 0.04) 0%, transparent 50%)' 
+    }}>
+      {nodes.length === 0 && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-16 h-16 rounded-full border-2 border-base-700 border-t-accent animate-spin" />
+            <span className="text-base-500 text-sm">Loading notes...</span>
+          </div>
+        </div>
+      )}
       <svg ref={svgRef} className="w-full h-full" />
       
       {/* Controls */}
