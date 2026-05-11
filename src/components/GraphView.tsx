@@ -13,6 +13,7 @@ interface GraphViewProps {
 export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: GraphViewProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const zoomBehaviorRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const [zoom, setZoom] = useState(1);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
         setZoom(event.transform.k);
       });
 
+    zoomBehaviorRef.current = zoomBehavior;
     svg.call(zoomBehavior);
 
     const simulation = d3.forceSimulation(nodes as any)
@@ -128,21 +130,21 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
   }, [nodes, links, activeNodeId, onNodeClick]);
 
   const handleZoomIn = () => {
-    if (!svgRef.current) return;
+    if (!svgRef.current || !zoomBehaviorRef.current) return;
     const svg = d3.select(svgRef.current);
-    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 1.3);
+    svg.transition().duration(300).call(zoomBehaviorRef.current.scaleBy, 1.3);
   };
 
   const handleZoomOut = () => {
-    if (!svgRef.current) return;
+    if (!svgRef.current || !zoomBehaviorRef.current) return;
     const svg = d3.select(svgRef.current);
-    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 0.7);
+    svg.transition().duration(300).call(zoomBehaviorRef.current.scaleBy, 0.7);
   };
 
   const handleReset = () => {
-    if (!svgRef.current) return;
+    if (!svgRef.current || !zoomBehaviorRef.current) return;
     const svg = d3.select(svgRef.current);
-    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().transform as any, d3.zoomIdentity);
+    svg.transition().duration(300).call(zoomBehaviorRef.current.transform, d3.zoomIdentity);
   };
 
   return (
@@ -150,7 +152,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       <svg ref={svgRef} className="w-full h-full" />
       
       {/* Controls */}
-      <div className="absolute top-3 right-3 flex flex-col gap-1 bg-base-800/80 backdrop-blur-sm rounded-lg p-1">
+      <div className="absolute top-3 right-3 flex flex-col gap-1 bg-base-800/80 backdrop-blur-sm rounded-lg p-1 z-50" style={{ pointerEvents: 'auto' }}>
         <button
           onClick={handleZoomIn}
           className="p-1.5 hover:bg-base-700 rounded text-base-400 hover:text-base-200 transition-colors"
