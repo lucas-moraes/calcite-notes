@@ -48,9 +48,10 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       .selectAll('line')
       .data(links)
       .join('line')
-      .attr('stroke', 'var(--color-base-600)')
+      .attr('stroke', (d: any) => d.type === 'tag' ? 'var(--color-accent)' : 'var(--color-base-600)')
       .attr('stroke-opacity', 0)
-      .attr('stroke-width', 1);
+      .attr('stroke-width', 1)
+      .attr('stroke-dasharray', (d: any) => d.type === 'tag' ? '4,4' : 'none');
 
     const node = g.append('g')
       .selectAll('g')

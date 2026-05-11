@@ -183,7 +183,7 @@ export default function App() {
       val: 1,
     }));
 
-    const links: GraphLink[] = [];
+const links: (GraphLink & { type: 'wiki' | 'tag' })[] = [];
     const linkRegex = /\[\[(.*?)\]\]/g;
 
     // Links por [[Nota]]
@@ -196,6 +196,7 @@ export default function App() {
           links.push({
             source: note.id,
             target: targetNote.id,
+            type: 'wiki'
           });
         }
       }
@@ -212,6 +213,7 @@ export default function App() {
           links.push({
             source: note1.id,
             target: note2.id,
+            type: 'tag'
           });
         }
       }
