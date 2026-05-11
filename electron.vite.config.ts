@@ -24,6 +24,9 @@ export default defineConfig({
           entryFileNames: '[name].js'
         }
       }
+    },
+    server: {
+      port: 5173
     }
   },
   renderer: {
@@ -40,6 +43,11 @@ export default defineConfig({
           index: path.resolve(__dirname, 'index.html')
         }
       }
+    },
+    server: {
+      port: 5173,
+      strictPort: false,
+      host: true
     }
   }
 });

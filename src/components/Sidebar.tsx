@@ -1,21 +1,13 @@
-import { FileText, Trash2, MoreVertical, Clock, Sparkles } from 'lucide-react';
+import { Trash2, Clock, Sparkles } from 'lucide-react';
 import { Note, GraphNode, GraphLink } from '../types';
-import { clsx, type ClassValue } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { cn } from '../lib/utils';
 import GraphView from './GraphView';
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
 interface SidebarProps {
   notes: Note[];
   activeNoteId: string | null;
   onSelectNote: (id: string) => void;
-  onNewNote: () => void;
   onDeleteNote: (id: string) => void;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
   graphNodes: GraphNode[];
   graphLinks: GraphLink[];
 }
@@ -40,7 +32,6 @@ export default function Sidebar({
   notes,
   activeNoteId,
   onSelectNote,
-  onNewNote,
   onDeleteNote,
   graphNodes,
   graphLinks

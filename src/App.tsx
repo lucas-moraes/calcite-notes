@@ -1,59 +1,14 @@
 import { useState, useEffect, useMemo } from "react";
 import { Note, GraphNode, GraphLink } from "./types";
+import { cn, formatTime, wordCount } from "./lib/utils";
 import Sidebar from "./components/Sidebar";
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
 import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen } from "lucide-react";
 import Logo from "./components/Logo";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-
-interface IPCResult {
-  success: boolean;
-  error?: string;
-}
-
-interface RenameResult extends IPCResult {
-  newPath?: string;
-}
-
-interface CreateFolderResult extends IPCResult {
-  path?: string;
-}
-
-declare global {
-  interface Window {
-    electronAPI?: {
-      getNotes: () => Promise<Note[]>;
-      saveNote: (note: Note) => Promise<IPCResult>;
-      deleteNote: (id: string) => Promise<IPCResult>;
-      deleteFolder: (path: string) => Promise<IPCResult>;
-      selectNotesFolder: () => Promise<string | null>;
-      getNotesFolder: () => Promise<string>;
-      getDirectory: (path: string) => Promise<{ name: string; path: string; isDirectory: boolean }[]>;
-      readFile: (path: string) => Promise<Note | null>;
-      hasMdFiles: (path: string) => Promise<boolean>;
-      saveNewNote: (path: string, content: string) => Promise<IPCResult>;
-      renameNote: (oldPath: string, newFileName: string) => Promise<RenameResult>;
-      createFolder: (parentPath: string, folderName: string) => Promise<CreateFolderResult>;
-      renameFolder: (oldPath: string, newName: string) => Promise<RenameResult>;
-      moveFile: (sourcePath: string, destFolder: string) => Promise<RenameResult>;
-      getTheme: () => Promise<"dark" | "light">;
-      saveTheme: (theme: "dark" | "light") => Promise<boolean>;
-      getTreeWidth: () => Promise<number>;
-      saveTreeWidth: (width: number) => Promise<boolean>;
-      onNewNote: (callback: () => void) => () => void;
-      onReloadNotes?: (callback: () => void) => () => void;
-    };
-  }
-}
-
-function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
 
 const defaultNote: Note = {
   id: "welcome",
@@ -63,14 +18,6 @@ const defaultNote: Note = {
   createdAt: Date.now(),
   updatedAt: Date.now(),
 };
-
-function formatTime(timestamp: number) {
-  return new Date(timestamp).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" }).toUpperCase();
-}
-
-function wordCount(text: string) {
-  return text.trim().split(/\s+/).filter(Boolean).length;
-}
 
 export default function App() {
   const [notes, setNotes] = useState<Note[]>([defaultNote]);
@@ -86,6 +33,7 @@ export default function App() {
   const [renamingNoteName, setRenamingNoteName] = useState("");
   const [treeWidth, setTreeWidth] = useState(220);
   const [isResizing, setIsResizing] = useState(false);
+  const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string }[]>([]);
 
   useEffect(() => {
     if (window.electronAPI) {
@@ -146,6 +94,15 @@ export default function App() {
     }
   }, []);
 
+  // Load all notes from disk for graph
+  useEffect(() => {
+    if (window.electronAPI && notesFolder) {
+      window.electronAPI.getAllNotesForGraph?.().then((allNotes) => {
+        if (allNotes) setAllNotesFromDisk(allNotes);
+      });
+    }
+  }, [notesFolder, fileTreeKey]);
+
   useEffect(() => {
     if (window.electronAPI) {
       window.electronAPI.getNotes().then((loadedNotes) => {
@@ -197,20 +154,24 @@ export default function App() {
   }, [notes, searchQuery]);
 
   const { nodes, links } = useMemo(() => {
-    const nodes: GraphNode[] = notes.map((n) => ({
+    const allNotes = allNotesFromDisk.length > 0
+      ? allNotesFromDisk
+      : notes.map(n => ({ id: n.id, name: n.title || '', content: n.content || '' }));
+    
+    const nodes: GraphNode[] = allNotes.map((n) => ({
       id: n.id,
-      name: n.title,
+      name: n.name || '',
       val: 1,
     }));
 
     const links: GraphLink[] = [];
     const linkRegex = /\[\[(.*?)\]\]/g;
 
-    for (const note of notes) {
+    for (const note of allNotes) {
       let match;
-      while ((match = linkRegex.exec(note.content)) !== null) {
+      while ((match = linkRegex.exec(note.content || '')) !== null) {
         const targetTitle = match[1];
-        const targetNote = notes.find((n) => n.title.toLowerCase() === targetTitle.toLowerCase());
+        const targetNote = allNotes.find((n) => (n.name || '').toLowerCase() === targetTitle.toLowerCase());
         if (targetNote && targetNote.id !== note.id) {
           links.push({
             source: note.id,
@@ -221,7 +182,7 @@ export default function App() {
     }
 
     return { nodes, links };
-  }, [notes]);
+  }, [notes, allNotesFromDisk]);
 
   const handleCreateNote = () => {
     const noteId = crypto.randomUUID();
@@ -490,42 +451,6 @@ tags: []
       </header>
 
       {/* Main Content */}
-      {false && (
-        <div className="">
-          <div className="X" onClick={() => setRenamingNoteId(null)} />
-          <div className="Z">
-            <h3 className="R"></h3>
-            <input
-              type="text"
-              value=""
-              onChange={() => null}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") activeNote && handleRenameNote(activeNote.id);
-                if (e.key === "Escape") setRenamingNoteId(null);
-              }}
-              className="w-full bg-base-800 border border-base-700 rounded-lg px-3 py-2 text-sm dark:text-base-300 placeholder-base-500 outline-none focus:border-accent"
-              placeholder="File name"
-              autoFocus
-            />
-            <div className="Q">
-              <button
-                onClick={() => null}
-                className="px-3 py-1.5 text-xs text-base-400 hover:text-white transition-colors"
-              >
-                X
-              </button>
-              <button
-                onClick={() => activeNote && handleRenameNote(activeNote.id)}
-                className="px-3 py-1.5 text-xs bg-accent text-white rounded-lg hover:bg-accent/80 transition-colors"
-              >
-                Rename
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Main Content */}
       <div className="flex flex-1 min-w-0 overflow-hidden">
         {/* File Tree */}
         {notesFolder && (
@@ -651,17 +576,24 @@ tags: []
               <p className="mt-4 text-sm font-medium">Select or create a note</p>
             </div>
           )}
-        </main>
 
-        {/* Sidebar */}
+          {/* Graph View - always visible at bottom */}
+          <div className="h-48 border-t border-base-800">
+            <GraphView
+              nodes={nodes}
+              links={links}
+              onNodeClick={(id) => {
+                setActiveNoteId(id);
+              }}
+              activeNodeId={activeNoteId || undefined}
+            />
+          </div>
+        </main>
         <Sidebar
           notes={filteredNotes}
           activeNoteId={activeNoteId}
           onSelectNote={setActiveNoteId}
-          onNewNote={handleCreateNote}
           onDeleteNote={handleDeleteNote}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
           graphNodes={nodes}
           graphLinks={links}
         />
