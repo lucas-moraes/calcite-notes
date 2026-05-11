@@ -19,6 +19,7 @@ const defaultNote: Note = {
   updatedAt: Date.now(),
 };
 
+
 export default function App() {
   const [notes, setNotes] = useState<Note[]>([defaultNote]);
   const [activeNoteId, setActiveNoteId] = useState<string | null>("welcome");

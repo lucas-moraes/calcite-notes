@@ -5,6 +5,7 @@ electron.contextBridge.exposeInMainWorld("electronAPI", {
   test: () => "test works!",
   selectNotesFolder: () => electron.ipcRenderer.invoke("select-notes-folder"),
   getNotes: () => electron.ipcRenderer.invoke("get-notes"),
+  getAllNotesForGraph: () => electron.ipcRenderer.invoke("get-all-notes-for-graph"),
   saveNote: (note) => electron.ipcRenderer.invoke("save-note", note),
   deleteNote: (id) => electron.ipcRenderer.invoke("delete-note", id),
   deleteFolder: (path) => electron.ipcRenderer.invoke("delete-folder", path),

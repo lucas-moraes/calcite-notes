@@ -13,21 +13,36 @@ export function setNotesDir(dir: string): void {
 export function registerNotesHandlers(): void {
   ipcMain.handle('get-notes', async () => {
     try {
+      if (!notesDir) {
+        return [];
+      }
       ensureNotesDir(notesDir);
-      const files = fs.readdirSync(notesDir).filter(f => f.endsWith('.md'));
-      return files.map(file => {
-        const filePath = path.join(notesDir, file);
-        const content = fs.readFileSync(filePath, 'utf-8');
-        const name = path.basename(file, '.md');
-        const stats = fs.statSync(filePath);
-        return {
-          id: filePath,
-          title: name,
-          content: content,
-          createdAt: stats.birthtimeMs,
-          updatedAt: stats.mtimeMs
-        };
-      });
+
+      const notes: { id: string; title: string; content: string; createdAt: number; updatedAt: number }[] = [];
+
+      const readDirRecursive = (dir: string) => {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            readDirRecursive(fullPath);
+          } else if (entry.name.endsWith('.md')) {
+            const content = fs.readFileSync(fullPath, 'utf-8');
+            const name = path.basename(entry.name, '.md');
+            const stats = fs.statSync(fullPath);
+            notes.push({
+              id: fullPath,
+              title: name,
+              content: content,
+              createdAt: stats.birthtimeMs,
+              updatedAt: stats.mtimeMs
+            });
+          }
+        }
+      };
+
+      readDirRecursive(notesDir);
+      return notes;
     } catch (e) {
       log.error('Error getting notes:', e);
       return [];
@@ -36,21 +51,36 @@ export function registerNotesHandlers(): void {
 
   ipcMain.handle('get-all-notes-for-graph', async () => {
     try {
+      if (!notesDir) {
+        return [];
+      }
       ensureNotesDir(notesDir);
-      const files = fs.readdirSync(notesDir).filter(f => f.endsWith('.md'));
-      return files.map(file => {
-        const filePath = path.join(notesDir, file);
-        const content = fs.readFileSync(filePath, 'utf-8');
-        const name = path.basename(file, '.md');
-        const stats = fs.statSync(filePath);
-        return {
-          id: filePath,
-          name: name,
-          createdAt: stats.birthtimeMs,
-          updatedAt: stats.mtimeMs,
-          content: content
-        };
-      });
+
+      const notes: { id: string; name: string; content: string; createdAt: number; updatedAt: number }[] = [];
+
+      const readDirRecursive = (dir: string) => {
+        const entries = fs.readdirSync(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          if (entry.isDirectory()) {
+            readDirRecursive(fullPath);
+          } else if (entry.name.endsWith('.md')) {
+            const content = fs.readFileSync(fullPath, 'utf-8');
+            const name = path.basename(entry.name, '.md');
+            const stats = fs.statSync(fullPath);
+            notes.push({
+              id: fullPath,
+              name: name,
+              content: content,
+              createdAt: stats.birthtimeMs,
+              updatedAt: stats.mtimeMs
+            });
+          }
+        }
+      };
+
+      readDirRecursive(notesDir);
+      return notes;
     } catch (e) {
       log.error('Error getting all notes for graph:', e);
       return [];
