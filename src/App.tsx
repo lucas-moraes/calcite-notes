@@ -174,7 +174,7 @@ export default function App() {
     );
   }, [notes, searchQuery]);
 
-  const { nodes, links } = useMemo(() => {
+const { nodes, links } = useMemo(() => {
     const allNotes = allNotesFromDisk.length > 0
       ? allNotesFromDisk
       : notes.map(n => ({ id: n.id, name: n.title || '', content: n.content || '', tags: n.tags || [] }));
@@ -185,7 +185,19 @@ export default function App() {
       val: 1,
     }));
 
-const links: (GraphLink & { type: 'wiki' | 'tag' })[] = [];
+    // Adicionar nós para tags
+    const allTags = new Set<string>();
+    allNotes.forEach(n => n.tags?.forEach(t => allTags.add(t)));
+    allTags.forEach(tag => {
+      nodes.push({
+        id: `tag-${tag}`,
+        name: tag,
+        val: 0.5,
+        isTag: true
+      });
+    });
+
+    const links: (GraphLink & { type: 'wiki' | 'tag' })[] = [];
     const linkRegex = /\[\[(.*?)\]\]/g;
 
     const addLink = (source: string, target: string, type: 'wiki' | 'tag') => {
@@ -210,18 +222,12 @@ const links: (GraphLink & { type: 'wiki' | 'tag' })[] = [];
       }
     }
 
-    // Links por tags compartilhadas
-    const notesWithTags = allNotes.filter(n => n.tags && n.tags.length > 0);
-    for (let i = 0; i < notesWithTags.length; i++) {
-      for (let j = i + 1; j < notesWithTags.length; j++) {
-        const note1 = notesWithTags[i];
-        const note2 = notesWithTags[j];
-        const sharedTags = note1.tags!.filter(t => note2.tags!.includes(t));
-        if (sharedTags.length > 0) {
-          addLink(note1.id, note2.id, 'tag');
-        }
-      }
-    }
+    // Links por tags compartilhadas (nota -> tag)
+    allNotes.forEach(note => {
+      note.tags?.forEach(tag => {
+        addLink(note.id, `tag-${tag}`, 'tag');
+      });
+    });
 
     return { nodes, links };
   }, [notes, allNotesFromDisk]);

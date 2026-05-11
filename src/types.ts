@@ -12,6 +12,7 @@ export interface GraphNode {
   id: string;
   name: string;
   val: number;
+  isTag?: boolean;
 }
 
 export interface GraphLink {

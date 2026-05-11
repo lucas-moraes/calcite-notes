@@ -69,26 +69,28 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       });
 
     node.append('circle')
-      .attr('r', (d) => (d.id === activeNodeId ? 8 : 5))
-      .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
-      .attr('stroke', 'var(--color-base-200)')
+      .attr('r', (d) => (d as any).isTag ? 4 : (d.id === activeNodeId ? 8 : 5))
+      .attr('fill', (d) => (d as any).isTag ? '#39ff14' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
+      .attr('stroke', (d) => (d as any).isTag ? '#39ff14' : 'var(--color-base-200)')
       .attr('stroke-width', 1.5)
-      .style('filter', (d) => d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none')
-      .on('mouseenter', function() {
+      .style('filter', (d) => (d as any).isTag ? 'drop-shadow(0 0 6px #39ff14)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'))
+      .on('mouseenter', function(event, d) {
+        const isTag = (d as any).isTag;
         d3.select(this)
           .transition()
           .duration(150)
-          .attr('fill', 'var(--color-accent)')
-          .attr('r', 8)
-          .style('filter', 'drop-shadow(0 0 8px var(--color-accent))');
+          .attr('fill', isTag ? '#39ff14' : 'var(--color-accent)')
+          .attr('r', isTag ? 6 : 8)
+          .style('filter', isTag ? 'drop-shadow(0 0 10px #39ff14)' : 'drop-shadow(0 0 8px var(--color-accent))');
       })
       .on('mouseleave', function(event, d) {
+        const isTag = (d as any).isTag;
         d3.select(this)
           .transition()
           .duration(150)
-          .attr('fill', d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)')
-          .attr('r', d.id === activeNodeId ? 8 : 5)
-          .style('filter', d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none');
+          .attr('fill', isTag ? '#39ff14' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
+          .attr('r', isTag ? 4 : (d.id === activeNodeId ? 8 : 5))
+          .style('filter', isTag ? 'drop-shadow(0 0 6px #39ff14)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'));
       });
 
     node.append('text')
