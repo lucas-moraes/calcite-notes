@@ -37,6 +37,7 @@ export default function App() {
   const [isResizing, setIsResizing] = useState(false);
   const [splitRatio, setSplitRatio] = useState(0.5);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string; tags?: string[] }[]>([]);
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
@@ -360,6 +361,15 @@ tags: []
       {/* Top Bar - Navigation */}
       <header className="h-12 border-b border-base-800 flex items-center justify-between px-6 bg-base-900/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="flex items-center gap-3 flex-1">
+          <button
+            onClick={() => setIsDrawerOpen(!isDrawerOpen)}
+            className="p-1.5 hover:bg-base-800 rounded text-base-400 hover:text-base-200 transition-colors"
+            title="Toggle file tree"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 12h18M3 6h18M3 18h18" />
+            </svg>
+          </button>
           <Logo className="w-6 h-6" />
           <div className="flex items-center gap-2 flex-1">
             {(activeNote?.isNew || renamingNoteId) && (
@@ -530,8 +540,24 @@ tags: []
         </button>
       </header>
 
+      {/* Drawer - File Tree */}
+      <div
+        className={`fixed inset-y-0 left-0 z-20 bg-base-900 border-r border-base-800 transition-transform duration-200 ease-out ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ width: treeWidth, top: '48px' }}
+      >
+        <FileTree
+          key={fileTreeKey}
+          rootPath={notesFolder}
+          onFileSelect={(path) => {
+            handleOpenFile(path);
+            setIsDrawerOpen(false);
+          }}
+          width={treeWidth}
+        />
+      </div>
+
       {/* Main Content */}
-      <div id="main-content" className="flex flex-1 min-w-0 overflow-hidden" style={{ cursor: isResizingSplit ? 'col-resize' : 'default' }}>
+      <div id="main-content" className={`flex flex-1 min-w-0 overflow-hidden transition-all duration-200 ${isDrawerOpen ? 'ml-0' : ''}`} style={{ cursor: isResizingSplit ? 'col-resize' : 'default' }}>
         {/* Graph View - Panel Principal */}
         <div style={{ width: `${splitRatio * 100}%` }} className="border-r border-base-800 relative">
           <GraphView
