@@ -154,7 +154,7 @@ function createMenu(mainWindow2) {
   Menu.setApplicationMenu(menu);
 }
 let notesDir$2;
-function parseFrontmatter(content) {
+function parseFrontmatter$1(content) {
   const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
   const match = content.match(frontmatterRegex);
   if (!match) return [];
@@ -186,7 +186,7 @@ function registerNotesHandlers() {
             const content = fs.readFileSync(fullPath, "utf-8");
             const name = path.basename(entry.name, ".md");
             const stats = fs.statSync(fullPath);
-            const tags = parseFrontmatter(content);
+            const tags = parseFrontmatter$1(content);
             notes.push({
               id: fullPath,
               title: name,
@@ -222,7 +222,7 @@ function registerNotesHandlers() {
             const content = fs.readFileSync(fullPath, "utf-8");
             const name = path.basename(entry.name, ".md");
             const stats = fs.statSync(fullPath);
-            const tags = parseFrontmatter(content);
+            const tags = parseFrontmatter$1(content);
             notes.push({
               id: fullPath,
               name,
@@ -428,6 +428,17 @@ function registerConfigHandlers(mainWindow2) {
   });
 }
 let notesDir;
+function parseFrontmatter(content) {
+  const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+  const match = content.match(frontmatterRegex);
+  if (!match) return [];
+  const frontmatter = match[1];
+  const tagsMatch = frontmatter.match(/tags:\s*\[(.*?)\]/);
+  if (!tagsMatch || !tagsMatch[1]) return [];
+  const tagsStr = tagsMatch[1].replace(/['"]/g, "");
+  if (!tagsStr.trim()) return [];
+  return tagsStr.split(",").map((t) => t.trim()).filter(Boolean);
+}
 function setNotesDir(dir) {
   notesDir = dir;
 }
@@ -586,17 +597,30 @@ function registerFilesystemHandlers() {
   ipcMain.handle("read-file", async (_event, filePath) => {
     try {
       if (!filePath || typeof filePath !== "string") {
+        log.error("read-file: Invalid filePath");
+        return null;
+      }
+      log.info("read-file: Reading:", filePath);
+      if (!isPathWithinNotesDir(filePath, notesDir)) {
+        log.error("read-file: Access denied for path:", filePath);
+        return null;
+      }
+      if (!fs.existsSync(filePath)) {
+        log.error("read-file: File not found:", filePath);
         return null;
       }
       const content = fs.readFileSync(filePath, "utf-8");
       const name = path.basename(filePath, ".md");
       const stats = fs.statSync(filePath);
+      const tags = parseFrontmatter(content);
+      log.info("read-file: Success:", filePath, "title:", name);
       return {
         id: filePath,
         title: name,
         content,
         createdAt: stats.birthtimeMs,
-        updatedAt: stats.mtimeMs
+        updatedAt: stats.mtimeMs,
+        tags
       };
     } catch (e) {
       log.error("Error reading file:", e);
@@ -613,6 +637,12 @@ let mainWindow;
 log.initialize();
 log.transports.file.level = "info";
 log.transports.console.level = app.isPackaged ? "warn" : "debug";
+const devServerUrl = process.env.VITE_DEV_SERVER_URL || process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL || "http://localhost:5173";
+log.info("=== Environment Debug ===");
+log.info("Dev server URL from env:", devServerUrl);
+log.info("app.isPackaged:", app.isPackaged);
+log.info("NODE_ENV:", process.env.NODE_ENV);
+log.info("========================");
 process.on("uncaughtException", (error) => {
   log.error("Uncaught Exception:", error);
   if (app.isPackaged) {
@@ -652,12 +682,14 @@ async function createWindow() {
   setNotesDir$1(getNotesDirValue());
   setNotesDir(getNotesDirValue());
   setupIpcHandlers();
-  const isDev = !app.isPackaged;
-  if (isDev && VITE_DEV_SERVER_URL) {
-    log.debug("Loading dev URL:", VITE_DEV_SERVER_URL);
-    await mainWindow.loadURL(VITE_DEV_SERVER_URL);
+  if (!app.isPackaged) {
+    log.debug("Loading dev URL:", devServerUrl);
+    await mainWindow.loadURL(devServerUrl);
   } else {
-    await mainWindow.loadFile(path.join(__dirname$1, "..", "renderer", "index.html"));
+    log.debug("Loading production file");
+    const filePath = path.join(__dirname$1, "..", "renderer", "index.html");
+    log.debug("File path:", filePath);
+    await mainWindow.loadFile(filePath);
   }
   mainWindow.once("ready-to-show", () => {
     mainWindow?.show();

@@ -6,6 +6,21 @@ import { isPathWithinNotesDir } from '../utils/config';
 
 let notesDir: string;
 
+function parseFrontmatter(content: string): string[] {
+  const frontmatterRegex = /^---\n([\s\S]*?)\n---/;
+  const match = content.match(frontmatterRegex);
+  if (!match) return [];
+  
+  const frontmatter = match[1];
+  const tagsMatch = frontmatter.match(/tags:\s*\[(.*?)\]/);
+  if (!tagsMatch || !tagsMatch[1]) return [];
+  
+  const tagsStr = tagsMatch[1].replace(/['"]/g, '');
+  if (!tagsStr.trim()) return [];
+  
+  return tagsStr.split(',').map(t => t.trim()).filter(Boolean);
+}
+
 export function setNotesDir(dir: string): void {
   notesDir = dir;
 }
@@ -201,18 +216,36 @@ export function registerFilesystemHandlers(): void {
   ipcMain.handle('read-file', async (_event, filePath: string) => {
     try {
       if (!filePath || typeof filePath !== 'string') {
+        log.error('read-file: Invalid filePath');
+        return null;
+      }
+      
+      log.info('read-file: Reading:', filePath);
+      
+      if (!isPathWithinNotesDir(filePath, notesDir)) {
+        log.error('read-file: Access denied for path:', filePath);
+        return null;
+      }
+      
+      if (!fs.existsSync(filePath)) {
+        log.error('read-file: File not found:', filePath);
         return null;
       }
       
       const content = fs.readFileSync(filePath, 'utf-8');
       const name = path.basename(filePath, '.md');
       const stats = fs.statSync(filePath);
+      const tags = parseFrontmatter(content);
+      
+      log.info('read-file: Success:', filePath, 'title:', name);
+      
       return {
         id: filePath,
         title: name,
         content: content,
         createdAt: stats.birthtimeMs,
-        updatedAt: stats.mtimeMs
+        updatedAt: stats.mtimeMs,
+        tags: tags
       };
     } catch (e) {
       log.error('Error reading file:', e);

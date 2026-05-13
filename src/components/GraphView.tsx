@@ -42,7 +42,19 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       .force('charge', d3.forceManyBody().strength(-300))
       .force('center', d3.forceCenter(width / 2, height / 2))
       .force('x', d3.forceX(width / 2).strength(0.05))
-      .force('y', d3.forceY(height / 2).strength(0.05));
+      .force('y', d3.forceY(height / 2).strength(0.05))
+      .alpha(1)
+      .restart();
+
+    simulation.on('tick', () => {
+      link
+        .attr('x1', (d: any) => d.source.x)
+        .attr('y1', (d: any) => d.source.y)
+        .attr('x2', (d: any) => d.target.x)
+        .attr('y2', (d: any) => d.target.y);
+
+      node.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
+    });
 
     const link = g.append('g')
       .selectAll('line')
@@ -71,8 +83,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
     node.append('circle')
       .attr('r', (d) => (d as any).isTag ? 4 : (d.id === activeNodeId ? 8 : 5))
       .attr('fill', (d) => (d as any).isTag ? '#39ff14' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
-      .attr('stroke', (d) => (d as any).isTag ? '#39ff14' : 'var(--color-base-200)')
-      .attr('stroke-width', 1.5)
+      .attr('stroke', 'none')
       .style('filter', (d) => (d as any).isTag ? 'drop-shadow(0 0 6px #39ff14)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'))
       .on('mouseenter', function(event, d) {
         const isTag = (d as any).isTag;
@@ -138,16 +149,6 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       
       animatePulse();
     }
-
-    simulation.on('tick', () => {
-      link
-        .attr('x1', (d: any) => d.source.x)
-        .attr('y1', (d: any) => d.source.y)
-        .attr('x2', (d: any) => d.target.x)
-        .attr('y2', (d: any) => d.target.y);
-
-      node.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
-    });
 
     function dragstarted(event: any) {
       if (!event.active) simulation.alphaTarget(0.3).restart();

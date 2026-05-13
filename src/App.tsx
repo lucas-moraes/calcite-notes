@@ -4,7 +4,7 @@ import { cn, formatTime, wordCount } from "./lib/utils";
 
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, CheckCircle, Loader, Search } from "lucide-react";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search } from "lucide-react";
 import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
 
@@ -12,19 +12,9 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 
-const defaultNote: Note = {
-  id: "welcome",
-  title: "Bem-vindo ao Calcite",
-  content:
-    "# Bem-vindo ao Calcite\n\n---\ndate: 2024-01-01\ntags: []\n---\n\nEste é o seu banco de conhecimentos local.\n\n### Recursos Principais\n- **Markdown**: Suporte total a GFM.\n- **Graph View**: Veja como suas notas se conectam.\n- **Tags**: Use tags para organizar notas.\n- **Links**: Use `[[Nome da Nota]]` para criar conexões.\n\nTente criar uma nova nota e vincular a esta!",
-  createdAt: Date.now(),
-  updatedAt: Date.now(),
-};
-
-
 export default function App() {
-  const [notes, setNotes] = useState<Note[]>([defaultNote]);
-  const [activeNoteId, setActiveNoteId] = useState<string | null>("welcome");
+  const [notes, setNotes] = useState<Note[]>([]);
+  const [activeNoteId, setActiveNoteId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
   const [notesFolder, setNotesFolder] = useState<string>("");
@@ -39,7 +29,6 @@ export default function App() {
   const [isResizingSplit, setIsResizingSplit] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string; tags?: string[] }[]>([]);
-  const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'unsaved'>('saved');
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   useEffect(() => {
@@ -166,18 +155,6 @@ export default function App() {
     }
   }, []);
 
-  useEffect(() => {
-    if (isLoaded && window.electronAPI && notes.length > 0) {
-      const notesToSave = notes.filter((n) => !n.isNew);
-      notesToSave.forEach((note) => {
-        setSaveStatus('saving');
-        window.electronAPI.saveNote(note).then(() => {
-          setSaveStatus('saved');
-        });
-      });
-    }
-  }, [notes, isLoaded]);
-
   const activeNote = useMemo(() => notes.find((n) => n.id === activeNoteId) || null, [notes, activeNoteId]);
 
   const filteredNotes = useMemo(() => {
@@ -200,7 +177,6 @@ const { nodes, links } = useMemo(() => {
       val: 1,
     }));
 
-    // Adicionar nós para tags
     const allTags = new Set<string>();
     allNotes.forEach(n => n.tags?.forEach(t => allTags.add(t)));
     allTags.forEach(tag => {
@@ -225,7 +201,6 @@ const { nodes, links } = useMemo(() => {
       }
     };
 
-    // Links por [[Nota]]
     for (const note of allNotes) {
       let match;
       while ((match = linkRegex.exec(note.content || '')) !== null) {
@@ -237,12 +212,13 @@ const { nodes, links } = useMemo(() => {
       }
     }
 
-    // Links por tags compartilhadas (nota -> tag)
-    allNotes.forEach(note => {
-      note.tags?.forEach(tag => {
-        addLink(note.id, `tag-${tag}`, 'tag');
-      });
-    });
+    for (const note of allNotes) {
+      if (note.tags && note.tags.length > 0) {
+        for (const tag of note.tags) {
+          addLink(note.id, `tag-${tag}`, 'tag');
+        }
+      }
+    }
 
     return { nodes, links };
   }, [notes, allNotesFromDisk]);
@@ -255,6 +231,7 @@ const { nodes, links } = useMemo(() => {
       id: noteId,
       title: "",
       content: `---
+title: 
 date: ${formattedDate}
 tags: []
 ---
@@ -319,9 +296,20 @@ tags: []
   };
 
   const handleUpdateNote = (id: string, updates: Partial<Note>) => {
-    setSaveStatus('unsaved');
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates, updatedAt: Date.now() } : n)));
   };
+
+  // Auto-save notes when they change
+  useEffect(() => {
+    const notesToSave = notes.filter((n) => !n.isNew && n.content);
+    if (notesToSave.length > 0 && window.electronAPI) {
+      notesToSave.forEach((note) => {
+        window.electronAPI.saveNote(note).catch((err) => {
+          console.error('Error saving note:', err);
+        });
+      });
+    }
+  }, [notes]);
 
   const handleDeleteNote = async (id: string) => {
     if (confirm("Are you sure you want to delete this note?")) {
@@ -343,16 +331,24 @@ tags: []
   };
 
   const handleOpenFile = async (path: string) => {
-    const note = await window.electronAPI?.readFile(path);
-    if (note) {
-      setNotes((prev) => {
-        const exists = prev.find((n) => n.id === note.id);
-        if (exists) {
-          return prev.map((n) => (n.id === note.id ? note : n));
-        }
-        return [note, ...prev];
-      });
-      setActiveNoteId(note.id);
+    console.log('Opening file:', path);
+    try {
+      const note = await window.electronAPI?.readFile(path);
+      console.log('Read file result:', note);
+      if (note) {
+        setNotes((prev) => {
+          const exists = prev.find((n) => n.id === note.id);
+          if (exists) {
+            return prev.map((n) => (n.id === note.id ? note : n));
+          }
+          return [note, ...prev];
+        });
+        setActiveNoteId(note.id);
+      } else {
+        console.error('readFile returned null for path:', path);
+      }
+    } catch (err) {
+      console.error('Error opening file:', err);
     }
   };
 
@@ -512,18 +508,6 @@ tags: []
         >
           <Pencil size={16} />
         </button>
-        {/* Save Status Indicator */}
-        <div className="flex items-center gap-1 px-2" title={saveStatus === 'saving' ? 'Saving...' : saveStatus === 'saved' ? 'Saved' : 'Unsaved changes'}>
-          {saveStatus === 'saving' && (
-            <Loader size={14} className="text-base-500 animate-spin" />
-          )}
-          {saveStatus === 'saved' && (
-            <CheckCircle size={14} className="text-green-500" />
-          )}
-          {saveStatus === 'unsaved' && (
-            <div className="w-2 h-2 rounded-full bg-yellow-500" title="Unsaved changes" />
-          )}
-        </div>
         <button
           onClick={() => activeNote && handleDeleteNote(activeNote.id)}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
@@ -664,25 +648,14 @@ tags: []
               {/* Editor Content */}
               <div className="flex-1 relative overflow-hidden">
                 {editorTab === "edit" ? (
-                  <div className="absolute inset-0 p-6 pb-4 animate-fade-in">
+<div className="absolute inset-0 p-6 pb-4 animate-fade-in overflow-auto">
                     <textarea
+                      key={activeNote.id}
                       placeholder="Start writing..."
-                      className={`
-                          w-full 
-                          h-auto 
-                          min-h-full 
-                          bg-transparent 
-                          border-none 
-                          outline-none 
-                          resize-none 
-                          text-base-300 
-                          font-mono 
-                          text-[15px] 
-                          leading-relaxed 
-                          placeholder-base-800
-                        `}
+                      style={{ color: '#e8eaed', height: '100%', minHeight: '100%' }}
+                      className="w-full bg-transparent border-none outline-none resize-none font-mono text-[15px] leading-relaxed"
                       spellCheck={false}
-                      value={activeNote.content}
+                      value={activeNote.content || ""}
                       onChange={(e) => handleUpdateNote(activeNote.id, { content: e.target.value })}
                     />
                   </div>

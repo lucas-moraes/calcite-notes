@@ -96,6 +96,16 @@
   color: #fff;
 }
 
+textarea {
+  color: var(--color-base-100) !important;
+  background: transparent !important;
+  caret-color: var(--color-accent);
+}
+
+textarea::placeholder {
+  color: var(--color-base-800);
+}
+
 .markdown-content {
   color: var(--color-base-300);
   line-height: 1.625;

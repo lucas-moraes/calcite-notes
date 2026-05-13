@@ -25,6 +25,13 @@ log.initialize();
 log.transports.file.level = 'info';
 log.transports.console.level = app.isPackaged ? 'warn' : 'debug';
 
+const devServerUrl = process.env.VITE_DEV_SERVER_URL || process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL || 'http://localhost:5173';
+log.info('=== Environment Debug ===');
+log.info('Dev server URL from env:', devServerUrl);
+log.info('app.isPackaged:', app.isPackaged);
+log.info('NODE_ENV:', process.env.NODE_ENV);
+log.info('========================');
+
 process.on('uncaughtException', (error) => {
   log.error('Uncaught Exception:', error);
   if (app.isPackaged) {
@@ -71,13 +78,14 @@ async function createWindow(): Promise<void> {
   setFsNotesDir(getNotesDirValue());
   setupIpcHandlers();
 
-  const isDev = !app.isPackaged;
-  
-  if (isDev && VITE_DEV_SERVER_URL) {
-    log.debug('Loading dev URL:', VITE_DEV_SERVER_URL);
-    await mainWindow.loadURL(VITE_DEV_SERVER_URL);
+  if (devServerUrl && !app.isPackaged) {
+    log.debug('Loading dev URL:', devServerUrl);
+    await mainWindow.loadURL(devServerUrl);
   } else {
-    await mainWindow.loadFile(path.join(__dirname, '..', 'renderer', 'index.html'));
+    log.debug('Loading production file');
+    const filePath = path.join(__dirname, '..', 'renderer', 'index.html');
+    log.debug('File path:', filePath);
+    await mainWindow.loadFile(filePath);
   }
 
   mainWindow.once('ready-to-show', () => {
