@@ -28,7 +28,9 @@ export default function App() {
   const [splitRatio, setSplitRatio] = useState(0.5);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [allNotesFromDisk, setAllNotesFromDisk] = useState<{ id: string; name: string; content: string; tags?: string[] }[]>([]);
+  const [allNotesFromDisk, setAllNotesFromDisk] = useState<
+    { id: string; name: string; content: string; tags?: string[] }[]
+  >([]);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   useEffect(() => {
@@ -61,7 +63,7 @@ export default function App() {
         setTreeWidth(newWidth);
       }
       if (isResizingSplit) {
-        const container = document.getElementById('main-content');
+        const container = document.getElementById("main-content");
         if (container) {
           const rect = container.getBoundingClientRect();
           const ratio = (e.clientX - rect.left) / rect.width;
@@ -114,13 +116,13 @@ export default function App() {
   // Keyboard shortcut for command palette
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
         e.preventDefault();
         setIsCommandPaletteOpen(true);
       }
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   useEffect(() => {
@@ -128,7 +130,7 @@ export default function App() {
       window.electronAPI.getNotes().then((loadedNotes) => {
         if (loadedNotes.length > 0) {
           setNotes(loadedNotes);
-          const indexNote = loadedNotes.find(n => n.title.toLowerCase() === 'index');
+          const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
           setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0].id);
         }
         setIsLoaded(true);
@@ -141,7 +143,7 @@ export default function App() {
       const unsubscribeReload = window.electronAPI.onReloadNotes?.(() => {
         window.electronAPI.getNotes().then((loadedNotes) => {
           setNotes(loadedNotes);
-          const indexNote = loadedNotes.find(n => n.title.toLowerCase() === 'index');
+          const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
           setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0]?.id || null);
         });
       });
@@ -166,35 +168,70 @@ export default function App() {
     );
   }, [notes, searchQuery]);
 
-const { nodes, links } = useMemo(() => {
-    const allNotes = allNotesFromDisk.length > 0
-      ? allNotesFromDisk
-      : notes.map(n => ({ id: n.id, name: n.title || '', content: n.content || '', tags: n.tags || [] }));
-    
+  const { nodes, links } = useMemo(() => {
+    // Mesclar notas do disco com notas locais (editadas)
+    let allNotes: { id: string; name: string; content: string; tags: string[] }[];
+
+    if (allNotesFromDisk.length > 0) {
+      // Criar mapa de notas locais para sobrescrever dados do disco
+      const localNotesMap = new Map(notes.map((n) => [n.id, n]));
+
+      // Começar com notas do disco
+      allNotes = allNotesFromDisk.map((n) => ({ ...n, tags: n.tags || [] }));
+
+      // Sobrescrever com notas locais editadas
+      for (let i = 0; i < allNotes.length; i++) {
+        const local = localNotesMap.get(allNotes[i].id);
+        if (local && local.content) {
+          allNotes[i].content = local.content;
+          allNotes[i].name = local.title || allNotes[i].name;
+          allNotes[i].tags = local.tags || allNotes[i].tags;
+          localNotesMap.delete(allNotes[i].id);
+        }
+      }
+
+      // Adicionar notas que só existem localmente
+      for (const [, local] of localNotesMap) {
+        allNotes.push({
+          id: local.id,
+          name: local.title || "",
+          content: local.content || "",
+          tags: local.tags || [],
+        });
+      }
+    } else {
+      // Se não há notas do disco, usar só notas locais
+      allNotes = notes.map((n) => ({
+        id: n.id,
+        name: n.title || "",
+        content: n.content || "",
+        tags: n.tags || [],
+      }));
+    }
+
     const nodes: GraphNode[] = allNotes.map((n) => ({
       id: n.id,
-      name: n.name || '',
+      name: n.name || "",
       val: 1,
     }));
 
     const allTags = new Set<string>();
-    allNotes.forEach(n => n.tags?.forEach(t => allTags.add(t)));
-    allTags.forEach(tag => {
+    allNotes.forEach((n) => n.tags?.forEach((t) => allTags.add(t)));
+    allTags.forEach((tag) => {
       nodes.push({
         id: `tag-${tag}`,
         name: tag,
         val: 0.5,
-        isTag: true
+        isTag: true,
       });
     });
 
-    const links: (GraphLink & { type: 'wiki' | 'tag' })[] = [];
+    const links: (GraphLink & { type: "wiki" | "tag" })[] = [];
     const linkRegex = /\[\[(.*?)\]\]/g;
 
-    const addLink = (source: string, target: string, type: 'wiki' | 'tag') => {
-      const exists = links.some(l => 
-        (l.source === source && l.target === target) ||
-        (l.source === target && l.target === source)
+    const addLink = (source: string, target: string, type: "wiki" | "tag") => {
+      const exists = links.some(
+        (l) => (l.source === source && l.target === target) || (l.source === target && l.target === source),
       );
       if (!exists) {
         links.push({ source, target, type });
@@ -203,11 +240,11 @@ const { nodes, links } = useMemo(() => {
 
     for (const note of allNotes) {
       let match;
-      while ((match = linkRegex.exec(note.content || '')) !== null) {
+      while ((match = linkRegex.exec(note.content || "")) !== null) {
         const targetTitle = match[1];
-        const targetNote = allNotes.find((n) => (n.name || '').toLowerCase() === targetTitle.toLowerCase());
+        const targetNote = allNotes.find((n) => (n.name || "").toLowerCase() === targetTitle.toLowerCase());
         if (targetNote && targetNote.id !== note.id) {
-          addLink(note.id, targetNote.id, 'wiki');
+          addLink(note.id, targetNote.id, "wiki");
         }
       }
     }
@@ -215,7 +252,7 @@ const { nodes, links } = useMemo(() => {
     for (const note of allNotes) {
       if (note.tags && note.tags.length > 0) {
         for (const tag of note.tags) {
-          addLink(note.id, `tag-${tag}`, 'tag');
+          addLink(note.id, `tag-${tag}`, "tag");
         }
       }
     }
@@ -305,7 +342,7 @@ tags: []
     if (notesToSave.length > 0 && window.electronAPI) {
       notesToSave.forEach((note) => {
         window.electronAPI.saveNote(note).catch((err) => {
-          console.error('Error saving note:', err);
+          console.error("Error saving note:", err);
         });
       });
     }
@@ -331,10 +368,10 @@ tags: []
   };
 
   const handleOpenFile = async (path: string) => {
-    console.log('Opening file:', path);
+    console.log("Opening file:", path);
     try {
       const note = await window.electronAPI?.readFile(path);
-      console.log('Read file result:', note);
+      console.log("Read file result:", note);
       if (note) {
         setNotes((prev) => {
           const exists = prev.find((n) => n.id === note.id);
@@ -345,10 +382,10 @@ tags: []
         });
         setActiveNoteId(note.id);
       } else {
-        console.error('readFile returned null for path:', path);
+        console.error("readFile returned null for path:", path);
       }
     } catch (err) {
-      console.error('Error opening file:', err);
+      console.error("Error opening file:", err);
     }
   };
 
@@ -362,7 +399,16 @@ tags: []
             className="p-1.5 hover:bg-base-800 rounded text-base-400 hover:text-base-200 transition-colors"
             title="Toggle file tree"
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M3 12h18M3 6h18M3 18h18" />
             </svg>
           </button>
@@ -526,8 +572,8 @@ tags: []
 
       {/* Drawer - File Tree */}
       <div
-        className={`fixed inset-y-0 left-0 z-20 bg-base-900 border-r border-base-800 transition-transform duration-200 ease-out ${isDrawerOpen ? 'translate-x-0' : '-translate-x-full'}`}
-        style={{ width: treeWidth, top: '48px' }}
+        className={`fixed inset-y-0 left-0 z-20 bg-base-900 border-r border-base-800 transition-transform duration-200 ease-out ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}`}
+        style={{ width: treeWidth, top: "48px" }}
       >
         <FileTree
           key={fileTreeKey}
@@ -541,14 +587,18 @@ tags: []
       </div>
 
       {/* Main Content */}
-      <div id="main-content" className={`flex flex-1 min-w-0 overflow-hidden transition-all duration-200 ${isDrawerOpen ? 'ml-0' : ''}`} style={{ cursor: isResizingSplit ? 'col-resize' : 'default' }}>
+      <div
+        id="main-content"
+        className={`flex flex-1 min-w-0 overflow-hidden transition-all duration-200 ${isDrawerOpen ? "ml-0" : ""}`}
+        style={{ cursor: isResizingSplit ? "col-resize" : "default" }}
+      >
         {/* Graph View - Panel Principal */}
         <div style={{ width: `${splitRatio * 100}%` }} className="border-r border-base-800 relative">
           <GraphView
             nodes={nodes}
             links={links}
             onNodeClick={(id) => {
-              const note = notes.find(n => n.id === id);
+              const note = notes.find((n) => n.id === id);
               if (note) {
                 setActiveNoteId(id);
               } else {
@@ -648,12 +698,12 @@ tags: []
               {/* Editor Content */}
               <div className="flex-1 relative overflow-hidden">
                 {editorTab === "edit" ? (
-<div className="absolute inset-0 p-6 pb-4 animate-fade-in overflow-auto">
+                  <div className="absolute inset-0 py-4 pl-4 animate-fade-in overflow-y-hidden">
                     <textarea
                       key={activeNote.id}
                       placeholder="Start writing..."
-                      style={{ color: '#e8eaed', height: '100%', minHeight: '100%' }}
-                      className="w-full bg-transparent border-none outline-none resize-none font-mono text-[15px] leading-relaxed"
+                      style={{ color: "#e8eaed", height: "100%", minHeight: "100%" }}
+                      className="w-full bg-transparent border-none pr-4 outline-none resize-none font-mono text-[15px] leading-relaxed"
                       spellCheck={false}
                       value={activeNote.content || ""}
                       onChange={(e) => handleUpdateNote(activeNote.id, { content: e.target.value })}
@@ -676,8 +726,7 @@ tags: []
               <p className="mt-4 text-sm font-medium">Select or create a note</p>
             </div>
           )}
-
-          </main>
+        </main>
       </div>
 
       {/* Command Palette */}
@@ -686,32 +735,35 @@ tags: []
         onClose={() => setIsCommandPaletteOpen(false)}
         commands={[
           {
-            id: 'new-note',
-            label: 'New Note',
+            id: "new-note",
+            label: "New Note",
             icon: <Plus size={16} />,
             action: handleCreateNote,
           },
           {
-            id: 'toggle-theme',
-            label: theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode',
-            icon: theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />,
+            id: "toggle-theme",
+            label: theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode",
+            icon: theme === "dark" ? <Sun size={16} /> : <Moon size={16} />,
             action: () => {
-              const newTheme = theme === 'dark' ? 'light' : 'dark';
+              const newTheme = theme === "dark" ? "light" : "dark";
               setTheme(newTheme);
-              document.documentElement.classList.toggle('light', newTheme === 'light');
+              document.documentElement.classList.toggle("light", newTheme === "light");
               window.electronAPI?.saveTheme(newTheme);
             },
           },
-          ...notes.flatMap(n => 
-            n.tags?.map((tag) => ({
-              id: `tag-${tag}-${n.id}`,
-              label: `Tag: ${tag} → ${n.title}`,
-              icon: <Search size={16} />,
-              action: () => {
-                setActiveNoteId(n.id);
-              },
-            })) || []
-          ).slice(0, 20),
+          ...notes
+            .flatMap(
+              (n) =>
+                n.tags?.map((tag) => ({
+                  id: `tag-${tag}-${n.id}`,
+                  label: `Tag: ${tag} → ${n.title}`,
+                  icon: <Search size={16} />,
+                  action: () => {
+                    setActiveNoteId(n.id);
+                  },
+                })) || [],
+            )
+            .slice(0, 20),
         ]}
       />
     </div>
