@@ -4,12 +4,16 @@ import path from 'node:path';
 import fs from 'node:fs';
 import log from 'electron-log';
 
+app.disableHardwareAcceleration();
+
+app.commandLine.appendSwitch('in-process-gpu');
+
 import { loadConfig, getNotesDir, ensureNotesDir } from './utils/config';
 import { loadWindowState, saveWindowState } from './utils/window';
 import { createMenu, initMenuConfig } from './utils/menu';
 import { registerNotesHandlers, setNotesDir as setNotesDirHandler } from './ipc/notes';
 import { initConfig, registerConfigHandlers, getNotesDirValue, getThemeValue, getTreeWidthValue, setNotesDirValue } from './ipc/config';
-import { registerFilesystemHandlers, setNotesDir as setFsNotesDir, openNotesFolder } from './ipc/filesystem';
+import { registerFilesystemHandlers, setNotesDir as setFsNotesDir } from './ipc/filesystem';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -20,17 +24,11 @@ export const MAIN_WINDOW_VITE_DEV_SERVER_URL = process.env.MAIN_WINDOW_VITE_DEV_
 export const MAIN_WINDOW_VITE_NAME = 'main_window';
 
 let mainWindow: BrowserWindow | undefined;
+let watcher: fs.FSWatcher | null = null;
 
 log.initialize();
 log.transports.file.level = 'info';
 log.transports.console.level = app.isPackaged ? 'warn' : 'debug';
-
-const devServerUrl = process.env.VITE_DEV_SERVER_URL || process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL || 'http://localhost:5173';
-log.info('=== Environment Debug ===');
-log.info('Dev server URL from env:', devServerUrl);
-log.info('app.isPackaged:', app.isPackaged);
-log.info('NODE_ENV:', process.env.NODE_ENV);
-log.info('========================');
 
 process.on('uncaughtException', (error) => {
   log.error('Uncaught Exception:', error);
@@ -78,13 +76,15 @@ async function createWindow(): Promise<void> {
   setFsNotesDir(getNotesDirValue());
   setupIpcHandlers();
 
-  if (devServerUrl && !app.isPackaged) {
-    log.debug('Loading dev URL:', devServerUrl);
-    await mainWindow.loadURL(devServerUrl);
+  const isDev = !app.isPackaged;
+  
+  if (isDev) {
+    const devUrl = process.env.VITE_DEV_SERVER_URL || process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL || 'http://localhost:5173';
+    log.info('Loading dev URL:', devUrl);
+    await mainWindow.loadURL(devUrl);
   } else {
-    log.debug('Loading production file');
     const filePath = path.join(__dirname, '..', 'renderer', 'index.html');
-    log.debug('File path:', filePath);
+    log.info('Loading production file:', filePath);
     await mainWindow.loadFile(filePath);
   }
 
@@ -110,31 +110,30 @@ async function createWindow(): Promise<void> {
   mainWindow.on('unmaximize', saveCurrentState);
   
   mainWindow.on('closed', () => {
+    if (watcher) {
+      watcher.close();
+      watcher = null;
+    }
     mainWindow = undefined;
   });
 
-  if (!app.isPackaged && mainWindow) {
-    let reloadTimeout: NodeJS.Timeout | null = null;
+  if (isDev && mainWindow) {
     const srcPath = path.join(__dirname, '..', '..', 'src');
     
     log.info('Hot reload enabled. Watching path:', srcPath);
     
     try {
-      const watcher = fs.watch(srcPath, { recursive: true }, (eventType, filename) => {
+      watcher = fs.watch(srcPath, { recursive: true }, (eventType, filename) => {
         if (!filename) return;
         
         const ext = filename.split('.').pop();
         if (!['tsx', 'ts', 'css'].includes(ext || '')) return;
         
         log.info('Detected change in:', filename);
-        
-        if (reloadTimeout) clearTimeout(reloadTimeout);
-        reloadTimeout = setTimeout(() => {
-          if (mainWindow && !mainWindow.isDestroyed()) {
-            log.info('Reloading renderer...');
-            mainWindow.reload();
-          }
-        }, 500);
+
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.reload();
+        }
       });
       
       watcher.on('error', (err) => {
@@ -178,7 +177,5 @@ if (!gotTheLock) {
 }
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  app.quit();
 });

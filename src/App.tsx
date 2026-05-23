@@ -582,6 +582,10 @@ tags: []
             handleOpenFile(path);
             setIsDrawerOpen(false);
           }}
+          onFileCreated={(path) => {
+            handleOpenFile(path);
+          }}
+          onTreeChange={() => setFileTreeKey((prev) => prev + 1)}
           width={treeWidth}
         />
       </div>

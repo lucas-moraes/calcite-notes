@@ -184,6 +184,37 @@ export function registerFilesystemHandlers(): void {
     }
   });
 
+  ipcMain.handle('create-file', async (_event, dirPath: string, fileName: string, content: string) => {
+    try {
+      if (!dirPath || typeof dirPath !== 'string') {
+        return { success: false, error: 'Invalid directory path' };
+      }
+
+      if (!fileName || typeof fileName !== 'string') {
+        return { success: false, error: 'Invalid file name' };
+      }
+
+      if (!isPathWithinNotesDir(dirPath, notesDir)) {
+        log.error('Attempted to create file outside notes directory:', dirPath);
+        return { success: false, error: 'Access denied' };
+      }
+
+      const sanitizedName = fileName.replace(/[^a-zA-Z0-9\-]/g, '-');
+      const filePath = path.join(dirPath, `${sanitizedName}.md`);
+
+      if (fs.existsSync(filePath)) {
+        return { success: false, error: 'A file with this name already exists' };
+      }
+
+      const defaultContent = content || `---\ntitle: ${sanitizedName}\ndate: ${new Date().toISOString().split('T')[0]}\ntags: []\n---\n\n`;
+      fs.writeFileSync(filePath, defaultContent, 'utf-8');
+      return { success: true, path: filePath };
+    } catch (e) {
+      log.error('Error creating file:', e);
+      return { success: false, error: String(e) };
+    }
+  });
+
   ipcMain.handle('get-directory', async (_event, dirPath: string) => {
     try {
       if (!dirPath || typeof dirPath !== 'string') {

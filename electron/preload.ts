@@ -18,6 +18,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   renameNote: (oldPath: string, newFileName: string) => ipcRenderer.invoke('rename-note', oldPath, newFileName),
   updateNoteTags: (noteId: string, tags: string[]) => ipcRenderer.invoke('update-note-tags', noteId, tags),
   createFolder: (parentPath: string, folderName: string) => ipcRenderer.invoke('create-folder', parentPath, folderName),
+  createFile: (dirPath: string, fileName: string, content?: string) => ipcRenderer.invoke('create-file', dirPath, fileName, content || ''),
   renameFolder: (oldPath: string, newName: string) => ipcRenderer.invoke('rename-folder', oldPath, newName),
   moveFile: (sourcePath: string, destFolder: string) => ipcRenderer.invoke('move-file', sourcePath, destFolder),
   getTheme: () => ipcRenderer.invoke('get-theme'),

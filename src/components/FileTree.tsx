@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Folder, File, ChevronRight, ChevronDown, FolderPlus, Pencil, Trash2 } from 'lucide-react';
+import { Folder, File, ChevronRight, ChevronDown, FolderPlus, Pencil, Trash2, FilePlus } from 'lucide-react';
 import { clsx } from 'clsx';
 
 interface FileNode {
@@ -13,6 +13,8 @@ interface FileNode {
 interface FileTreeProps {
   rootPath: string;
   onFileSelect: (path: string) => void;
+  onFileCreated?: (path: string) => void;
+  onTreeChange?: () => void;
   width?: number;
 }
 
@@ -23,6 +25,8 @@ interface TreeNodeProps {
   onExpand: (path: string) => Promise<FileNode[]>;
   isActive: boolean;
   isExpanded: boolean;
+  activePath: string | null;
+  expandedPaths: Set<string>;
   onToggle: (path: string) => void;
   checkHasMd: (path: string) => Promise<boolean>;
   onContextMenu: (e: React.MouseEvent, node: FileNode) => void;
@@ -44,6 +48,8 @@ function TreeNode({
   onExpand,
   isActive,
   isExpanded,
+  activePath,
+  expandedPaths,
   onToggle,
   checkHasMd,
   onContextMenu,
@@ -159,8 +165,10 @@ function TreeNode({
               level={level + 1}
               onSelect={onSelect}
               onExpand={onExpand}
-              isActive={false}
-              isExpanded={false}
+              isActive={activePath === child.path}
+              isExpanded={expandedPaths.has(child.path)}
+              activePath={activePath}
+              expandedPaths={expandedPaths}
               onToggle={onToggle}
               checkHasMd={checkHasMd}
               onContextMenu={onContextMenu}
@@ -193,7 +201,7 @@ function formatPathname(path: string): string {
   return path.split('/').pop() || path;
 }
 
-export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProps) {
+export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTreeChange, width }: FileTreeProps) {
   const [tree, setTree] = useState<FileNode[]>([]);
   const [activePath, setActivePath] = useState<string | null>(null);
   const [expandedPaths, setExpandedPaths] = useState<Set<string>>(new Set());
@@ -201,9 +209,12 @@ export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProp
   const [contextMenu, setContextMenu] = useState<ContextMenuState>({ show: false, x: 0, y: 0, type: 'empty' });
   const [renamingPath, setRenamingPath] = useState<string | null>(null);
   const [creatingInPath, setCreatingInPath] = useState<string | null>(null);
+  const [creatingFileInPath, setCreatingFileInPath] = useState<string | null>(null);
   const [newFolderName, setNewFolderName] = useState('');
+  const [newFileName, setNewFileName] = useState('');
   const [dropTargetPath, setDropTargetPath] = useState<string | null>(null);
   const inputNewFolderRef = useRef<HTMLInputElement>(null);
+  const inputNewFileRef = useRef<HTMLInputElement>(null);
   const contextMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -219,6 +230,12 @@ export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProp
       inputNewFolderRef.current.focus();
     }
   }, [creatingInPath]);
+
+  useEffect(() => {
+    if (creatingFileInPath && inputNewFileRef.current) {
+      inputNewFileRef.current.focus();
+    }
+  }, [creatingFileInPath]);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -309,11 +326,14 @@ export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProp
       return;
     }
 
-    const result = await window.electronAPI.renameFolder(oldPath, newName.trim());
+    const isFile = oldPath.endsWith('.md');
+    const result = isFile
+      ? await window.electronAPI.renameNote(oldPath, newName.trim())
+      : await window.electronAPI.renameFolder(oldPath, newName.trim());
     if (!result.success) {
       alert(`Failed to rename: ${result.error}`);
     } else {
-      await loadTree(rootPath);
+      onTreeChange?.();
     }
     setRenamingPath(null);
   };
@@ -399,6 +419,52 @@ export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProp
     }
   };
 
+  const handleCreateFile = async () => {
+    if (!newFileName.trim() || !window.electronAPI || !creatingFileInPath) return;
+
+    const result = await window.electronAPI.createFile(creatingFileInPath, newFileName.trim());
+    if (!result.success) {
+      alert(`Failed to create file: ${result.error}`);
+    } else {
+      onTreeChange?.();
+      if (result.path && onFileCreated) {
+        onFileCreated(result.path);
+      }
+    }
+    setCreatingFileInPath(null);
+    setNewFileName('');
+    setContextMenu(prev => ({ ...prev, show: false }));
+  };
+
+  const handleCreateFileKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleCreateFile();
+    } else if (e.key === 'Escape') {
+      setCreatingFileInPath(null);
+      setNewFileName('');
+      setContextMenu(prev => ({ ...prev, show: false }));
+    }
+  };
+
+  const handleDeleteFile = async () => {
+    if (!contextMenu.path || !window.electronAPI) return;
+    if (!confirm('Are you sure you want to delete this file?')) return;
+
+    try {
+      const result = await window.electronAPI.deleteNote(contextMenu.path);
+      if (!result.success) {
+        alert(`Failed to delete: ${result.error}`);
+      } else {
+        onTreeChange?.();
+      }
+    } catch (e) {
+      console.error('Error deleting file:', e);
+      alert('Failed to delete file');
+    }
+    setContextMenu(prev => ({ ...prev, show: false }));
+  };
+
   if (!rootPath) {
     return null;
   }
@@ -423,6 +489,8 @@ export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProp
               onExpand={handleExpand}
               isActive={activePath === node.path}
               isExpanded={expandedPaths.has(node.path)}
+              activePath={activePath}
+              expandedPaths={expandedPaths}
               onToggle={handleToggle}
               checkHasMd={checkHasMdFiles}
               onContextMenu={handleContextMenu}
@@ -459,6 +527,25 @@ export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProp
         </div>
       )}
 
+      {/* Create file inline input */}
+      {creatingFileInPath && (
+        <div className="p-2 border-t border-base-800">
+          <div className="flex items-center gap-1">
+            <FilePlus size={14} className="text-blue-400" />
+            <input
+              ref={inputNewFileRef}
+              type="text"
+              value={newFileName}
+              onChange={(e) => setNewFileName(e.target.value)}
+              onKeyDown={handleCreateFileKeyDown}
+              onBlur={handleCreateFile}
+              placeholder="filename (without .md)"
+              className="flex-1 bg-base-800 px-2 py-1 text-sm text-white rounded outline-none focus:border-accent border border-base-700"
+            />
+          </div>
+        </div>
+      )}
+
       {/* Context Menu */}
       {contextMenu.show && (
         <div
@@ -468,6 +555,17 @@ export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProp
         >
           {contextMenu.type === 'folder' && (
             <>
+              <button
+                onClick={() => {
+                  const folderPath = contextMenu.path || '';
+                  setCreatingFileInPath(folderPath);
+                  setContextMenu(prev => ({ ...prev, show: false }));
+                }}
+                className="w-full px-3 py-1.5 text-sm text-left text-base-300 hover:bg-base-700 hover:text-white flex items-center gap-2"
+              >
+                <FilePlus size={14} />
+                New .md file
+              </button>
               <button
                 onClick={() => {
                   setCreatingInPath(contextMenu.path || '');
@@ -500,17 +598,53 @@ export default function FileTree({ rootPath, onFileSelect, width }: FileTreeProp
               </button>
             </>
           )}
+          {contextMenu.type === 'file' && (
+            <>
+              <button
+                onClick={() => {
+                  const path = contextMenu.path || '';
+                  const name = (path.split('/').pop() || '').replace(/\.md$/, '');
+                  handleStartRename(path, name);
+                }}
+                className="w-full px-3 py-1.5 text-sm text-left text-base-300 hover:bg-base-700 hover:text-white flex items-center gap-2"
+              >
+                <Pencil size={14} />
+                Rename file
+              </button>
+              <div className="my-1 border-t border-base-700" />
+              <button
+                onClick={handleDeleteFile}
+                className="w-full px-3 py-1.5 text-sm text-left text-red-400 hover:bg-base-700 flex items-center gap-2"
+                title="Delete file"
+              >
+                <Trash2 size={14} />
+                Delete file
+              </button>
+            </>
+          )}
           {contextMenu.type === 'empty' && (
-            <button
-              onClick={() => {
-                setCreatingInPath(contextMenu.path || rootPath);
-                setContextMenu(prev => ({ ...prev, show: false }));
-              }}
-              className="w-full px-3 py-1.5 text-sm text-left text-base-300 hover:bg-base-700 hover:text-white flex items-center gap-2"
-            >
-              <FolderPlus size={14} />
-              New folder here
-            </button>
+            <>
+              <button
+                onClick={() => {
+                  setCreatingFileInPath(contextMenu.path || rootPath);
+                  setContextMenu(prev => ({ ...prev, show: false }));
+                }}
+                className="w-full px-3 py-1.5 text-sm text-left text-base-300 hover:bg-base-700 hover:text-white flex items-center gap-2"
+              >
+                <FilePlus size={14} />
+                New .md file
+              </button>
+              <button
+                onClick={() => {
+                  setCreatingInPath(contextMenu.path || rootPath);
+                  setContextMenu(prev => ({ ...prev, show: false }));
+                }}
+                className="w-full px-3 py-1.5 text-sm text-left text-base-300 hover:bg-base-700 hover:text-white flex items-center gap-2"
+              >
+                <FolderPlus size={14} />
+                New folder here
+              </button>
+            </>
           )}
         </div>
       )}

@@ -17,6 +17,7 @@ electron.contextBridge.exposeInMainWorld("electronAPI", {
   renameNote: (oldPath, newFileName) => electron.ipcRenderer.invoke("rename-note", oldPath, newFileName),
   updateNoteTags: (noteId, tags) => electron.ipcRenderer.invoke("update-note-tags", noteId, tags),
   createFolder: (parentPath, folderName) => electron.ipcRenderer.invoke("create-folder", parentPath, folderName),
+  createFile: (dirPath, fileName, content) => electron.ipcRenderer.invoke("create-file", dirPath, fileName, content || ""),
   renameFolder: (oldPath, newName) => electron.ipcRenderer.invoke("rename-folder", oldPath, newName),
   moveFile: (sourcePath, destFolder) => electron.ipcRenderer.invoke("move-file", sourcePath, destFolder),
   getTheme: () => electron.ipcRenderer.invoke("get-theme"),

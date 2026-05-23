@@ -570,6 +570,37 @@ function registerFilesystemHandlers() {
       return { success: false, error: String(e) };
     }
   });
+  ipcMain.handle("create-file", async (_event, dirPath, fileName, content) => {
+    try {
+      if (!dirPath || typeof dirPath !== "string") {
+        return { success: false, error: "Invalid directory path" };
+      }
+      if (!fileName || typeof fileName !== "string") {
+        return { success: false, error: "Invalid file name" };
+      }
+      if (!isPathWithinNotesDir(dirPath, notesDir)) {
+        log.error("Attempted to create file outside notes directory:", dirPath);
+        return { success: false, error: "Access denied" };
+      }
+      const sanitizedName = fileName.replace(/[^a-zA-Z0-9\-]/g, "-");
+      const filePath = path.join(dirPath, `${sanitizedName}.md`);
+      if (fs.existsSync(filePath)) {
+        return { success: false, error: "A file with this name already exists" };
+      }
+      const defaultContent = content || `---
+title: ${sanitizedName}
+date: ${(/* @__PURE__ */ new Date()).toISOString().split("T")[0]}
+tags: []
+---
+
+`;
+      fs.writeFileSync(filePath, defaultContent, "utf-8");
+      return { success: true, path: filePath };
+    } catch (e) {
+      log.error("Error creating file:", e);
+      return { success: false, error: String(e) };
+    }
+  });
   ipcMain.handle("get-directory", async (_event, dirPath) => {
     try {
       if (!dirPath || typeof dirPath !== "string") {
@@ -628,21 +659,18 @@ function registerFilesystemHandlers() {
     }
   });
 }
+app.disableHardwareAcceleration();
+app.commandLine.appendSwitch("in-process-gpu");
 const __dirname$1 = path.dirname(fileURLToPath(import.meta.url));
 process.env.APP_ROOT = path.join(__dirname$1, "..");
 const VITE_DEV_SERVER_URL = process.env.VITE_DEV_SERVER_URL;
 const MAIN_WINDOW_VITE_DEV_SERVER_URL = process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL;
 const MAIN_WINDOW_VITE_NAME = "main_window";
 let mainWindow;
+let watcher = null;
 log.initialize();
 log.transports.file.level = "info";
 log.transports.console.level = app.isPackaged ? "warn" : "debug";
-const devServerUrl = process.env.VITE_DEV_SERVER_URL || process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL || "http://localhost:5173";
-log.info("=== Environment Debug ===");
-log.info("Dev server URL from env:", devServerUrl);
-log.info("app.isPackaged:", app.isPackaged);
-log.info("NODE_ENV:", process.env.NODE_ENV);
-log.info("========================");
 process.on("uncaughtException", (error) => {
   log.error("Uncaught Exception:", error);
   if (app.isPackaged) {
@@ -682,13 +710,14 @@ async function createWindow() {
   setNotesDir$1(getNotesDirValue());
   setNotesDir(getNotesDirValue());
   setupIpcHandlers();
-  if (!app.isPackaged) {
-    log.debug("Loading dev URL:", devServerUrl);
-    await mainWindow.loadURL(devServerUrl);
+  const isDev = !app.isPackaged;
+  if (isDev) {
+    const devUrl = process.env.VITE_DEV_SERVER_URL || process.env.MAIN_WINDOW_VITE_DEV_SERVER_URL || "http://localhost:5173";
+    log.info("Loading dev URL:", devUrl);
+    await mainWindow.loadURL(devUrl);
   } else {
-    log.debug("Loading production file");
     const filePath = path.join(__dirname$1, "..", "renderer", "index.html");
-    log.debug("File path:", filePath);
+    log.info("Loading production file:", filePath);
     await mainWindow.loadFile(filePath);
   }
   mainWindow.once("ready-to-show", () => {
@@ -710,25 +739,24 @@ async function createWindow() {
   mainWindow.on("maximize", saveCurrentState);
   mainWindow.on("unmaximize", saveCurrentState);
   mainWindow.on("closed", () => {
+    if (watcher) {
+      watcher.close();
+      watcher = null;
+    }
     mainWindow = void 0;
   });
-  if (!app.isPackaged && mainWindow) {
-    let reloadTimeout = null;
+  if (isDev && mainWindow) {
     const srcPath = path.join(__dirname$1, "..", "..", "src");
     log.info("Hot reload enabled. Watching path:", srcPath);
     try {
-      const watcher = fs.watch(srcPath, { recursive: true }, (eventType, filename) => {
+      watcher = fs.watch(srcPath, { recursive: true }, (eventType, filename) => {
         if (!filename) return;
         const ext = filename.split(".").pop();
         if (!["tsx", "ts", "css"].includes(ext || "")) return;
         log.info("Detected change in:", filename);
-        if (reloadTimeout) clearTimeout(reloadTimeout);
-        reloadTimeout = setTimeout(() => {
-          if (mainWindow && !mainWindow.isDestroyed()) {
-            log.info("Reloading renderer...");
-            mainWindow.reload();
-          }
-        }, 500);
+        if (mainWindow && !mainWindow.isDestroyed()) {
+          mainWindow.reload();
+        }
       });
       watcher.on("error", (err) => {
         log.error("Watcher error:", err);
@@ -764,9 +792,7 @@ if (!gotTheLock) {
   });
 }
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  app.quit();
 });
 export {
   MAIN_WINDOW_VITE_DEV_SERVER_URL,

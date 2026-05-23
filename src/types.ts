@@ -69,6 +69,7 @@ export interface ElectronAPI {
   renameNote: (oldPath: string, newFileName: string) => Promise<OperationResult>;
   updateNoteTags: (noteId: string, tags: string[]) => Promise<OperationResult>;
   createFolder: (parentPath: string, folderName: string) => Promise<OperationResult>;
+  createFile: (dirPath: string, fileName: string, content?: string) => Promise<OperationResult & { path?: string }>;
   renameFolder: (oldPath: string, newName: string) => Promise<OperationResult>;
   moveFile: (sourcePath: string, destFolder: string) => Promise<OperationResult>;
   getTheme: () => Promise<'dark' | 'light'>;
