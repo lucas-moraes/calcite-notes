@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { Note, GraphNode, GraphLink } from "./types";
 import { cn, formatTime, wordCount } from "./lib/utils";
+import { tauriAPI } from "./lib/tauri";
 
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
@@ -34,23 +35,20 @@ export default function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
 
   useEffect(() => {
-    if (window.electronAPI) {
-      window.electronAPI.getTheme().then((savedTheme) => {
-        if (savedTheme) {
-          setTheme(savedTheme);
-          document.documentElement.classList.remove("dark", "light");
-          document.documentElement.classList.add(savedTheme === "light" ? "light" : "dark");
-        } else {
-          document.documentElement.classList.add("dark");
-        }
-      });
-      window.electronAPI.getTreeWidth?.().then((width) => {
-        if (width) setTreeWidth(width);
-      });
-    }
+    tauriAPI.getTheme().then((savedTheme) => {
+      if (savedTheme) {
+        setTheme(savedTheme as "dark" | "light");
+        document.documentElement.classList.remove("dark", "light");
+        document.documentElement.classList.add(savedTheme === "light" ? "light" : "dark");
+      } else {
+        document.documentElement.classList.add("dark");
+      }
+    });
+    tauriAPI.getTreeWidth().then((width) => {
+      if (width) setTreeWidth(width);
+    });
   }, []);
 
-  // Tree resize handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     setIsResizing(true);
@@ -75,7 +73,7 @@ export default function App() {
     const handleMouseUp = () => {
       if (isResizing) {
         setIsResizing(false);
-        window.electronAPI?.saveTreeWidth?.(treeWidth);
+        tauriAPI.saveTreeWidth(treeWidth);
       }
       if (isResizingSplit) {
         setIsResizingSplit(false);
@@ -93,27 +91,22 @@ export default function App() {
     };
   }, [isResizing, isResizingSplit, treeWidth]);
 
-  // Load saved notes folder on initialization
   useEffect(() => {
-    if (window.electronAPI) {
-      window.electronAPI.getNotesFolder().then((folder) => {
-        if (folder) {
-          setNotesFolder(folder);
-        }
-      });
-    }
+    tauriAPI.getNotesFolder().then((folder) => {
+      if (folder) {
+        setNotesFolder(folder);
+      }
+    });
   }, []);
 
-  // Load all notes from disk for graph
   useEffect(() => {
-    if (window.electronAPI && notesFolder) {
-      window.electronAPI.getAllNotesForGraph?.().then((allNotes) => {
+    if (notesFolder) {
+      tauriAPI.getAllNotesForGraph().then((allNotes) => {
         if (allNotes) setAllNotesFromDisk(allNotes);
       });
     }
   }, [notesFolder, fileTreeKey]);
 
-  // Keyboard shortcut for command palette
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -126,35 +119,45 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (window.electronAPI) {
-      window.electronAPI.getNotes().then((loadedNotes) => {
-        if (loadedNotes.length > 0) {
-          setNotes(loadedNotes);
-          const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
-          setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0].id);
-        }
-        setIsLoaded(true);
-      });
-
-      const unsubscribeNewNote = window.electronAPI.onNewNote(() => {
-        handleCreateNote();
-      });
-
-      const unsubscribeReload = window.electronAPI.onReloadNotes?.(() => {
-        window.electronAPI.getNotes().then((loadedNotes) => {
-          setNotes(loadedNotes);
-          const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
-          setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0]?.id || null);
-        });
-      });
-
-      return () => {
-        unsubscribeNewNote?.();
-        unsubscribeReload?.();
-      };
-    } else {
+    tauriAPI.getNotes().then((loadedNotes) => {
+      if (loadedNotes.length > 0) {
+        setNotes(loadedNotes);
+        const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
+        setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0].id);
+      }
       setIsLoaded(true);
-    }
+    });
+
+    let unlistenNewNote: (() => void) | null = null;
+    let unlistenReload: (() => void) | null = null;
+    let unlistenChooseFolder: (() => void) | null = null;
+
+    tauriAPI.onNewNote(() => {
+      handleCreateNote();
+    }).then((fn) => { unlistenNewNote = fn; });
+
+    tauriAPI.onReloadNotes(() => {
+      tauriAPI.getNotes().then((loadedNotes) => {
+        setNotes(loadedNotes);
+        const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
+        setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0]?.id || null);
+      });
+    }).then((fn) => { unlistenReload = fn; });
+
+    tauriAPI.onChooseNotesFolder(() => {
+      tauriAPI.selectNotesFolder().then((folder) => {
+        if (folder) {
+          setNotesFolder(folder);
+          setFileTreeKey((prev) => prev + 1);
+        }
+      });
+    }).then((fn) => { unlistenChooseFolder = fn; });
+
+    return () => {
+      unlistenNewNote?.();
+      unlistenReload?.();
+      unlistenChooseFolder?.();
+    };
   }, []);
 
   const activeNote = useMemo(() => notes.find((n) => n.id === activeNoteId) || null, [notes, activeNoteId]);
@@ -169,17 +172,13 @@ export default function App() {
   }, [notes, searchQuery]);
 
   const { nodes, links } = useMemo(() => {
-    // Mesclar notas do disco com notas locais (editadas)
     let allNotes: { id: string; name: string; content: string; tags: string[] }[];
 
     if (allNotesFromDisk.length > 0) {
-      // Criar mapa de notas locais para sobrescrever dados do disco
       const localNotesMap = new Map(notes.map((n) => [n.id, n]));
 
-      // Começar com notas do disco
       allNotes = allNotesFromDisk.map((n) => ({ ...n, tags: n.tags || [] }));
 
-      // Sobrescrever com notas locais editadas
       for (let i = 0; i < allNotes.length; i++) {
         const local = localNotesMap.get(allNotes[i].id);
         if (local && local.content) {
@@ -190,7 +189,6 @@ export default function App() {
         }
       }
 
-      // Adicionar notas que só existem localmente
       for (const [, local] of localNotesMap) {
         allNotes.push({
           id: local.id,
@@ -200,7 +198,6 @@ export default function App() {
         });
       }
     } else {
-      // Se não há notas do disco, usar só notas locais
       allNotes = notes.map((n) => ({
         id: n.id,
         name: n.title || "",
@@ -268,7 +265,7 @@ export default function App() {
       id: noteId,
       title: "",
       content: `---
-title: 
+title:
 date: ${formattedDate}
 tags: []
 ---
@@ -284,13 +281,13 @@ tags: []
 
   const handleSaveNewNote = async (id: string) => {
     const noteToSave = notes.find((n) => n.id === id);
-    if (!noteToSave || !noteToSave.title || !window.electronAPI) return;
+    if (!noteToSave || !noteToSave.title) return;
 
-    const folder = await window.electronAPI.getNotesFolder();
+    const folder = await tauriAPI.getNotesFolder();
     const fileName = `${noteToSave.title.replace(/[^a-zA-Z0-9]/g, "-")}.md`;
     const filePath = `${folder}/${fileName}`;
 
-    const result = await window.electronAPI.saveNewNote(filePath, noteToSave.content || "");
+    const result = await tauriAPI.saveNewNote(filePath, noteToSave.content || "");
 
     if (!result.success) {
       console.error("Failed to save note:", result.error);
@@ -307,7 +304,7 @@ tags: []
 
   const handleRenameNote = async (id: string, newFileName?: string) => {
     const noteToRename = notes.find((n) => n.id === id);
-    if (!noteToRename || noteToRename.isNew || !window.electronAPI) return;
+    if (!noteToRename || noteToRename.isNew) return;
 
     const fileName = newFileName || renamingNoteName.trim();
     if (!fileName) {
@@ -315,7 +312,7 @@ tags: []
       return;
     }
 
-    const result = await window.electronAPI.renameNote(noteToRename.id, fileName);
+    const result = await tauriAPI.renameNote(noteToRename.id, fileName);
 
     if (!result.success) {
       alert(`Failed to rename: ${result.error || "Unknown error"}`);
@@ -336,12 +333,11 @@ tags: []
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates, updatedAt: Date.now() } : n)));
   };
 
-  // Auto-save notes when they change
   useEffect(() => {
     const notesToSave = notes.filter((n) => !n.isNew && n.content);
-    if (notesToSave.length > 0 && window.electronAPI) {
+    if (notesToSave.length > 0) {
       notesToSave.forEach((note) => {
-        window.electronAPI.saveNote(note).catch((err) => {
+        tauriAPI.saveNote(note).catch((err) => {
           console.error("Error saving note:", err);
         });
       });
@@ -350,17 +346,13 @@ tags: []
 
   const handleDeleteNote = async (id: string) => {
     if (confirm("Are you sure you want to delete this note?")) {
-      const noteToDelete = notes.find((n) => n.id === id);
-
-      if (window.electronAPI) {
-        const result = await window.electronAPI.deleteNote(id);
-        if (!result.success) {
-          console.error("Failed to delete note:", result.error);
-          alert(`Failed to delete note: ${result.error || "Unknown error"}`);
-          return;
-        }
-        setFileTreeKey((prev) => prev + 1);
+      const result = await tauriAPI.deleteNote(id);
+      if (!result.success) {
+        console.error("Failed to delete note:", result.error);
+        alert(`Failed to delete note: ${result.error || "Unknown error"}`);
+        return;
       }
+      setFileTreeKey((prev) => prev + 1);
 
       setNotes((prev) => prev.filter((n) => n.id !== id));
       if (activeNoteId === id) setActiveNoteId(notes.find((n) => n.id !== id)?.id || null);
@@ -370,7 +362,7 @@ tags: []
   const handleOpenFile = async (path: string) => {
     console.log("Opening file:", path);
     try {
-      const note = await window.electronAPI?.readFile(path);
+      const note = await tauriAPI.readFile(path);
       console.log("Read file result:", note);
       if (note) {
         setNotes((prev) => {
@@ -520,7 +512,7 @@ tags: []
         </div>
         <button
           onClick={async () => {
-            const folder = await window.electronAPI?.selectNotesFolder?.();
+            const folder = await tauriAPI.selectNotesFolder();
             if (folder) setNotesFolder(folder);
           }}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
@@ -533,7 +525,7 @@ tags: []
             const newTheme = theme === "dark" ? "light" : "dark";
             setTheme(newTheme);
             document.documentElement.classList.toggle("light", newTheme === "light");
-            window.electronAPI?.saveTheme(newTheme);
+            tauriAPI.saveTheme(newTheme);
           }}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
           title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
@@ -752,7 +744,7 @@ tags: []
               const newTheme = theme === "dark" ? "light" : "dark";
               setTheme(newTheme);
               document.documentElement.classList.toggle("light", newTheme === "light");
-              window.electronAPI?.saveTheme(newTheme);
+              tauriAPI.saveTheme(newTheme);
             },
           },
           ...notes

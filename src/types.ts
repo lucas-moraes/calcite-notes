@@ -53,35 +53,3 @@ export interface FileReadResult {
   tags: string[];
 }
 
-export interface ElectronAPI {
-  test: () => string;
-  selectNotesFolder: () => Promise<string | null>;
-  getNotes: () => Promise<Note[]>;
-  getAllNotesForGraph: () => Promise<GraphNote[]>;
-  saveNote: (note: Partial<Note> & { id: string; content?: string }) => Promise<OperationResult>;
-  deleteNote: (id: string) => Promise<OperationResult>;
-  deleteFolder: (path: string) => Promise<OperationResult>;
-  getNotesFolder: () => Promise<string>;
-  getDirectory: (path: string) => Promise<FileEntry[]>;
-  readFile: (path: string) => Promise<FileReadResult | null>;
-  hasMdFiles: (path: string) => Promise<boolean>;
-  saveNewNote: (path: string, content: string) => Promise<OperationResult>;
-  renameNote: (oldPath: string, newFileName: string) => Promise<OperationResult>;
-  updateNoteTags: (noteId: string, tags: string[]) => Promise<OperationResult>;
-  createFolder: (parentPath: string, folderName: string) => Promise<OperationResult>;
-  createFile: (dirPath: string, fileName: string, content?: string) => Promise<OperationResult & { path?: string }>;
-  renameFolder: (oldPath: string, newName: string) => Promise<OperationResult>;
-  moveFile: (sourcePath: string, destFolder: string) => Promise<OperationResult>;
-  getTheme: () => Promise<'dark' | 'light'>;
-  saveTheme: (theme: 'dark' | 'light') => Promise<boolean>;
-  getTreeWidth: () => Promise<number>;
-  saveTreeWidth: (width: number) => Promise<boolean>;
-  onNewNote: (callback: () => void) => () => void;
-  onReloadNotes: (callback: () => void) => () => void;
-}
-
-declare global {
-  interface Window {
-    electronAPI: ElectronAPI;
-  }
-}
