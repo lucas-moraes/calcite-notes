@@ -268,6 +268,7 @@ export default function App() {
 title:
 date: ${formattedDate}
 tags: []
+
 ---
 
 `,
@@ -405,6 +406,7 @@ tags: []
             </svg>
           </button>
           <Logo className="w-6 h-6" />
+        <span className="text-[10px] text-base-500 font-mono">v1.1.0</span>
           <div className="flex items-center gap-2 flex-1">
             {(activeNote?.isNew || renamingNoteId) && (
               <button

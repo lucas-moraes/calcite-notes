@@ -1,7 +1,7 @@
 {
   "name": "calcite",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A powerful markdown knowledge base with bi-directional linking and graph view",
   "scripts": {
     "dev": "tauri dev",

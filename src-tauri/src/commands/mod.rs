@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct Note {
     pub id: String,
     pub title: String,
@@ -11,6 +12,7 @@ pub struct Note {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct GraphNote {
     pub id: String,
     pub name: String,
@@ -21,6 +23,7 @@ pub struct GraphNote {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct FileEntry {
     pub name: String,
     pub path: String,
@@ -28,6 +31,7 @@ pub struct FileEntry {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct FileReadResult {
     pub id: String,
     pub title: String,
@@ -38,10 +42,10 @@ pub struct FileReadResult {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct OperationResult {
     pub success: bool,
     pub error: Option<String>,
-    #[serde(rename = "newPath")]
     pub new_path: Option<String>,
     pub path: Option<String>,
 }
