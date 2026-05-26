@@ -1,6 +1,6 @@
 [package]
 name = "calcite"
-version = "1.4.0"
+version = "1.4.1"
 description = "A powerful markdown knowledge base with bi-directional linking and graph view"
 authors = ["Calcite"]
 license = "MIT"
