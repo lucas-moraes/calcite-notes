@@ -1,51 +1,29 @@
 {
   "name": "calcite",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.4.0",
   "description": "A powerful markdown knowledge base with bi-directional linking and graph view",
-  "main": "out/main/index.js",
-  "type": "module",
   "scripts": {
-    "dev": "electron-vite dev",
-    "build": "electron-vite build && electron-builder",
-    "pack": "electron-builder --dir",
-    "dist": "electron-vite build && electron-builder",
-    "lint": "tsc --noEmit"
-  },
-  "build": {
-    "appId": "com.calcite.notes",
-    "productName": "Calcite",
-    "directories": {
-      "output": "release"
-    },
-    "files": [
-      "out/**/*"
-    ],
-    "mac": {
-      "target": [
-        "dmg"
-      ],
-      "icon": "resources/icons/icon.icns"
-    },
-    "win": {
-      "target": [
-        "nsis"
-      ],
-      "icon": "resources/icons/icon.ico"
-    },
-    "linux": {
-      "target": [
-        "AppImage"
-      ],
-      "icon": "resources/icons"
-    }
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "lint": "tsc --noEmit",
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "vite:dev": "vite",
+    "vite:build": "vite build"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",
+    "@tauri-apps/api": "^2.11.0",
+    "@tauri-apps/plugin-dialog": "^2.7.1",
+    "@tauri-apps/plugin-fs": "^2.5.1",
+    "@tauri-apps/plugin-opener": "^2.5.4",
+    "@tauri-apps/plugin-shell": "^2.3.5",
+    "@tauri-apps/plugin-store": "^2.4.3",
     "@vitejs/plugin-react": "^5.0.4",
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
-    "electron-log": "^5.4.3",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
     "react": "^19.0.0",
@@ -57,11 +35,9 @@
     "vite": "^6.2.0"
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^2.11.2",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
-    "electron": "^41.2.1",
-    "electron-builder": "^26.8.1",
-    "electron-vite": "^5.0.0",
     "tailwindcss": "^4.1.14",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.21.0",

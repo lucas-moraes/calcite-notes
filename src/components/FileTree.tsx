@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Folder, File, ChevronRight, ChevronDown, FolderPlus, Pencil, Trash2, FilePlus } from 'lucide-react';
 import { clsx } from 'clsx';
+import { tauriAPI } from '../lib/tauri';
 
 interface FileNode {
   name: string;
@@ -250,7 +251,7 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
   const loadTree = async (path: string) => {
     setLoading(true);
     try {
-      const result = await window.electronAPI?.getDirectory?.(path) || [];
+      const result = await tauriAPI.getDirectory(path);
       setTree(result);
     } catch {
       console.error('Error loading tree');
@@ -260,7 +261,7 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
 
   const handleExpand = async (path: string): Promise<FileNode[]> => {
     try {
-      const result = await window.electronAPI?.getDirectory?.(path) || [];
+      const result = await tauriAPI.getDirectory(path);
       return result;
     } catch {
       return [];
@@ -269,7 +270,7 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
 
   const checkHasMdFiles = async (path: string): Promise<boolean> => {
     try {
-      return await window.electronAPI?.hasMdFiles?.(path) ?? false;
+      return await tauriAPI.hasMdFiles(path);
     } catch {
       return false;
     }
@@ -321,15 +322,15 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
   };
 
   const handleRenameConfirm = async (oldPath: string, newName: string) => {
-    if (!newName.trim() || !window.electronAPI) {
+    if (!newName.trim()) {
       setRenamingPath(null);
       return;
     }
 
     const isFile = oldPath.endsWith('.md');
     const result = isFile
-      ? await window.electronAPI.renameNote(oldPath, newName.trim())
-      : await window.electronAPI.renameFolder(oldPath, newName.trim());
+      ? await tauriAPI.renameNote(oldPath, newName.trim())
+      : await tauriAPI.renameFolder(oldPath, newName.trim());
     if (!result.success) {
       alert(`Failed to rename: ${result.error}`);
     } else {
@@ -354,9 +355,9 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
   const handleDrop = async (e: React.DragEvent, folderPath: string) => {
     e.preventDefault();
     const sourcePath = e.dataTransfer.getData('text/plain');
-    
-    if (sourcePath && sourcePath !== folderPath && window.electronAPI) {
-      const result = await window.electronAPI.moveFile(sourcePath, folderPath);
+
+    if (sourcePath && sourcePath !== folderPath) {
+      const result = await tauriAPI.moveFile(sourcePath, folderPath);
       if (!result.success) {
         alert(`Failed to move: ${result.error}`);
       } else {
@@ -372,9 +373,9 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
   };
 
   const handleCreateFolder = async () => {
-    if (!newFolderName.trim() || !window.electronAPI || !creatingInPath) return;
+    if (!newFolderName.trim() || !creatingInPath) return;
 
-    const result = await window.electronAPI.createFolder(creatingInPath, newFolderName.trim());
+    const result = await tauriAPI.createFolder(creatingInPath, newFolderName.trim());
     if (!result.success) {
       alert(`Failed to create folder: ${result.error}`);
     } else {
@@ -391,11 +392,11 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
   };
 
   const handleDeleteFolder = async () => {
-    if (!contextMenu.path || !window.electronAPI) return;
+    if (!contextMenu.path) return;
     if (!confirm('Are you sure you want to delete this folder and all its contents?')) return;
 
     try {
-      const result = await window.electronAPI.deleteFolder(contextMenu.path);
+      const result = await tauriAPI.deleteFolder(contextMenu.path);
       if (!result.success) {
         alert(`Failed to delete: ${result.error}`);
       } else {
@@ -420,9 +421,9 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
   };
 
   const handleCreateFile = async () => {
-    if (!newFileName.trim() || !window.electronAPI || !creatingFileInPath) return;
+    if (!newFileName.trim() || !creatingFileInPath) return;
 
-    const result = await window.electronAPI.createFile(creatingFileInPath, newFileName.trim());
+    const result = await tauriAPI.createFile(creatingFileInPath, newFileName.trim());
     if (!result.success) {
       alert(`Failed to create file: ${result.error}`);
     } else {
@@ -448,11 +449,11 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
   };
 
   const handleDeleteFile = async () => {
-    if (!contextMenu.path || !window.electronAPI) return;
+    if (!contextMenu.path) return;
     if (!confirm('Are you sure you want to delete this file?')) return;
 
     try {
-      const result = await window.electronAPI.deleteNote(contextMenu.path);
+      const result = await tauriAPI.deleteNote(contextMenu.path);
       if (!result.success) {
         alert(`Failed to delete: ${result.error}`);
       } else {
