@@ -45,8 +45,8 @@ pub fn get_tree_width(app_handle: tauri::AppHandle) -> u32 {
             .get("treeWidth")
             .and_then(|v| v.as_u64())
             .map(|v| v as u32)
-            .unwrap_or(220),
-        Err(_) => 220,
+            .unwrap_or(350),
+        Err(_) => 350,
     }
 }
 

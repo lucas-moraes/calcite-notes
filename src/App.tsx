@@ -24,7 +24,7 @@ export default function App() {
   const [editorTab, setEditorTab] = useState<"edit" | "preview">("edit");
   const [renamingNoteId, setRenamingNoteId] = useState<string | null>(null);
   const [renamingNoteName, setRenamingNoteName] = useState("");
-  const [treeWidth, setTreeWidth] = useState(220);
+  const [treeWidth, setTreeWidth] = useState(350);
   const [isResizing, setIsResizing] = useState(false);
   const [splitRatio, setSplitRatio] = useState(0.4);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
