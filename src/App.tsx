@@ -26,7 +26,7 @@ export default function App() {
   const [renamingNoteName, setRenamingNoteName] = useState("");
   const [treeWidth, setTreeWidth] = useState(220);
   const [isResizing, setIsResizing] = useState(false);
-  const [splitRatio, setSplitRatio] = useState(0.5);
+  const [splitRatio, setSplitRatio] = useState(0.4);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<
@@ -406,7 +406,6 @@ tags: []
             </svg>
           </button>
           <Logo className="w-6 h-6" />
-        <span className="text-[10px] text-base-500 font-mono">v1.4.1</span>
           <div className="flex items-center gap-2 flex-1">
             {(activeNote?.isNew || renamingNoteId) && (
               <button
@@ -541,13 +540,7 @@ tags: []
         >
           <Plus size={16} />
         </button>
-        <button
-          onClick={() => activeNote && handleUpdateNote(activeNote.id, { title: activeNote.title })}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
-          title="Refresh title"
-        >
-          <Pencil size={16} />
-        </button>
+ 
         <button
           onClick={() => activeNote && handleDeleteNote(activeNote.id)}
           className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"

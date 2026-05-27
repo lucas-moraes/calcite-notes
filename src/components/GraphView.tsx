@@ -38,11 +38,15 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
     svg.call(zoomBehavior);
 
     const simulation = d3.forceSimulation(nodes as any)
-      .force('link', d3.forceLink(links).id((d: any) => d.id).distance(100))
-      .force('charge', d3.forceManyBody().strength(-300))
+      .force('link', d3.forceLink(links).id((d: any) => d.id).distance(120))
+      .force('charge', d3.forceManyBody().strength(-400))
       .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('x', d3.forceX(width / 2).strength(0.05))
-      .force('y', d3.forceY(height / 2).strength(0.05))
+      .force('x', d3.forceX(width / 2).strength(0.08))
+      .force('y', d3.forceY(height / 2).strength(0.08))
+      .force('collision', d3.forceCollide().radius((d: any) => {
+        const textLength = (d.name?.length || 0) * 5.5 + 24;
+        return Math.max(25, textLength / 2 + 8);
+      }))
       .alpha(1)
       .restart();
 
@@ -82,26 +86,26 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
 
     node.append('circle')
       .attr('r', (d) => (d as any).isTag ? 4 : (d.id === activeNodeId ? 8 : 5))
-      .attr('fill', (d) => (d as any).isTag ? '#39ff14' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
+      .attr('fill', (d) => (d as any).isTag ? '#818cf8' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
       .attr('stroke', 'none')
-      .style('filter', (d) => (d as any).isTag ? 'drop-shadow(0 0 6px #39ff14)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'))
+      .style('filter', (d) => (d as any).isTag ? 'drop-shadow(0 0 6px #6366f1)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'))
       .on('mouseenter', function(event, d) {
         const isTag = (d as any).isTag;
         d3.select(this)
           .transition()
           .duration(150)
-          .attr('fill', isTag ? '#39ff14' : 'var(--color-accent)')
+          .attr('fill', isTag ? '#a5b4fc' : 'var(--color-accent)')
           .attr('r', isTag ? 6 : 8)
-          .style('filter', isTag ? 'drop-shadow(0 0 10px #39ff14)' : 'drop-shadow(0 0 8px var(--color-accent))');
+          .style('filter', isTag ? 'drop-shadow(0 0 10px #6366f1)' : 'drop-shadow(0 0 8px var(--color-accent))');
       })
       .on('mouseleave', function(event, d) {
         const isTag = (d as any).isTag;
         d3.select(this)
           .transition()
           .duration(150)
-          .attr('fill', isTag ? '#39ff14' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
+          .attr('fill', isTag ? '#818cf8' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
           .attr('r', isTag ? 4 : (d.id === activeNodeId ? 8 : 5))
-          .style('filter', isTag ? 'drop-shadow(0 0 6px #39ff14)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'));
+          .style('filter', isTag ? 'drop-shadow(0 0 6px #6366f1)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'));
       });
 
     node.append('text')
@@ -110,6 +114,10 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       .text((d) => d.name)
       .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-base-100)' : 'var(--color-base-500)'))
       .attr('font-size', '10px')
+      .attr('stroke', 'var(--color-base-950)')
+      .attr('stroke-width', 3)
+      .attr('paint-order', 'stroke')
+      .attr('stroke-linejoin', 'round')
       .attr('class', 'pointer-events-none select-none');
 
     // Animação de entrada
@@ -202,7 +210,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
 
   return (
     <div ref={containerRef} className="w-full h-full relative overflow-hidden" style={{ 
-      backgroundImage: 'radial-gradient(ellipse at 30% 20%, rgba(201, 139, 90, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(201, 139, 90, 0.04) 0%, transparent 50%)' 
+      backgroundImage: 'radial-gradient(ellipse at 30% 20%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(79, 70, 229, 0.05) 0%, transparent 50%)' 
     }}>
       {nodes.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center">
