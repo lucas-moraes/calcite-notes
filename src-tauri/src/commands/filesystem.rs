@@ -275,7 +275,7 @@ pub fn create_file(
     let default_content = content.unwrap_or_else(|| {
         let date = chrono::Utc::now().format("%Y-%m-%d").to_string();
         format!(
-            "---\ntitle: {}\ndate: {}\ntags: []\n---\n\n",
+            "---\ntitle: {}\ndate: {}\ntags: []\n#\n---\n",
             sanitized_name, date
         )
     });

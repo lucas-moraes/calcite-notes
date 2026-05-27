@@ -264,14 +264,7 @@ export default function App() {
     const newNote: Note = {
       id: noteId,
       title: "",
-      content: `---
-title:
-date: ${formattedDate}
-tags: []
-
----
-
-`,
+      content: "---\ntitle:\ndate: " + formattedDate + "\ntags: []\n\n#\n---\n",
       createdAt: Date.now(),
       updatedAt: Date.now(),
       isNew: true,
