@@ -1,7 +1,7 @@
 {
   "name": "calcite",
   "private": true,
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A powerful markdown knowledge base with bi-directional linking and graph view",
   "scripts": {
     "dev": "tauri dev",
@@ -14,6 +14,7 @@
     "vite:build": "vite build"
   },
   "dependencies": {
+    "@shikijs/rehype": "^4.1.0",
     "@tailwindcss/vite": "^4.1.14",
     "@tauri-apps/api": "^2.11.0",
     "@tauri-apps/plugin-dialog": "^2.7.1",
@@ -29,7 +30,6 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-markdown": "^10.1.0",
-    "rehype-highlight": "^7.0.2",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
     "tailwind-merge": "^3.5.0",

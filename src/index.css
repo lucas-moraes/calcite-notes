@@ -22,11 +22,18 @@
   --color-secondary: #4f46e5;
   
   --animate-slide-in: slide-in 0.3s ease-out;
+  --animate-loader-flip: loader-flip 2s infinite;
 }
 
 @keyframes slide-in {
   from { transform: translateX(100%); }
   to { transform: translateX(0); }
+}
+
+@keyframes loader-flip {
+  0% { transform: rotateY(0deg); }
+  50%, 80% { transform: rotateY(-180deg); }
+  90%, 100% { opacity: 0; transform: rotateY(-180deg); }
 }
 
 @keyframes fade-in {
@@ -168,10 +175,17 @@ textarea::placeholder {
 }
 
 .markdown-content pre {
-  background: var(--color-base-800);
   padding: 1rem;
   border-radius: 0.5rem;
   overflow-x: auto;
+}
+
+.dark .markdown-content pre {
+  background: var(--color-base-800) !important;
+}
+
+.light .markdown-content pre {
+  background: var(--color-base-100) !important;
 }
 
 .markdown-content pre code {
@@ -221,118 +235,18 @@ textarea::placeholder {
   animation: slide-in 0.3s ease-out;
 }
 
-/* Syntax highlighting — highlight.js tokens */
-/* Dark mode: light/bright text */
-.markdown-content .hljs-keyword,
-.markdown-content .hljs-literal,
-.markdown-content .hljs-symbol,
-.markdown-content .hljs-selector-tag,
-.markdown-content .hljs-built_in,
-.markdown-content .hljs-tag,
-.markdown-content .hljs-name {
-  color: #fbbf24;
+/* Syntax highlighting — shiki gruvbox themes */
+.shiki span {
+  font-style: var(--shiki-light-font-style, inherit);
+  font-weight: var(--shiki-light-font-weight, inherit);
+  text-decoration: var(--shiki-light-text-decoration, inherit);
 }
 
-.markdown-content .hljs-string,
-.markdown-content .hljs-addition,
-.markdown-content .hljs-attribute,
-.markdown-content .hljs-template-variable {
-  color: #86efac;
+.dark .shiki,
+.dark .shiki span {
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style, inherit) !important;
+  font-weight: var(--shiki-dark-font-weight, inherit) !important;
+  text-decoration: var(--shiki-dark-text-decoration, inherit) !important;
 }
 
-.markdown-content .hljs-number {
-  color: #5eead4;
-}
-
-.markdown-content .hljs-title,
-.markdown-content .hljs-title.function_,
-.markdown-content .hljs-title.class_ {
-  color: #c4b5fd;
-}
-
-.markdown-content .hljs-type,
-.markdown-content .hljs-params {
-  color: #d8b4fe;
-}
-
-.markdown-content .hljs-variable,
-.markdown-content .hljs-variable.language_ {
-  color: var(--color-base-100);
-}
-
-.markdown-content .hljs-punctuation {
-  color: var(--color-base-400);
-}
-
-.markdown-content .hljs-property,
-.markdown-content .hljs-attr {
-  color: var(--color-base-300);
-}
-
-.markdown-content .hljs-selector-class,
-.markdown-content .hljs-selector-id {
-  color: #f9a8d4;
-}
-
-.markdown-content .hljs-comment,
-.markdown-content .hljs-quote,
-.markdown-content .hljs-meta {
-  color: var(--color-base-500);
-  font-style: italic;
-}
-
-.markdown-content .hljs-deletion {
-  color: #fca5a5;
-}
-
-/* Light mode: dark/muted text */
-.light .markdown-content .hljs-keyword,
-.light .markdown-content .hljs-literal,
-.light .markdown-content .hljs-symbol,
-.light .markdown-content .hljs-selector-tag,
-.light .markdown-content .hljs-built_in,
-.light .markdown-content .hljs-tag,
-.light .markdown-content .hljs-name {
-  color: var(--color-accent-hover);
-}
-
-.light .markdown-content .hljs-string,
-.light .markdown-content .hljs-addition,
-.light .markdown-content .hljs-attribute,
-.light .markdown-content .hljs-template-variable {
-  color: #166534;
-}
-
-.light .markdown-content .hljs-number {
-  color: #115e59;
-}
-
-.light .markdown-content .hljs-title,
-.light .markdown-content .hljs-title.function_,
-.light .markdown-content .hljs-title.class_ {
-  color: #4c1d95;
-}
-
-.light .markdown-content .hljs-type,
-.light .markdown-content .hljs-params {
-  color: #5b21b6;
-}
-
-.light .markdown-content .hljs-variable,
-.light .markdown-content .hljs-variable.language_ {
-  color: var(--color-base-900);
-}
-
-.light .markdown-content .hljs-property,
-.light .markdown-content .hljs-attr {
-  color: var(--color-base-700);
-}
-
-.light .markdown-content .hljs-selector-class,
-.light .markdown-content .hljs-selector-id {
-  color: #831843;
-}
-
-.light .markdown-content .hljs-deletion {
-  color: #991b1b;
-}

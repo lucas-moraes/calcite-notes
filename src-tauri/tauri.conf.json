@@ -1,7 +1,7 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "Calcite",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "identifier": "com.calcite.notes",
   "build": {
     "frontendDist": "../dist",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Calcite v1.4.1",
+        "title": "Calcite v1.5.0",
         "width": 1200,
         "height": 800,
         "minWidth": 800,

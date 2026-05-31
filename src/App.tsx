@@ -8,11 +8,13 @@ import FileTree from "./components/FileTree";
 import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw } from "lucide-react";
 import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
+import WikiLinkPopup from "./components/WikiLinkPopup";
+import Loader from "./components/Loader";
 
-import ReactMarkdown from "react-markdown";
+import { MarkdownHooks } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
-import rehypeHighlight from "rehype-highlight";
+import rehypeShiki from "@shikijs/rehype";
 
 export default function App() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -35,6 +37,14 @@ export default function App() {
   >([]);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [graphRefresh, setGraphRefresh] = useState(0);
+
+  const [previewReady, setPreviewReady] = useState(true);
+
+  const [wikiLinkOpen, setWikiLinkOpen] = useState(false);
+  const [wikiLinkSearch, setWikiLinkSearch] = useState("");
+  const [wikiLinkResults, setWikiLinkResults] = useState<Note[]>([]);
+  const [wikiLinkSelectedIndex, setWikiLinkSelectedIndex] = useState(0);
+  const [wikiLinkPos, setWikiLinkPos] = useState({ top: 0, left: 0 });
 
   useEffect(() => {
     tauriAPI.getTheme().then((savedTheme) => {
@@ -151,6 +161,7 @@ export default function App() {
 
   const activeNote = useMemo(() => notes.find((n) => n.id === activeNoteId) || null, [notes, activeNoteId]);
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -174,6 +185,125 @@ export default function App() {
       if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     };
   }, [activeNote?.content, activeNote?.id]);
+
+  useEffect(() => {
+    if (editorTab === "preview") {
+      setPreviewReady(false);
+      const timer = setTimeout(() => setPreviewReady(true), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [editorTab]);
+
+  function getCursorPixelPosition(textarea: HTMLTextAreaElement) {
+    const taRect = textarea.getBoundingClientRect();
+    const style = getComputedStyle(textarea);
+    const text = textarea.value;
+    const pos = textarea.selectionStart;
+    const beforeCursor = text.slice(0, pos);
+    const lines = beforeCursor.split("\n");
+    const currentLine = lines[lines.length - 1];
+    const lineIndex = lines.length - 1;
+
+    const fontSize = parseFloat(style.fontSize) || 15;
+    const fontFamily = style.fontFamily || "monospace";
+    const lineHeight = parseFloat(style.lineHeight) || fontSize * 1.625;
+    const paddingLeft = parseFloat(style.paddingLeft) || 0;
+    const scrollTop = textarea.scrollTop;
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const lineWidth = ctx
+      ? ctx.measureText(currentLine).width
+      : currentLine.length * fontSize * 0.6;
+
+    return {
+      top: taRect.top + lineIndex * lineHeight - scrollTop + lineHeight + 4,
+      left: taRect.left + paddingLeft + lineWidth,
+    };
+  }
+
+  function detectWikiLink(textarea: HTMLTextAreaElement) {
+    const value = textarea.value;
+    const cursorPos = textarea.selectionStart;
+    const textBeforeCursor = value.slice(0, cursorPos);
+    const bracketStart = textBeforeCursor.lastIndexOf("[[");
+
+    if (bracketStart === -1) {
+      setWikiLinkOpen(false);
+      return;
+    }
+
+    const searchText = textBeforeCursor.slice(bracketStart + 2);
+    if (searchText.includes("]]")) {
+      setWikiLinkOpen(false);
+      return;
+    }
+
+    const currentNoteId = activeNote?.id;
+    const matching = notes.filter(
+      (n) =>
+        n.id !== currentNoteId &&
+        !n.isNew &&
+        n.title.toLowerCase().includes(searchText.toLowerCase()),
+    );
+
+    setWikiLinkSearch(searchText);
+    setWikiLinkResults(matching.slice(0, 8));
+    setWikiLinkSelectedIndex(0);
+    setWikiLinkPos(getCursorPixelPosition(textarea));
+    setWikiLinkOpen(true);
+  }
+
+  const handleWikiLinkSelect = (note: Note) => {
+    if (!activeNote || !textareaRef.current) return;
+
+    const content = activeNote.content;
+    const cursorPos = textareaRef.current.selectionStart;
+    const textBeforeCursor = content.slice(0, cursorPos);
+    const bracketStart = textBeforeCursor.lastIndexOf("[[");
+
+    if (bracketStart === -1) return;
+
+    const beforeBracket = content.slice(0, bracketStart);
+    const afterCursor = content.slice(cursorPos);
+    const newContent = `${beforeBracket}[[${note.title}]]${afterCursor}`;
+
+    handleUpdateNote(activeNote.id, { content: newContent });
+    setWikiLinkOpen(false);
+
+    const newCursorPos = bracketStart + note.title.length + 4;
+    requestAnimationFrame(() => {
+      if (textareaRef.current) {
+        textareaRef.current.selectionStart = newCursorPos;
+        textareaRef.current.selectionEnd = newCursorPos;
+        textareaRef.current.focus();
+      }
+    });
+  };
+
+  const handleTextareaKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (!wikiLinkOpen) return;
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setWikiLinkSelectedIndex((prev) =>
+        prev < wikiLinkResults.length - 1 ? prev + 1 : 0,
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setWikiLinkSelectedIndex((prev) =>
+        prev > 0 ? prev - 1 : wikiLinkResults.length - 1,
+      );
+    } else if (e.key === "Enter" || e.key === "Tab") {
+      e.preventDefault();
+      if (wikiLinkResults.length > 0) {
+        handleWikiLinkSelect(wikiLinkResults[wikiLinkSelectedIndex]);
+      }
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setWikiLinkOpen(false);
+    }
+  };
 
   const { nodes, links } = useMemo(() => {
     const allNotes = allNotesFromDisk.map((n) => ({
@@ -543,7 +673,7 @@ export default function App() {
 
       {/* Drawer - File Tree */}
       <div
-        className={`fixed inset-y-0 left-0 z-20 bg-base-900 border-r border-base-800 transition-transform duration-200 ease-out ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`fixed inset-y-0 left-0 z-70 bg-base-900 border-r border-base-800 transition-transform duration-200 ease-out ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}`}
         style={{ width: treeWidth, top: "48px" }}
       >
         <FileTree
@@ -677,27 +807,54 @@ export default function App() {
                 {editorTab === "edit" ? (
                   <div className="absolute inset-0 py-4 pl-4 animate-fade-in overflow-y-hidden">
                     <textarea
+                      ref={textareaRef}
                       key={activeNote.id}
                       placeholder="Start writing..."
                       style={{ color: "#e8eaed", height: "100%", minHeight: "100%" }}
                       className="w-full bg-transparent border-none pr-4 outline-none resize-none font-mono text-[15px] leading-relaxed"
                       spellCheck={false}
                       value={activeNote.content || ""}
-                      onChange={(e) => handleUpdateNote(activeNote.id, { content: e.target.value })}
+                      onChange={(e) => {
+                        handleUpdateNote(activeNote.id, { content: e.target.value });
+                        requestAnimationFrame(() => {
+                          if (textareaRef.current) detectWikiLink(textareaRef.current);
+                        });
+                      }}
+                      onKeyDown={handleTextareaKeyDown}
+                      onBlur={() => setTimeout(() => setWikiLinkOpen(false), 200)}
                     />
                   </div>
-                ) : (
+                ) : previewReady ? (
                   <div className="absolute inset-0 p-6 pb-4 overflow-y-auto animate-fade-in">
                     <div className="markdown-content h-full">
-                      <ReactMarkdown
+                      <MarkdownHooks
+                        children={activeNote.content || "*No content*"}
                         remarkPlugins={[remarkGfm, remarkBreaks]}
-                        rehypePlugins={[rehypeHighlight]}
-                      >
-                        {activeNote.content || "*No content*"}
-                      </ReactMarkdown>
+                        rehypePlugins={[
+                          [rehypeShiki, {
+                            themes: {
+                              dark: "gruvbox-dark-soft",
+                              light: "gruvbox-light-soft",
+                            },
+                          }],
+                        ]}
+                        fallback={<Loader />}
+                      />
                     </div>
                   </div>
+                ) : (
+                  <div className="absolute inset-0 animate-fade-in">
+                    <Loader />
+                  </div>
                 )}
+              <WikiLinkPopup
+                isOpen={wikiLinkOpen}
+                search={wikiLinkSearch}
+                results={wikiLinkResults}
+                selectedIndex={wikiLinkSelectedIndex}
+                onSelect={handleWikiLinkSelect}
+                position={wikiLinkPos}
+              />
               </div>
             </div>
           ) : (
