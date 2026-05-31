@@ -8,9 +8,19 @@ pub fn get_notes_folder(state: State<'_, AppState>) -> String {
 }
 
 #[tauri::command]
-pub fn set_notes_dir(state: State<'_, AppState>, dir: String) {
-    let mut notes_dir = state.notes_dir.lock().unwrap();
-    *notes_dir = dir;
+pub fn set_notes_dir(app_handle: tauri::AppHandle, state: State<'_, AppState>, dir: String) -> Result<bool, String> {
+    {
+        let mut notes_dir = state.notes_dir.lock().unwrap();
+        *notes_dir = dir.clone();
+    }
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => {
+            s.set("notes_dir", serde_json::Value::String(dir));
+            s.save().map_err(|e| e.to_string()).map(|_| true)
+        }
+        Err(e) => Err(e.to_string()),
+    }
 }
 
 #[tauri::command]

@@ -5,6 +5,7 @@ use tauri::{
     menu::{Menu, MenuItem, PredefinedMenuItem, Submenu},
     AppHandle, Emitter, Manager, State,
 };
+use tauri_plugin_store::StoreExt;
 
 fn setup_menu(app: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
     let new_note = MenuItem::with_id(app, "new_note", "New Note", true, Some("CmdOrCtrl+N"))?;
@@ -71,14 +72,19 @@ fn setup_menu(app: &AppHandle) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-#[cfg_attr(mobile, tauri::mobile_entry_point)]
-pub fn run() {
-    let notes_dir = dirs::data_local_dir()
+fn get_default_notes_dir() -> String {
+    dirs::data_local_dir()
         .unwrap_or_else(|| std::path::PathBuf::from("."))
         .join("calcite")
-        .join("notes");
+        .join("notes")
+        .to_string_lossy()
+        .to_string()
+}
 
-    std::fs::create_dir_all(&notes_dir).ok();
+#[cfg_attr(mobile, tauri::mobile_entry_point)]
+pub fn run() {
+    let default_notes_dir = get_default_notes_dir();
+    std::fs::create_dir_all(&default_notes_dir).ok();
 
     tauri::Builder::default()
         .plugin(tauri_plugin_fs::init())
@@ -97,7 +103,7 @@ pub fn run() {
                 .build(),
         )
         .manage(AppState {
-            notes_dir: std::sync::Mutex::new(notes_dir.to_string_lossy().to_string()),
+            notes_dir: std::sync::Mutex::new(default_notes_dir.clone()),
         })
         .invoke_handler(tauri::generate_handler![
             commands::notes::get_notes,
@@ -131,6 +137,22 @@ pub fn run() {
                 }
             }
 
+            let app_state = app.state::<AppState>();
+            if let Ok(store) = app.store("settings.json") {
+                if let Some(val) = store.get("notes_dir") {
+                    if let Some(saved) = val.as_str() {
+                        let mut notes_dir = app_state.notes_dir.lock().unwrap();
+                        *notes_dir = saved.to_string();
+                        log::info!("Notes directory loaded from store: {}", saved);
+                    }
+                } else {
+                    let notes_dir = app_state.notes_dir.lock().unwrap().clone();
+                    store.set("notes_dir", serde_json::Value::String(notes_dir.clone()));
+                    let _ = store.save();
+                    log::info!("Notes directory saved to store: {}", notes_dir);
+                }
+            }
+
             let notes_dir = app.state::<AppState>().notes_dir.lock().unwrap().clone();
             log::info!("Notes directory: {}", notes_dir);
 
@@ -139,6 +161,7 @@ pub fn run() {
             Ok(())
         })
         .on_menu_event(|app, event| {
+            let app_state = app.state::<AppState>();
             match event.id().as_ref() {
                 "new_note" => {
                     if let Some(window) = app.get_webview_window("main") {
@@ -151,8 +174,7 @@ pub fn run() {
                     }
                 }
                 "open_folder" => {
-                    let state = app.state::<AppState>();
-                    let dir = state.notes_dir.lock().unwrap().clone();
+                    let dir = app_state.notes_dir.lock().unwrap().clone();
                     if !dir.is_empty() {
                         let _ = tauri_plugin_opener::open_path(&dir, None::<&str>);
                     }
@@ -202,6 +224,7 @@ async fn select_notes_folder(
                 *dir = path_str.clone();
             }
             std::fs::create_dir_all(&path_str).map_err(|e| e.to_string())?;
+            let _ = commands::config::set_notes_dir(app_handle.clone(), state, path_str.clone());
             if let Some(window) = app_handle.get_webview_window("main") {
                 let _ = window.emit("reload-notes", ());
             }

@@ -24,7 +24,7 @@
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; connect-src ipc: http://ipc.local https://tauri.local; script-src 'self'; style-src 'self' 'unsafe-inline'"
     }
   },
   "bundle": {

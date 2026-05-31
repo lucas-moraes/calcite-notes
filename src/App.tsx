@@ -1,11 +1,11 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { Note, GraphNode, GraphLink } from "./types";
 import { cn, formatTime, wordCount } from "./lib/utils";
 import { tauriAPI } from "./lib/tauri";
 
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search } from "lucide-react";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw } from "lucide-react";
 import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
 
@@ -33,6 +33,7 @@ export default function App() {
     { id: string; name: string; content: string; tags?: string[] }[]
   >([]);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [graphRefresh, setGraphRefresh] = useState(0);
 
   useEffect(() => {
     tauriAPI.getTheme().then((savedTheme) => {
@@ -48,11 +49,6 @@ export default function App() {
       if (width) setTreeWidth(width);
     });
   }, []);
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsResizing(true);
-  };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -98,14 +94,6 @@ export default function App() {
       }
     });
   }, []);
-
-  useEffect(() => {
-    if (notesFolder) {
-      tauriAPI.getAllNotesForGraph().then((allNotes) => {
-        if (allNotes) setAllNotesFromDisk(allNotes);
-      });
-    }
-  }, [notesFolder, fileTreeKey]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -162,49 +150,13 @@ export default function App() {
 
   const activeNote = useMemo(() => notes.find((n) => n.id === activeNoteId) || null, [notes, activeNoteId]);
 
-  const filteredNotes = useMemo(() => {
-    if (!searchQuery) return notes;
-    return notes.filter(
-      (n) =>
-        n.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        n.content.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-  }, [notes, searchQuery]);
-
   const { nodes, links } = useMemo(() => {
-    let allNotes: { id: string; name: string; content: string; tags: string[] }[];
-
-    if (allNotesFromDisk.length > 0) {
-      const localNotesMap = new Map(notes.map((n) => [n.id, n]));
-
-      allNotes = allNotesFromDisk.map((n) => ({ ...n, tags: n.tags || [] }));
-
-      for (let i = 0; i < allNotes.length; i++) {
-        const local = localNotesMap.get(allNotes[i].id);
-        if (local && local.content) {
-          allNotes[i].content = local.content;
-          allNotes[i].name = local.title || allNotes[i].name;
-          allNotes[i].tags = local.tags || allNotes[i].tags;
-          localNotesMap.delete(allNotes[i].id);
-        }
-      }
-
-      for (const [, local] of localNotesMap) {
-        allNotes.push({
-          id: local.id,
-          name: local.title || "",
-          content: local.content || "",
-          tags: local.tags || [],
-        });
-      }
-    } else {
-      allNotes = notes.map((n) => ({
-        id: n.id,
-        name: n.title || "",
-        content: n.content || "",
-        tags: n.tags || [],
-      }));
-    }
+    const allNotes = allNotesFromDisk.map((n) => ({
+      id: n.id,
+      name: n.name || "",
+      content: n.content || "",
+      tags: n.tags || [],
+    }));
 
     const nodes: GraphNode[] = allNotes.map((n) => ({
       id: n.id,
@@ -255,7 +207,15 @@ export default function App() {
     }
 
     return { nodes, links };
-  }, [notes, allNotesFromDisk]);
+  }, [allNotesFromDisk, graphRefresh]);
+
+  useEffect(() => {
+    if (notesFolder) {
+      tauriAPI.getAllNotesForGraph().then((allNotes) => {
+        if (allNotes) setAllNotesFromDisk(allNotes);
+      });
+    }
+  }, [notesFolder, fileTreeKey]);
 
   const handleCreateNote = () => {
     const noteId = crypto.randomUUID();
@@ -327,17 +287,6 @@ export default function App() {
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates, updatedAt: Date.now() } : n)));
   };
 
-  useEffect(() => {
-    const notesToSave = notes.filter((n) => !n.isNew && n.content);
-    if (notesToSave.length > 0) {
-      notesToSave.forEach((note) => {
-        tauriAPI.saveNote(note).catch((err) => {
-          console.error("Error saving note:", err);
-        });
-      });
-    }
-  }, [notes]);
-
   const handleDeleteNote = async (id: string) => {
     if (confirm("Are you sure you want to delete this note?")) {
       const result = await tauriAPI.deleteNote(id);
@@ -372,6 +321,23 @@ export default function App() {
       }
     } catch (err) {
       console.error("Error opening file:", err);
+    }
+  };
+
+  const notesRef = useRef(notes);
+  notesRef.current = notes;
+  const onNodeClickRef = useRef<(id: string) => void>(() => {});
+
+  const handleGraphNodeClick = useCallback((id: string) => {
+    onNodeClickRef.current?.(id);
+  }, []);
+
+  onNodeClickRef.current = (id: string) => {
+    const note = notesRef.current.find((n) => n.id === id);
+    if (note) {
+      setActiveNoteId(id);
+    } else {
+      handleOpenFile(id);
     }
   };
 
@@ -578,17 +544,19 @@ export default function App() {
       >
         {/* Graph View - Panel Principal */}
         <div style={{ width: `${splitRatio * 100}%` }} className="border-r border-base-800 relative">
+          <button
+            onClick={() => setGraphRefresh((r) => r + 1)}
+            className="absolute top-3 left-3 z-50 flex items-center gap-1.5 px-2.5 py-1.5 bg-base-800/90 backdrop-blur-sm rounded-lg text-xs font-medium text-base-400 hover:text-base-200 hover:bg-base-700 transition-colors"
+            title="Update Graph"
+          >
+            <RefreshCw size={12} />
+            Update
+          </button>
           <GraphView
+            key={graphRefresh}
             nodes={nodes}
             links={links}
-            onNodeClick={(id) => {
-              const note = notes.find((n) => n.id === id);
-              if (note) {
-                setActiveNoteId(id);
-              } else {
-                handleOpenFile(id);
-              }
-            }}
+            onNodeClick={handleGraphNodeClick}
             activeNodeId={activeNoteId || undefined}
           />
         </div>
