@@ -16,7 +16,7 @@ export const tauriAPI = {
   getAllNotesForGraph: (): Promise<GraphNote[]> =>
     tauriInvoke<GraphNote[]>('get_all_notes_for_graph'),
 
-  saveNote: (note: { id: string; content?: string }): Promise<OperationResult> =>
+  saveNote: (note: Note): Promise<OperationResult> =>
     tauriInvoke<OperationResult>('save_note', { note }),
 
   deleteNote: (id: string): Promise<OperationResult> =>

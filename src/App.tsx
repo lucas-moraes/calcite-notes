@@ -12,6 +12,7 @@ import CommandPalette from "./components/CommandPalette";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
+import rehypeHighlight from "rehype-highlight";
 
 export default function App() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -149,6 +150,30 @@ export default function App() {
   }, []);
 
   const activeNote = useMemo(() => notes.find((n) => n.id === activeNoteId) || null, [notes, activeNoteId]);
+
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (!activeNote || activeNote.isNew) return;
+
+    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+
+    saveTimerRef.current = setTimeout(async () => {
+      const result = await tauriAPI.saveNote({
+        id: activeNote.id,
+        title: activeNote.title,
+        content: activeNote.content,
+        createdAt: activeNote.createdAt,
+        updatedAt: activeNote.updatedAt,
+        tags: activeNote.tags || [],
+      });
+      if (!result.success) console.error("Auto-save failed:", result.error);
+    }, 800);
+
+    return () => {
+      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    };
+  }, [activeNote?.content, activeNote?.id]);
 
   const { nodes, links } = useMemo(() => {
     const allNotes = allNotesFromDisk.map((n) => ({
@@ -664,7 +689,10 @@ export default function App() {
                 ) : (
                   <div className="absolute inset-0 p-6 pb-4 overflow-y-auto animate-fade-in">
                     <div className="markdown-content h-full">
-                      <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+                      <ReactMarkdown
+                        remarkPlugins={[remarkGfm, remarkBreaks]}
+                        rehypePlugins={[rehypeHighlight]}
+                      >
                         {activeNote.content || "*No content*"}
                       </ReactMarkdown>
                     </div>
