@@ -223,7 +223,7 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
       <svg ref={svgRef} className="w-full h-full" />
       
       {/* Controls */}
-      <div className="absolute top-3 right-3 flex flex-col gap-1 bg-base-800/80 backdrop-blur-sm rounded-lg p-1 z-50" style={{ pointerEvents: 'auto' }}>
+      <div className="absolute top-3 right-3 flex flex-col gap-1 bg-base-800/80 backdrop-blur-sm rounded-lg p-1 z-30" style={{ pointerEvents: 'auto' }}>
         <button
           onClick={handleZoomIn}
           className="p-1.5 hover:bg-base-700 rounded text-base-400 hover:text-base-200 transition-colors"

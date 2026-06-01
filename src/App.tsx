@@ -32,6 +32,7 @@ export default function App() {
   const [splitRatio, setSplitRatio] = useState(0.4);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isMoreDrawerOpen, setIsMoreDrawerOpen] = useState(false);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<
     { id: string; name: string; content: string; tags?: string[] }[]
   >([]);
@@ -501,6 +502,7 @@ export default function App() {
       {/* Top Bar - Navigation */}
       <header className="h-12 border-b border-base-800 flex items-center justify-between px-6 bg-base-900/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="flex items-center gap-3 flex-1">
+          <Logo className="w-6 h-6" />
           <button
             onClick={() => setIsDrawerOpen(!isDrawerOpen)}
             className="p-1.5 hover:bg-base-800 rounded text-base-400 hover:text-base-200 transition-colors"
@@ -516,179 +518,255 @@ export default function App() {
               strokeLinecap="round"
               strokeLinejoin="round"
             >
-              <path d="M3 12h18M3 6h18M3 18h18" />
+              <circle cx="12" cy="5" r="1" />
+              <circle cx="12" cy="12" r="1" />
+              <circle cx="12" cy="19" r="1" />
             </svg>
           </button>
-          <Logo className="w-6 h-6" />
-          <div className="flex items-center gap-2 flex-1">
-            {(activeNote?.isNew || renamingNoteId) && (
-              <button
-                onClick={() => {
-                  if (renamingNoteId && activeNote) {
-                    handleRenameNote(activeNote.id, renamingNoteName.trim());
-                    setRenamingNoteId(null);
-                  } else if (activeNote) {
-                    handleSaveNewNote(activeNote.id);
-                  }
-                }}
-                className="p-1.5 hover:bg-base-800 rounded text-yellow-400 hover:text-yellow-300 transition-colors"
-                title="Save note"
-              >
-                <Save size={16} />
-              </button>
-            )}
-            {renamingNoteId === activeNote?.id ? (
-              <>
-                <input
-                  autoFocus
-                  maxLength={30}
-                  type="text"
-                  value={renamingNoteName}
-                  onChange={(e) => setRenamingNoteName(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      if (renamingNoteName.trim() && activeNote) {
-                        handleRenameNote(activeNote.id, renamingNoteName.trim());
-                      }
-                      setRenamingNoteId(null);
-                    }
-                    if (e.key === "Escape") setRenamingNoteId(null);
-                  }}
-                  onBlur={() => {
-                    if (renamingNoteName.trim() && activeNote) {
-                      handleRenameNote(activeNote.id, renamingNoteName.trim());
-                    }
-                    setRenamingNoteId(null);
-                  }}
-                  className="bg-base-800 dark:text-base-300 border border-accent rounded outline-none text-sm font-semibold w-65 px-2 py-1"
-                />
-                <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">
-                  {renamingNoteName.length}/30
-                </span>
-                <button
-                  onClick={() => setRenamingNoteId(null)}
-                  className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
-                  title="Cancel rename"
-                >
-                  <X size={14} />
-                </button>
-              </>
-            ) : (
-              <>
-                <input
-                  placeholder="Untitled Note"
-                  maxLength={30}
-                  readOnly={!activeNote?.isNew}
-                  title={!activeNote?.isNew ? "Click the edit button to rename" : ""}
-                  className={
-                    activeNote?.isNew
-                      ? "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-text"
-                      : "bg-transparent dark:text-base-300 border-none outline-none text-sm font-semibold w-60 placeholder-base-600 cursor-not-allowed opacity-70"
-                  }
-                  type="text"
-                  value={activeNote?.title || ""}
-                  onChange={(e) => activeNote?.isNew && handleUpdateNote(activeNote.id, { title: e.target.value })}
-                />
-                {activeNote?.isNew && (
-                  <span className="text-xs dark:text-base-300 text-base-600 whitespace-nowrap">
-                    {activeNote?.title?.length || 0}/30
-                  </span>
-                )}
-                {activeNote?.isNew && (
-                  <button
-                    onClick={() => {
-                      setNotes((prev) => prev.filter((n) => n.id !== activeNote?.id));
-                      const nextNote = notes.find((n) => !n.isNew);
-                      setActiveNoteId(nextNote?.id || null);
-                    }}
-                    className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-red-400 transition-colors"
-                    title="Cancel new note"
-                  >
-                    <X size={14} />
-                  </button>
-                )}
-                {!activeNote?.isNew && activeNote && (
+        </div>
+        <button
+          onClick={() => setIsMoreDrawerOpen(!isMoreDrawerOpen)}
+          className="p-1.5 hover:bg-base-800 rounded text-base-400 hover:text-base-200 transition-colors"
+          title="More actions"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="5" r="1" />
+            <circle cx="12" cy="12" r="1" />
+            <circle cx="12" cy="19" r="1" />
+          </svg>
+        </button>
+      </header>
+
+      {/* Drawer - File Tree */}
+      {isDrawerOpen && (
+        <div className="fixed inset-0 z-60 backdrop-blur-[2px] bg-black/30" />
+      )}
+      <div
+        className={`fixed inset-y-0 left-0 z-70 bg-base-900 border-r border-base-800 transition-transform duration-200 ease-out ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}`}
+        style={{ width: treeWidth }}
+      >
+        <div className="flex flex-col h-full">
+          <div className="flex-1 overflow-y-auto overflow-x-hidden">
+            <FileTree
+              key={fileTreeKey}
+              rootPath={notesFolder}
+              onFileSelect={(path) => {
+                handleOpenFile(path);
+                setIsDrawerOpen(false);
+              }}
+              onFileCreated={(path) => {
+                handleOpenFile(path);
+              }}
+              onTreeChange={() => setFileTreeKey((prev) => prev + 1)}
+              width={treeWidth}
+            />
+          </div>
+          <div className="flex items-center justify-end px-3 py-2 border-t border-base-800">
+            <button
+              onClick={() => setIsDrawerOpen(false)}
+              className="p-1.5 rounded text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
+              title="Close"
+            >
+              <X size={18} />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* More Actions Drawer - Right side */}
+      {isMoreDrawerOpen && (
+        <div className="fixed inset-0 z-40 backdrop-blur-[2px] bg-black/30" />
+      )}
+      <div
+        className={`fixed inset-y-0 right-0 z-50 w-[350px] bg-base-900 border-l border-base-800 transition-transform duration-200 ease-out ${isMoreDrawerOpen ? "translate-x-0" : "translate-x-full"}`}
+      >
+        <div className="flex flex-col h-full">
+          <div className="flex-1 overflow-y-auto p-2 flex flex-col gap-1">
+            {/* Title & Rename Section */}
+          {activeNote && (
+            <div className="px-2 py-3 mb-1">
+              {renamingNoteId === activeNote?.id ? (
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setRenamingNoteId(null)}
+                      className="p-1.5 rounded text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
+                      title="Cancel"
+                    >
+                      <X size={16} />
+                    </button>
+                    <div className="relative flex-1">
+                      <input
+                        autoFocus
+                        maxLength={30}
+                        type="text"
+                        value={renamingNoteName}
+                        onChange={(e) => setRenamingNoteName(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            if (renamingNoteName.trim() && activeNote) {
+                              handleRenameNote(activeNote.id, renamingNoteName.trim());
+                            }
+                            setRenamingNoteId(null);
+                          }
+                          if (e.key === "Escape") setRenamingNoteId(null);
+                        }}
+                        onBlur={() => setRenamingNoteId(null)}
+                        className="w-full bg-base-800 text-base-200 border border-accent rounded outline-none text-sm font-semibold px-2 py-1.5 pr-10"
+                      />
+                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-base-500 pointer-events-none">
+                        {renamingNoteName.length}/30
+                      </span>
+                    </div>
+                    {(() => {
+                      const originalName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
+                      const isSameName = renamingNoteName.trim() === originalName;
+                      return (
+                        <button
+                          disabled={isSameName}
+                          onClick={() => {
+                            if (renamingNoteName.trim() && activeNote) {
+                              handleRenameNote(activeNote.id, renamingNoteName.trim());
+                            }
+                            setRenamingNoteId(null);
+                          }}
+                          className={`p-1.5 rounded transition-colors ${isSameName ? "text-base-600 cursor-not-allowed" : "text-yellow-400 hover:text-yellow-300 hover:bg-base-800"}`}
+                          title="Save"
+                        >
+                          <Save size={16} />
+                        </button>
+                      );
+                    })()}
+                  </div>
+                </div>
+              ) : activeNote?.isNew ? (
+                <div className="flex flex-col gap-1">
+                  <input
+                    placeholder="Untitled Note"
+                    maxLength={30}
+                    className="w-[200px] bg-transparent text-base-200 outline-none text-sm font-semibold placeholder-base-600"
+                    type="text"
+                    value={activeNote?.title || ""}
+                    onChange={(e) => handleUpdateNote(activeNote.id, { title: e.target.value })}
+                  />
+                  <div className="flex items-center gap-2 mt-1">
+                    <span className="text-xs text-base-500">{activeNote?.title?.length || 0}/30</span>
+                    <button
+                      onClick={() => {
+                        handleSaveNewNote(activeNote.id);
+                      }}
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium text-yellow-400 hover:bg-base-800 transition-colors"
+                    >
+                      <Save size={12} />
+                      Save
+                    </button>
+                    <button
+                      onClick={() => {
+                        setNotes((prev) => prev.filter((n) => n.id !== activeNote?.id));
+                        const nextNote = notes.find((n) => !n.isNew);
+                        setActiveNoteId(nextNote?.id || null);
+                      }}
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
+                    >
+                      <X size={12} />
+                      Discard
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <input
+                    readOnly
+                    placeholder="Untitled Note"
+                    maxLength={30}
+                    className="flex-1 w-[180px] bg-transparent text-base-300 outline-none text-sm font-semibold cursor-default"
+                    type="text"
+                    value={activeNote?.title || ""}
+                    onChange={() => {}}
+                  />
                   <button
                     onClick={() => {
                       const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
                       setRenamingNoteName(fileName);
                       setRenamingNoteId(activeNote.id);
                     }}
-                    className="p-1.5 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors"
-                    title="Rename file"
+                    className="p-1.5 rounded text-base-400 hover:text-base-200 hover:bg-base-800 transition-colors"
+                    //title="Rename file"
                   >
-                    <FilePen size={16} />
+                    <FilePen size={14} />
                   </button>
-                )}
-              </>
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="border-t border-base-800 my-1" />
+          <button
+            onClick={async () => {
+              const folder = await tauriAPI.selectNotesFolder();
+              if (folder) setNotesFolder(folder);
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+          >
+            <FolderOpen size={16} className="text-base-400" />
+            Open folder
+          </button>
+          <button
+            onClick={() => {
+              const newTheme = theme === "dark" ? "light" : "dark";
+              setTheme(newTheme);
+              document.documentElement.classList.toggle("light", newTheme === "light");
+              tauriAPI.saveTheme(newTheme);
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+          >
+            {theme === "dark" ? (
+              <Sun size={16} className="text-base-400" />
+            ) : (
+              <Moon size={16} className="text-base-400" />
             )}
+            {theme === "dark" ? "Light mode" : "Dark mode"}
+          </button>
+          <div className="border-t border-base-800 my-1" />
+          <button
+            onClick={() => {
+              handleCreateNote();
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+          >
+            <Plus size={16} className="text-base-400" />
+            New note
+          </button>
+          <button
+            onClick={() => {
+              if (activeNote) handleDeleteNote(activeNote.id);
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+          >
+            <Trash2 size={16} className="text-red-400" />
+            Delete note
+          </button>
+          <button
+            onClick={() => {
+              setIsCommandPaletteOpen(true);
+            }}
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+          >
+            <Search size={16} className="text-base-400" />
+            Commands
+          </button>
+          </div>
+          <div className="flex items-center justify-end px-3 py-2 border-t border-base-800">
+            <button
+              onClick={() => setIsMoreDrawerOpen(false)}
+              className="p-1.5 rounded text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
+              title="Close"
+            >
+              <X size={18} />
+            </button>
           </div>
         </div>
-        <button
-          onClick={async () => {
-            const folder = await tauriAPI.selectNotesFolder();
-            if (folder) setNotesFolder(folder);
-          }}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
-          title="Select notes folder"
-        >
-          <FolderOpen size={16} />
-        </button>
-        <button
-          onClick={() => {
-            const newTheme = theme === "dark" ? "light" : "dark";
-            setTheme(newTheme);
-            document.documentElement.classList.toggle("light", newTheme === "light");
-            tauriAPI.saveTheme(newTheme);
-          }}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
-          title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-        >
-          {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
-        </button>
-        <button
-          onClick={handleCreateNote}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
-          title="Create new note"
-        >
-          <Plus size={16} />
-        </button>
- 
-        <button
-          onClick={() => activeNote && handleDeleteNote(activeNote.id)}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
-          title="Delete note"
-        >
-          <Trash2 size={16} />
-        </button>
-        <button
-          onClick={() => setIsCommandPaletteOpen(true)}
-          className="p-2 hover:bg-base-800 rounded text-base-500 hover:text-base-300 transition-colors btn-effect"
-          title="Command palette (Ctrl+K)"
-        >
-          <Search size={16} />
-        </button>
-      </header>
-
-      {/* Drawer - File Tree */}
-      <div
-        className={`fixed inset-y-0 left-0 z-70 bg-base-900 border-r border-base-800 transition-transform duration-200 ease-out ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}`}
-        style={{ width: treeWidth, top: "48px" }}
-      >
-        <FileTree
-          key={fileTreeKey}
-          rootPath={notesFolder}
-          onFileSelect={(path) => {
-            handleOpenFile(path);
-            setIsDrawerOpen(false);
-          }}
-          onFileCreated={(path) => {
-            handleOpenFile(path);
-          }}
-          onTreeChange={() => setFileTreeKey((prev) => prev + 1)}
-          width={treeWidth}
-        />
       </div>
 
       {/* Main Content */}
@@ -701,7 +779,7 @@ export default function App() {
         <div style={{ width: `${splitRatio * 100}%` }} className="border-r border-base-800 relative">
           <button
             onClick={() => setGraphRefresh((r) => r + 1)}
-            className="absolute top-3 left-3 z-50 flex items-center gap-1.5 px-2.5 py-1.5 bg-base-800/90 backdrop-blur-sm rounded-lg text-xs font-medium text-base-400 hover:text-base-200 hover:bg-base-700 transition-colors"
+            className="absolute top-3 left-3 z-30 flex items-center gap-1.5 px-2.5 py-1.5 bg-base-800/90 backdrop-blur-sm rounded-lg text-xs font-medium text-base-400 hover:text-base-200 hover:bg-base-700 transition-colors"
             title="Update Graph"
           >
             <RefreshCw size={12} />

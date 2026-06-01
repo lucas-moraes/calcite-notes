@@ -476,7 +476,7 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
         <Folder size={14} className="text-yellow-500" />
         <span className="text-xs text-base-400 truncate">{formatPathname(rootPath)}</span>
       </div>
-      <div className="flex-1 overflow-y-auto py-2" onContextMenu={handleContextMenuEmpty}>
+      <div className="flex-1 overflow-y-auto overflow-x-hidden py-2" onContextMenu={handleContextMenuEmpty}>
         {loading ? (
           <div className="p-3 text-xs text-base-500">Loading...</div>
         ) : tree.length === 0 ? (
