@@ -134,7 +134,7 @@ function TreeNode({
             ) : (
               isExpanded ? <ChevronDown size={12} /> : <ChevronRight size={12} />
             )}
-            <Folder size={14} className={hasMdFiles ? "text-yellow-400" : "text-gray-600"} />
+            <Folder size={14} className="text-base-400" />
           </>
         ) : (
           <>

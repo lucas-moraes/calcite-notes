@@ -15,6 +15,8 @@ import { MarkdownHooks } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import rehypeShiki from "@shikijs/rehype";
+import type { ThemePreset, ThemeMode } from "./lib/themes";
+import { themes, setThemeColors } from "./lib/themes";
 
 export default function App() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -24,6 +26,8 @@ export default function App() {
   const [notesFolder, setNotesFolder] = useState<string>("");
   const [fileTreeKey, setFileTreeKey] = useState(0);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [themePreset, setThemePreset] = useState<ThemePreset>("gruvbox");
+  const [themeMode, setThemeMode] = useState<ThemeMode>("dark");
   const [editorTab, setEditorTab] = useState<"edit" | "preview">("edit");
   const [renamingNoteId, setRenamingNoteId] = useState<string | null>(null);
   const [renamingNoteName, setRenamingNoteName] = useState("");
@@ -50,11 +54,22 @@ export default function App() {
   useEffect(() => {
     tauriAPI.getTheme().then((savedTheme) => {
       if (savedTheme) {
-        setTheme(savedTheme as "dark" | "light");
-        document.documentElement.classList.remove("dark", "light");
-        document.documentElement.classList.add(savedTheme === "light" ? "light" : "dark");
+        const parts = savedTheme.split("-");
+        const possiblePresets: ThemePreset[] = ["gruvbox", "nord", "lime", "tokyo-night", "fuchsia", "rose"];
+        const last = parts[parts.length - 1] as ThemeMode;
+        if (last === "light" || last === "dark") {
+          const mode = last;
+          const presetRaw = parts.slice(0, -1).join("-");
+          const preset = (possiblePresets.includes(presetRaw as ThemePreset) ? presetRaw : "gruvbox") as ThemePreset;
+          setThemePreset(preset);
+          setThemeMode(mode);
+          setTheme(mode);
+          setThemeColors(preset, mode);
+        } else {
+          setThemeColors("gruvbox", "dark");
+        }
       } else {
-        document.documentElement.classList.add("dark");
+        setThemeColors("gruvbox", "dark");
       }
     });
     tauriAPI.getTreeWidth().then((width) => {
@@ -117,6 +132,18 @@ export default function App() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
+
+  useEffect(() => {
+    if (!isDrawerOpen && !isMoreDrawerOpen) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsDrawerOpen(false);
+        setIsMoreDrawerOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleEscape);
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [isDrawerOpen, isMoreDrawerOpen]);
 
   useEffect(() => {
     tauriAPI.getNotes().then((loadedNotes) => {
@@ -712,22 +739,76 @@ export default function App() {
             <FolderOpen size={16} className="text-base-400" />
             Open folder
           </button>
-          <button
-            onClick={() => {
-              const newTheme = theme === "dark" ? "light" : "dark";
-              setTheme(newTheme);
-              document.documentElement.classList.toggle("light", newTheme === "light");
-              tauriAPI.saveTheme(newTheme);
-            }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-          >
-            {theme === "dark" ? (
-              <Sun size={16} className="text-base-400" />
-            ) : (
-              <Moon size={16} className="text-base-400" />
-            )}
-            {theme === "dark" ? "Light mode" : "Dark mode"}
-          </button>
+          <div className="border-t border-base-800 my-1" />
+          <div className="px-1 py-2">
+            <span className="text-xs text-base-500 font-medium px-2 block mb-2">Theme</span>
+            <div className="grid grid-cols-2 gap-2">
+              {themes.map((t) => {
+                const isActive = themePreset === t.id;
+                const isLight = themeMode === "light";
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => {
+                      setThemePreset(t.id);
+                      setThemeMode(isLight ? "light" : "dark");
+                      setTheme(isLight ? "light" : "dark");
+                      setThemeColors(t.id, isLight ? "light" : "dark");
+                      tauriAPI.saveTheme(`${t.id}-${isLight ? "light" : "dark"}`);
+                    }}
+                    className={`flex flex-col items-start gap-1.5 p-2.5 rounded-lg text-left transition-all ${
+                      isActive
+                        ? "ring-2 ring-accent bg-accent/10"
+                        : "hover:bg-base-800"
+                    }`}
+                  >
+                    <span className="text-sm font-medium text-base-200">{t.label}</span>
+                    <div className="flex items-center gap-1">
+                      <span className="w-4 h-4 rounded" style={{ backgroundColor: t.dark.base950 }} />
+                      <span className="w-4 h-4 rounded" style={{ backgroundColor: t.dark.accent }} />
+                      <span className="w-4 h-4 rounded" style={{ backgroundColor: t.light.base950 }} />
+                    </div>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setThemePreset(t.id);
+                          setThemeMode("dark");
+                          setTheme("dark");
+                          setThemeColors(t.id, "dark");
+                          tauriAPI.saveTheme(`${t.id}-dark`);
+                        }}
+                        className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors ${
+                          isActive && !isLight
+                            ? "bg-accent/20 text-accent"
+                            : "text-base-400 hover:text-base-200"
+                        }`}
+                      >
+                        Dark
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setThemePreset(t.id);
+                          setThemeMode("light");
+                          setTheme("light");
+                          setThemeColors(t.id, "light");
+                          tauriAPI.saveTheme(`${t.id}-light`);
+                        }}
+                        className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors ${
+                          isActive && isLight
+                            ? "bg-accent/20 text-accent"
+                            : "text-base-400 hover:text-base-200"
+                        }`}
+                      >
+                        Light
+                      </button>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
           <div className="border-t border-base-800 my-1" />
           <button
             onClick={() => {
@@ -957,13 +1038,14 @@ export default function App() {
           },
           {
             id: "toggle-theme",
-            label: theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode",
-            icon: theme === "dark" ? <Sun size={16} /> : <Moon size={16} />,
+            label: themeMode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode",
+            icon: themeMode === "dark" ? <Sun size={16} /> : <Moon size={16} />,
             action: () => {
-              const newTheme = theme === "dark" ? "light" : "dark";
-              setTheme(newTheme);
-              document.documentElement.classList.toggle("light", newTheme === "light");
-              tauriAPI.saveTheme(newTheme);
+              const newMode: ThemeMode = themeMode === "dark" ? "light" : "dark";
+              setThemeMode(newMode);
+              setTheme(newMode);
+              setThemeColors(themePreset, newMode);
+              tauriAPI.saveTheme(`${themePreset}-${newMode}`);
             },
           },
           ...notes
