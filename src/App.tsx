@@ -10,6 +10,7 @@ import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
 import WikiLinkPopup from "./components/WikiLinkPopup";
 import Loader from "./components/Loader";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 import { MarkdownHooks } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -43,7 +44,7 @@ export default function App() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [graphRefresh, setGraphRefresh] = useState(0);
 
-  const [previewReady, setPreviewReady] = useState(true);
+  const [previewReady, setPreviewReady] = useState(false);
 
   const [wikiLinkOpen, setWikiLinkOpen] = useState(false);
   const [wikiLinkSearch, setWikiLinkSearch] = useState("");
@@ -769,7 +770,9 @@ export default function App() {
                       <span className="w-4 h-4 rounded" style={{ backgroundColor: t.light.base950 }} />
                     </div>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <button
+                      <span
+                        role="button"
+                        tabIndex={0}
                         onClick={(e) => {
                           e.stopPropagation();
                           setThemePreset(t.id);
@@ -778,15 +781,27 @@ export default function App() {
                           setThemeColors(t.id, "dark");
                           tauriAPI.saveTheme(`${t.id}-dark`);
                         }}
-                        className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors ${
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.stopPropagation();
+                            setThemePreset(t.id);
+                            setThemeMode("dark");
+                            setTheme("dark");
+                            setThemeColors(t.id, "dark");
+                            tauriAPI.saveTheme(`${t.id}-dark`);
+                          }
+                        }}
+                        className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
                           isActive && !isLight
                             ? "bg-accent/20 text-accent"
                             : "text-base-400 hover:text-base-200"
                         }`}
                       >
                         Dark
-                      </button>
-                      <button
+                      </span>
+                      <span
+                        role="button"
+                        tabIndex={0}
                         onClick={(e) => {
                           e.stopPropagation();
                           setThemePreset(t.id);
@@ -795,14 +810,24 @@ export default function App() {
                           setThemeColors(t.id, "light");
                           tauriAPI.saveTheme(`${t.id}-light`);
                         }}
-                        className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors ${
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.stopPropagation();
+                            setThemePreset(t.id);
+                            setThemeMode("light");
+                            setTheme("light");
+                            setThemeColors(t.id, "light");
+                            tauriAPI.saveTheme(`${t.id}-light`);
+                          }
+                        }}
+                        className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
                           isActive && isLight
                             ? "bg-accent/20 text-accent"
                             : "text-base-400 hover:text-base-200"
                         }`}
                       >
                         Light
-                      </button>
+                      </span>
                     </div>
                   </button>
                 );
@@ -984,23 +1009,35 @@ export default function App() {
                     />
                   </div>
                 ) : previewReady ? (
-                  <div className="absolute inset-0 p-6 pb-4 overflow-y-auto animate-fade-in">
-                    <div className="markdown-content h-full">
-                      <MarkdownHooks
-                        children={activeNote.content || "*No content*"}
-                        remarkPlugins={[remarkGfm, remarkBreaks]}
-                        rehypePlugins={[
-                          [rehypeShiki, {
-                            themes: {
-                              dark: "gruvbox-dark-soft",
-                              light: "gruvbox-light-soft",
-                            },
-                          }],
-                        ]}
-                        fallback={<Loader />}
-                      />
+                  <ErrorBoundary fallback={
+                    <div className="flex flex-col items-center justify-center h-full gap-3 p-6">
+                      <span className="text-sm text-base-500">Preview unavailable</span>
+                      <button
+                        onClick={() => setPreviewReady(false)}
+                        className="px-3 py-1.5 text-xs font-medium text-accent hover:bg-base-800 rounded-lg transition-colors"
+                      >
+                        Retry
+                      </button>
                     </div>
-                  </div>
+                  }>
+                    <div className="absolute inset-0 p-6 pb-4 overflow-y-auto animate-fade-in">
+                      <div className="markdown-content h-full">
+                        <MarkdownHooks
+                          children={activeNote.content || "*No content*"}
+                          remarkPlugins={[remarkGfm, remarkBreaks]}
+                          rehypePlugins={[
+                            [rehypeShiki, {
+                              themes: {
+                                dark: "gruvbox-dark-soft",
+                                light: "gruvbox-light-soft",
+                              },
+                            }],
+                          ]}
+                          fallback={<Loader />}
+                        />
+                      </div>
+                    </div>
+                  </ErrorBoundary>
                 ) : (
                   <div className="absolute inset-0 animate-fade-in">
                     <Loader />
