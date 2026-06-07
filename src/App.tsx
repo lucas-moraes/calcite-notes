@@ -5,7 +5,7 @@ import { tauriAPI } from "./lib/tauri";
 
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw } from "lucide-react";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw, PanelLeftOpen, Settings } from "lucide-react";
 import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
 import WikiLinkPopup from "./components/WikiLinkPopup";
@@ -32,12 +32,9 @@ export default function App() {
   const [editorTab, setEditorTab] = useState<"edit" | "preview">("edit");
   const [renamingNoteId, setRenamingNoteId] = useState<string | null>(null);
   const [renamingNoteName, setRenamingNoteName] = useState("");
-  const [treeWidth, setTreeWidth] = useState(350);
-  const [isResizing, setIsResizing] = useState(false);
   const [splitRatio, setSplitRatio] = useState(0.4);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isMoreDrawerOpen, setIsMoreDrawerOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState<null | "files" | "more">(null);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<
     { id: string; name: string; content: string; tags?: string[] }[]
   >([]);
@@ -73,17 +70,10 @@ export default function App() {
         setThemeColors("gruvbox", "dark");
       }
     });
-    tauriAPI.getTreeWidth().then((width) => {
-      if (width) setTreeWidth(width);
-    });
-  }, []);
+    }, []);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      if (isResizing) {
-        const newWidth = Math.max(200, Math.min(500, e.clientX));
-        setTreeWidth(newWidth);
-      }
       if (isResizingSplit) {
         const container = document.getElementById("main-content");
         if (container) {
@@ -95,16 +85,12 @@ export default function App() {
     };
 
     const handleMouseUp = () => {
-      if (isResizing) {
-        setIsResizing(false);
-        tauriAPI.saveTreeWidth(treeWidth);
-      }
       if (isResizingSplit) {
         setIsResizingSplit(false);
       }
     };
 
-    if (isResizing || isResizingSplit) {
+    if (isResizingSplit) {
       document.addEventListener("mousemove", handleMouseMove);
       document.addEventListener("mouseup", handleMouseUp);
     }
@@ -113,7 +99,7 @@ export default function App() {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isResizing, isResizingSplit, treeWidth]);
+  }, [isResizingSplit]);
 
   useEffect(() => {
     tauriAPI.getNotesFolder().then((folder) => {
@@ -135,16 +121,15 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!isDrawerOpen && !isMoreDrawerOpen) return;
+    if (!activePanel) return;
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setIsDrawerOpen(false);
-        setIsMoreDrawerOpen(false);
+        setActivePanel(null);
       }
     };
     window.addEventListener("keydown", handleEscape);
     return () => window.removeEventListener("keydown", handleEscape);
-  }, [isDrawerOpen, isMoreDrawerOpen]);
+  }, [activePanel]);
 
   useEffect(() => {
     tauriAPI.getNotes().then((loadedNotes) => {
@@ -526,359 +511,309 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen w-full bg-base-950 overflow-hidden text-base-200" style={{ flexDirection: "column" }}>
-      {/* Top Bar - Navigation */}
-      <header className="h-12 border-b border-base-800 flex items-center justify-between px-6 bg-base-900/50 backdrop-blur-sm sticky top-0 z-10">
-        <div className="flex items-center gap-3 flex-1">
+    <div className="flex h-screen w-full bg-base-950 overflow-hidden text-base-200">
+      {/* Sidebar */}
+      <nav className="flex h-full flex-shrink-0">
+        {/* Icon Strip */}
+        <div className="w-12 flex flex-col items-center gap-4 py-4 border-r border-base-800 bg-base-900/50 backdrop-blur-sm">
           <Logo className="w-6 h-6" />
           <button
-            onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-            className="p-1.5 hover:bg-base-800 rounded text-base-400 hover:text-base-200 transition-colors"
-            title="Toggle file tree"
+            onClick={() => setActivePanel(activePanel === "files" ? null : "files")}
+            className={`p-2 rounded transition-colors ${activePanel === "files" ? "text-accent bg-accent/10" : "text-base-400 hover:text-base-200 hover:bg-base-800"}`}
+            title="File tree"
           >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="5" r="1" />
-              <circle cx="12" cy="12" r="1" />
-              <circle cx="12" cy="19" r="1" />
-            </svg>
+            <PanelLeftOpen size={20} />
+          </button>
+          <button
+            onClick={() => setActivePanel(activePanel === "more" ? null : "more")}
+            className={`p-2 rounded transition-colors ${activePanel === "more" ? "text-accent bg-accent/10" : "text-base-400 hover:text-base-200 hover:bg-base-800"}`}
+            title="Settings & actions"
+          >
+            <Settings size={20} />
           </button>
         </div>
-        <button
-          onClick={() => setIsMoreDrawerOpen(!isMoreDrawerOpen)}
-          className="p-1.5 hover:bg-base-800 rounded text-base-400 hover:text-base-200 transition-colors"
-          title="More actions"
+
+        {/* Expandable Panel */}
+        <div
+          className={`border-r border-base-800 bg-base-900 flex flex-col overflow-hidden transition-[width] duration-200 ease-out ${activePanel ? "w-[280px]" : "w-0"}`}
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="5" r="1" />
-            <circle cx="12" cy="12" r="1" />
-            <circle cx="12" cy="19" r="1" />
-          </svg>
-        </button>
-      </header>
+            {activePanel === "files" && (
+              <div className="flex-1 overflow-y-auto overflow-x-hidden">
+                <FileTree
+                  key={fileTreeKey}
+                  rootPath={notesFolder}
+                  onFileSelect={(path) => {
+                    handleOpenFile(path);
+                  }}
+                  onFileCreated={(path) => {
+                    handleOpenFile(path);
+                  }}
+                  onTreeChange={() => setFileTreeKey((prev) => prev + 1)}
+                />
+              </div>
+            )}
+            {activePanel === "more" && (
+              <div className="flex-1 overflow-y-auto p-2 flex flex-col gap-1">
+                {/* Title & Rename Section */}
+                {activeNote && (
+                  <div className="px-2 py-3 mb-1">
+                    {renamingNoteId === activeNote?.id ? (
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => setRenamingNoteId(null)}
+                            className="p-1.5 rounded text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
+                            title="Cancel"
+                          >
+                            <X size={16} />
+                          </button>
+                          <div className="relative flex-1">
+                            <input
+                              autoFocus
+                              maxLength={30}
+                              type="text"
+                              value={renamingNoteName}
+                              onChange={(e) => setRenamingNoteName(e.target.value)}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") {
+                                  e.preventDefault();
+                                  if (renamingNoteName.trim() && activeNote) {
+                                    handleRenameNote(activeNote.id, renamingNoteName.trim());
+                                  }
+                                  setRenamingNoteId(null);
+                                }
+                                if (e.key === "Escape") setRenamingNoteId(null);
+                              }}
+                              onBlur={() => setRenamingNoteId(null)}
+                              className="w-full bg-base-800 text-base-200 border border-accent rounded outline-none text-sm font-semibold px-2 py-1.5 pr-10"
+                            />
+                            <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-base-500 pointer-events-none">
+                              {renamingNoteName.length}/30
+                            </span>
+                          </div>
+                          {(() => {
+                            const originalName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
+                            const isSameName = renamingNoteName.trim() === originalName;
+                            return (
+                              <button
+                                disabled={isSameName}
+                                onClick={() => {
+                                  if (renamingNoteName.trim() && activeNote) {
+                                    handleRenameNote(activeNote.id, renamingNoteName.trim());
+                                  }
+                                  setRenamingNoteId(null);
+                                }}
+                                className={`p-1.5 rounded transition-colors ${isSameName ? "text-base-600 cursor-not-allowed" : "text-yellow-400 hover:text-yellow-300 hover:bg-base-800"}`}
+                                title="Save"
+                              >
+                                <Save size={16} />
+                              </button>
+                            );
+                          })()}
+                        </div>
+                      </div>
+                    ) : activeNote?.isNew ? (
+                      <div className="flex flex-col gap-1">
+                        <input
+                          placeholder="Untitled Note"
+                          maxLength={30}
+                          className="w-[200px] bg-transparent text-base-200 outline-none text-sm font-semibold placeholder-base-600"
+                          type="text"
+                          value={activeNote?.title || ""}
+                          onChange={(e) => handleUpdateNote(activeNote.id, { title: e.target.value })}
+                        />
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-xs text-base-500">{activeNote?.title?.length || 0}/30</span>
+                          <button
+                            onClick={() => {
+                              handleSaveNewNote(activeNote.id);
+                            }}
+                            className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium text-yellow-400 hover:bg-base-800 transition-colors"
+                          >
+                            <Save size={12} />
+                            Save
+                          </button>
+                          <button
+                            onClick={() => {
+                              setNotes((prev) => prev.filter((n) => n.id !== activeNote?.id));
+                              const nextNote = notes.find((n) => !n.isNew);
+                              setActiveNoteId(nextNote?.id || null);
+                            }}
+                            className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
+                          >
+                            <X size={12} />
+                            Discard
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2">
+                        <input
+                          readOnly
+                          placeholder="Untitled Note"
+                          maxLength={30}
+                          className="flex-1 w-[180px] bg-transparent text-base-300 outline-none text-sm font-semibold cursor-default"
+                          type="text"
+                          value={activeNote?.title || ""}
+                          onChange={() => {}}
+                        />
+                        <button
+                          onClick={() => {
+                            const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
+                            setRenamingNoteName(fileName);
+                            setRenamingNoteId(activeNote.id);
+                          }}
+                          className="p-1.5 rounded text-base-400 hover:text-base-200 hover:bg-base-800 transition-colors"
+                        >
+                          <FilePen size={14} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
 
-      {/* Drawer - File Tree */}
-      {isDrawerOpen && (
-        <div className="fixed inset-0 z-60 backdrop-blur-[2px] bg-black/30" />
-      )}
-      <div
-        className={`fixed inset-y-0 left-0 z-70 bg-base-900 border-r border-base-800 transition-transform duration-200 ease-out ${isDrawerOpen ? "translate-x-0" : "-translate-x-full"}`}
-        style={{ width: treeWidth }}
-      >
-        <div className="flex flex-col h-full">
-          <div className="flex-1 overflow-y-auto overflow-x-hidden">
-            <FileTree
-              key={fileTreeKey}
-              rootPath={notesFolder}
-              onFileSelect={(path) => {
-                handleOpenFile(path);
-                setIsDrawerOpen(false);
-              }}
-              onFileCreated={(path) => {
-                handleOpenFile(path);
-              }}
-              onTreeChange={() => setFileTreeKey((prev) => prev + 1)}
-              width={treeWidth}
-            />
-          </div>
-          <div className="flex items-center justify-end px-3 py-2 border-t border-base-800">
-            <button
-              onClick={() => setIsDrawerOpen(false)}
-              className="p-1.5 rounded text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
-              title="Close"
-            >
-              <X size={18} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* More Actions Drawer - Right side */}
-      {isMoreDrawerOpen && (
-        <div className="fixed inset-0 z-40 backdrop-blur-[2px] bg-black/30" />
-      )}
-      <div
-        className={`fixed inset-y-0 right-0 z-50 w-[350px] bg-base-900 border-l border-base-800 transition-transform duration-200 ease-out ${isMoreDrawerOpen ? "translate-x-0" : "translate-x-full"}`}
-      >
-        <div className="flex flex-col h-full">
-          <div className="flex-1 overflow-y-auto p-2 flex flex-col gap-1">
-            {/* Title & Rename Section */}
-          {activeNote && (
-            <div className="px-2 py-3 mb-1">
-              {renamingNoteId === activeNote?.id ? (
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => setRenamingNoteId(null)}
-                      className="p-1.5 rounded text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
-                      title="Cancel"
-                    >
-                      <X size={16} />
-                    </button>
-                    <div className="relative flex-1">
-                      <input
-                        autoFocus
-                        maxLength={30}
-                        type="text"
-                        value={renamingNoteName}
-                        onChange={(e) => setRenamingNoteName(e.target.value)}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter") {
-                            e.preventDefault();
-                            if (renamingNoteName.trim() && activeNote) {
-                              handleRenameNote(activeNote.id, renamingNoteName.trim());
-                            }
-                            setRenamingNoteId(null);
-                          }
-                          if (e.key === "Escape") setRenamingNoteId(null);
-                        }}
-                        onBlur={() => setRenamingNoteId(null)}
-                        className="w-full bg-base-800 text-base-200 border border-accent rounded outline-none text-sm font-semibold px-2 py-1.5 pr-10"
-                      />
-                      <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-base-500 pointer-events-none">
-                        {renamingNoteName.length}/30
-                      </span>
-                    </div>
-                    {(() => {
-                      const originalName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
-                      const isSameName = renamingNoteName.trim() === originalName;
+                <div className="border-t border-base-800 my-1" />
+                <button
+                  onClick={async () => {
+                    const folder = await tauriAPI.selectNotesFolder();
+                    if (folder) setNotesFolder(folder);
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+                >
+                  <FolderOpen size={16} className="text-base-400" />
+                  Open folder
+                </button>
+                <div className="border-t border-base-800 my-1" />
+                <button
+                  onClick={() => {
+                    handleCreateNote();
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+                >
+                  <Plus size={16} className="text-base-400" />
+                  New note
+                </button>
+                <button
+                  onClick={() => {
+                    if (activeNote) handleDeleteNote(activeNote.id);
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+                >
+                  <Trash2 size={16} className="text-red-400" />
+                  Delete note
+                </button>
+                <button
+                  onClick={() => {
+                    setIsCommandPaletteOpen(true);
+                  }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+                >
+                  <Search size={16} className="text-base-400" />
+                  Commands
+                </button>
+                <div className="border-t border-base-800 my-1" />
+                <div className="px-1 py-2">
+                  <span className="text-xs text-base-500 font-medium px-2 block mb-2">Theme</span>
+                  <div className="grid grid-cols-2 gap-2">
+                    {themes.map((t) => {
+                      const isActive = themePreset === t.id;
+                      const isLight = themeMode === "light";
                       return (
                         <button
-                          disabled={isSameName}
+                          key={t.id}
                           onClick={() => {
-                            if (renamingNoteName.trim() && activeNote) {
-                              handleRenameNote(activeNote.id, renamingNoteName.trim());
-                            }
-                            setRenamingNoteId(null);
+                            setThemePreset(t.id);
+                            setThemeMode(isLight ? "light" : "dark");
+                            setTheme(isLight ? "light" : "dark");
+                            setThemeColors(t.id, isLight ? "light" : "dark");
+                            tauriAPI.saveTheme(`${t.id}-${isLight ? "light" : "dark"}`);
                           }}
-                          className={`p-1.5 rounded transition-colors ${isSameName ? "text-base-600 cursor-not-allowed" : "text-yellow-400 hover:text-yellow-300 hover:bg-base-800"}`}
-                          title="Save"
+                          className={`flex flex-col items-start gap-1.5 p-2.5 rounded-lg text-left transition-all ${
+                            isActive
+                              ? "ring-2 ring-accent bg-accent/10"
+                              : "hover:bg-base-800"
+                          }`}
                         >
-                          <Save size={16} />
+                          <span className="text-sm font-medium text-base-200">{t.label}</span>
+                          <div className="flex items-center gap-1">
+                            <span className="w-4 h-4 rounded" style={{ backgroundColor: t.dark.base950 }} />
+                            <span className="w-4 h-4 rounded" style={{ backgroundColor: t.dark.accent }} />
+                            <span className="w-4 h-4 rounded" style={{ backgroundColor: t.light.base950 }} />
+                          </div>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span
+                              role="button"
+                              tabIndex={0}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setThemePreset(t.id);
+                                setThemeMode("dark");
+                                setTheme("dark");
+                                setThemeColors(t.id, "dark");
+                                tauriAPI.saveTheme(`${t.id}-dark`);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.stopPropagation();
+                                  setThemePreset(t.id);
+                                  setThemeMode("dark");
+                                  setTheme("dark");
+                                  setThemeColors(t.id, "dark");
+                                  tauriAPI.saveTheme(`${t.id}-dark`);
+                                }
+                              }}
+                              className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
+                                isActive && !isLight
+                                  ? "bg-accent/20 text-accent"
+                                  : "text-base-400 hover:text-base-200"
+                              }`}
+                            >
+                              Dark
+                            </span>
+                            <span
+                              role="button"
+                              tabIndex={0}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setThemePreset(t.id);
+                                setThemeMode("light");
+                                setTheme("light");
+                                setThemeColors(t.id, "light");
+                                tauriAPI.saveTheme(`${t.id}-light`);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.stopPropagation();
+                                  setThemePreset(t.id);
+                                  setThemeMode("light");
+                                  setTheme("light");
+                                  setThemeColors(t.id, "light");
+                                  tauriAPI.saveTheme(`${t.id}-light`);
+                                }
+                              }}
+                              className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
+                                isActive && isLight
+                                  ? "bg-accent/20 text-accent"
+                                  : "text-base-400 hover:text-base-200"
+                              }`}
+                            >
+                              Light
+                            </span>
+                          </div>
                         </button>
                       );
-                    })()}
+                    })}
                   </div>
                 </div>
-              ) : activeNote?.isNew ? (
-                <div className="flex flex-col gap-1">
-                  <input
-                    placeholder="Untitled Note"
-                    maxLength={30}
-                    className="w-[200px] bg-transparent text-base-200 outline-none text-sm font-semibold placeholder-base-600"
-                    type="text"
-                    value={activeNote?.title || ""}
-                    onChange={(e) => handleUpdateNote(activeNote.id, { title: e.target.value })}
-                  />
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-base-500">{activeNote?.title?.length || 0}/30</span>
-                    <button
-                      onClick={() => {
-                        handleSaveNewNote(activeNote.id);
-                      }}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium text-yellow-400 hover:bg-base-800 transition-colors"
-                    >
-                      <Save size={12} />
-                      Save
-                    </button>
-                    <button
-                      onClick={() => {
-                        setNotes((prev) => prev.filter((n) => n.id !== activeNote?.id));
-                        const nextNote = notes.find((n) => !n.isNew);
-                        setActiveNoteId(nextNote?.id || null);
-                      }}
-                      className="flex items-center gap-1.5 px-2.5 py-1 rounded text-xs font-medium text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
-                    >
-                      <X size={12} />
-                      Discard
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <input
-                    readOnly
-                    placeholder="Untitled Note"
-                    maxLength={30}
-                    className="flex-1 w-[180px] bg-transparent text-base-300 outline-none text-sm font-semibold cursor-default"
-                    type="text"
-                    value={activeNote?.title || ""}
-                    onChange={() => {}}
-                  />
-                  <button
-                    onClick={() => {
-                      const fileName = activeNote.id.split("/").pop()?.replace(".md", "") || "";
-                      setRenamingNoteName(fileName);
-                      setRenamingNoteId(activeNote.id);
-                    }}
-                    className="p-1.5 rounded text-base-400 hover:text-base-200 hover:bg-base-800 transition-colors"
-                    //title="Rename file"
-                  >
-                    <FilePen size={14} />
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-
-          <div className="border-t border-base-800 my-1" />
-          <button
-            onClick={async () => {
-              const folder = await tauriAPI.selectNotesFolder();
-              if (folder) setNotesFolder(folder);
-            }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-          >
-            <FolderOpen size={16} className="text-base-400" />
-            Open folder
-          </button>
-          <div className="border-t border-base-800 my-1" />
-          <div className="px-1 py-2">
-            <span className="text-xs text-base-500 font-medium px-2 block mb-2">Theme</span>
-            <div className="grid grid-cols-2 gap-2">
-              {themes.map((t) => {
-                const isActive = themePreset === t.id;
-                const isLight = themeMode === "light";
-                return (
-                  <button
-                    key={t.id}
-                    onClick={() => {
-                      setThemePreset(t.id);
-                      setThemeMode(isLight ? "light" : "dark");
-                      setTheme(isLight ? "light" : "dark");
-                      setThemeColors(t.id, isLight ? "light" : "dark");
-                      tauriAPI.saveTheme(`${t.id}-${isLight ? "light" : "dark"}`);
-                    }}
-                    className={`flex flex-col items-start gap-1.5 p-2.5 rounded-lg text-left transition-all ${
-                      isActive
-                        ? "ring-2 ring-accent bg-accent/10"
-                        : "hover:bg-base-800"
-                    }`}
-                  >
-                    <span className="text-sm font-medium text-base-200">{t.label}</span>
-                    <div className="flex items-center gap-1">
-                      <span className="w-4 h-4 rounded" style={{ backgroundColor: t.dark.base950 }} />
-                      <span className="w-4 h-4 rounded" style={{ backgroundColor: t.dark.accent }} />
-                      <span className="w-4 h-4 rounded" style={{ backgroundColor: t.light.base950 }} />
-                    </div>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span
-                        role="button"
-                        tabIndex={0}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setThemePreset(t.id);
-                          setThemeMode("dark");
-                          setTheme("dark");
-                          setThemeColors(t.id, "dark");
-                          tauriAPI.saveTheme(`${t.id}-dark`);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.stopPropagation();
-                            setThemePreset(t.id);
-                            setThemeMode("dark");
-                            setTheme("dark");
-                            setThemeColors(t.id, "dark");
-                            tauriAPI.saveTheme(`${t.id}-dark`);
-                          }
-                        }}
-                        className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
-                          isActive && !isLight
-                            ? "bg-accent/20 text-accent"
-                            : "text-base-400 hover:text-base-200"
-                        }`}
-                      >
-                        Dark
-                      </span>
-                      <span
-                        role="button"
-                        tabIndex={0}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setThemePreset(t.id);
-                          setThemeMode("light");
-                          setTheme("light");
-                          setThemeColors(t.id, "light");
-                          tauriAPI.saveTheme(`${t.id}-light`);
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.stopPropagation();
-                            setThemePreset(t.id);
-                            setThemeMode("light");
-                            setTheme("light");
-                            setThemeColors(t.id, "light");
-                            tauriAPI.saveTheme(`${t.id}-light`);
-                          }
-                        }}
-                        className={`text-[11px] font-medium px-1.5 py-0.5 rounded transition-colors cursor-pointer ${
-                          isActive && isLight
-                            ? "bg-accent/20 text-accent"
-                            : "text-base-400 hover:text-base-200"
-                        }`}
-                      >
-                        Light
-                      </span>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
+              </div>
+            )}
           </div>
-          <div className="border-t border-base-800 my-1" />
-          <button
-            onClick={() => {
-              handleCreateNote();
-            }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-          >
-            <Plus size={16} className="text-base-400" />
-            New note
-          </button>
-          <button
-            onClick={() => {
-              if (activeNote) handleDeleteNote(activeNote.id);
-            }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-          >
-            <Trash2 size={16} className="text-red-400" />
-            Delete note
-          </button>
-          <button
-            onClick={() => {
-              setIsCommandPaletteOpen(true);
-            }}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-          >
-            <Search size={16} className="text-base-400" />
-            Commands
-          </button>
-          </div>
-          <div className="flex items-center justify-end px-3 py-2 border-t border-base-800">
-            <button
-              onClick={() => setIsMoreDrawerOpen(false)}
-              className="p-1.5 rounded text-red-400 hover:text-red-300 hover:bg-base-800 transition-colors"
-              title="Close"
-            >
-              <X size={18} />
-            </button>
-          </div>
-        </div>
-      </div>
+      </nav>
 
       {/* Main Content */}
       <div
         id="main-content"
-        className={`flex flex-1 min-w-0 overflow-hidden transition-all duration-200 ${isDrawerOpen ? "ml-0" : ""}`}
+        className="flex flex-1 min-w-0 overflow-hidden"
         style={{ cursor: isResizingSplit ? "col-resize" : "default" }}
       >
         {/* Graph View - Panel Principal */}

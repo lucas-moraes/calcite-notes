@@ -16,7 +16,6 @@ interface FileTreeProps {
   onFileSelect: (path: string) => void;
   onFileCreated?: (path: string) => void;
   onTreeChange?: () => void;
-  width?: number;
 }
 
 interface TreeNodeProps {
@@ -202,7 +201,7 @@ function formatPathname(path: string): string {
   return path.split('/').pop() || path;
 }
 
-export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTreeChange, width }: FileTreeProps) {
+export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTreeChange }: FileTreeProps) {
   const [tree, setTree] = useState<FileNode[]>([]);
   const [activePath, setActivePath] = useState<string | null>(null);
   const [expandedPaths, setExpandedPaths] = useState<Set<string>>(new Set());
@@ -471,7 +470,7 @@ export default function FileTree({ rootPath, onFileSelect, onFileCreated, onTree
   }
 
   return (
-    <div style={{ width: width }} className="bg-base-900 border-r border-base-800 flex flex-col h-full overflow-hidden">
+    <div className="flex flex-col h-full overflow-hidden">
       <div className="p-3 border-b border-base-800 flex items-center gap-2">
         <Folder size={14} className="text-yellow-500" />
         <span className="text-xs text-base-400 truncate">{formatPathname(rootPath)}</span>
