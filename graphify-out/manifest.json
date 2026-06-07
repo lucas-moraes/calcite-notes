@@ -1,0 +1,492 @@
+{
+  "/Users/macbook/projects/typescript/calcite-notes/.opencode/package.json": {
+    "mtime": 1779842037.0159938,
+    "ast_hash": "a6474ff34c01d9a987e9a71f5ee9e01e",
+    "semantic_hash": "a6474ff34c01d9a987e9a71f5ee9e01e"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/icon-design.icon/icon.json": {
+    "mtime": 1778948564.7820458,
+    "ast_hash": "a0cd60471081fcd93844e0da34cc9c8d",
+    "semantic_hash": "a0cd60471081fcd93844e0da34cc9c8d"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/metadata.json": {
+    "mtime": 1778548609.1898422,
+    "ast_hash": "a41eac0e806e76aa40ef6b73bd9468dc",
+    "semantic_hash": "a41eac0e806e76aa40ef6b73bd9468dc"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/opencode.json": {
+    "mtime": 1778548609.1899776,
+    "ast_hash": "f3b73b78a301f179c84027ff667b08e6",
+    "semantic_hash": "f3b73b78a301f179c84027ff667b08e6"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/package.json": {
+    "mtime": 1780256916.0660732,
+    "ast_hash": "eb691d99264c7f2b85d06fc16dd3ac70",
+    "semantic_hash": "eb691d99264c7f2b85d06fc16dd3ac70"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/skills-lock.json": {
+    "mtime": 1778548609.202933,
+    "ast_hash": "8908d12b480f189d6e9e9d5d43a17e6e",
+    "semantic_hash": "8908d12b480f189d6e9e9d5d43a17e6e"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/build.rs": {
+    "mtime": 1779754660.3434439,
+    "ast_hash": "9e949d967099bcc42cfa6f8765a6c938",
+    "semantic_hash": "9e949d967099bcc42cfa6f8765a6c938"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/capabilities/default.json": {
+    "mtime": 1779754660.3438168,
+    "ast_hash": "da26fc139af39b22dc9e594b6f209917",
+    "semantic_hash": "da26fc139af39b22dc9e594b6f209917"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/gen/schemas/acl-manifests.json": {
+    "mtime": 1779741974.565746,
+    "ast_hash": "98d4044e455d2f878c4b97deb6ff5693",
+    "semantic_hash": "98d4044e455d2f878c4b97deb6ff5693"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/gen/schemas/capabilities.json": {
+    "mtime": 1779741974.5798044,
+    "ast_hash": "32922fedbcc3f364c14c8eb967ce095d",
+    "semantic_hash": "32922fedbcc3f364c14c8eb967ce095d"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/gen/schemas/desktop-schema.json": {
+    "mtime": 1779741974.5787938,
+    "ast_hash": "43a74391bbd3ae401476b567608beda5",
+    "semantic_hash": "43a74391bbd3ae401476b567608beda5"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/gen/schemas/macOS-schema.json": {
+    "mtime": 1779741974.5787938,
+    "ast_hash": "43a74391bbd3ae401476b567608beda5",
+    "semantic_hash": "43a74391bbd3ae401476b567608beda5"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/src/commands/config.rs": {
+    "mtime": 1780802698.816688,
+    "ast_hash": "03d02102fcac34fb283a1380bb633515",
+    "semantic_hash": "03d02102fcac34fb283a1380bb633515"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/src/commands/filesystem.rs": {
+    "mtime": 1779852533.3201656,
+    "ast_hash": "c8f5ff6f5955b10f49c8cde85ef1cf34",
+    "semantic_hash": "c8f5ff6f5955b10f49c8cde85ef1cf34"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/src/commands/mod.rs": {
+    "mtime": 1779754660.3694324,
+    "ast_hash": "6612ba0605403606e343263658540505",
+    "semantic_hash": "6612ba0605403606e343263658540505"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/src/commands/notes.rs": {
+    "mtime": 1779754660.3696141,
+    "ast_hash": "05d0795090d2c2b6b60aaaa0cfca274e",
+    "semantic_hash": "05d0795090d2c2b6b60aaaa0cfca274e"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/src/lib.rs": {
+    "mtime": 1780802706.9574027,
+    "ast_hash": "c9a2a7bfaca547a0b79ed4371fc8d42a",
+    "semantic_hash": "c9a2a7bfaca547a0b79ed4371fc8d42a"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/src/main.rs": {
+    "mtime": 1779754660.3699045,
+    "ast_hash": "c0a88d06623c5bbc8de8f9aa2d8c482d",
+    "semantic_hash": "c0a88d06623c5bbc8de8f9aa2d8c482d"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/tauri.conf.json": {
+    "mtime": 1780802875.9676552,
+    "ast_hash": "00a3a1970058ba3cb05042fcdb922a9e",
+    "semantic_hash": "00a3a1970058ba3cb05042fcdb922a9e"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/App.tsx": {
+    "mtime": 1780802744.4389594,
+    "ast_hash": "f24e21157b774f47429452850b4a622f",
+    "semantic_hash": "f24e21157b774f47429452850b4a622f"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/CommandPalette.tsx": {
+    "mtime": 1778548609.203369,
+    "ast_hash": "7b98ae1f3de366d19db6019a9a86ddb6",
+    "semantic_hash": "7b98ae1f3de366d19db6019a9a86ddb6"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/ErrorBoundary.tsx": {
+    "mtime": 1780418673.351313,
+    "ast_hash": "c1d87127a9eb45e94b1ca6f4959f7827",
+    "semantic_hash": "c1d87127a9eb45e94b1ca6f4959f7827"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/FileTree.tsx": {
+    "mtime": 1780801838.6216257,
+    "ast_hash": "7a075afdb6fa98316ed6163b5d24b8fd",
+    "semantic_hash": "7a075afdb6fa98316ed6163b5d24b8fd"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/GraphView.tsx": {
+    "mtime": 1780279537.154703,
+    "ast_hash": "4f71dd74f3569025f742bc3dc8a4bea7",
+    "semantic_hash": "4f71dd74f3569025f742bc3dc8a4bea7"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/Loader.tsx": {
+    "mtime": 1780258561.4703693,
+    "ast_hash": "a1a8451f931ebc48c51fbfa85944c5fc",
+    "semantic_hash": "a1a8451f931ebc48c51fbfa85944c5fc"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/Logo.tsx": {
+    "mtime": 1779845136.8339639,
+    "ast_hash": "89d247153055206c016abbe66184726a",
+    "semantic_hash": "89d247153055206c016abbe66184726a"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/Sidebar.tsx": {
+    "mtime": 1778548609.2044694,
+    "ast_hash": "ecdd9f24f88a2286dc072c63c0e7f970",
+    "semantic_hash": "ecdd9f24f88a2286dc072c63c0e7f970"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/TagManager.tsx": {
+    "mtime": 1778548609.2051601,
+    "ast_hash": "5c78b3657dd7ac1de804e9a1a313235a",
+    "semantic_hash": "5c78b3657dd7ac1de804e9a1a313235a"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/components/WikiLinkPopup.tsx": {
+    "mtime": 1780256416.4157107,
+    "ast_hash": "56d9093f704a689fc5189ddea749e82b",
+    "semantic_hash": "56d9093f704a689fc5189ddea749e82b"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/lib/tauri.ts": {
+    "mtime": 1780802711.0008643,
+    "ast_hash": "dc5f636378dc7b73781bd68a1e72526c",
+    "semantic_hash": "dc5f636378dc7b73781bd68a1e72526c"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/lib/themes.ts": {
+    "mtime": 1780281345.3672388,
+    "ast_hash": "42bc6e9ad638838ca7ec15f7dfa423f0",
+    "semantic_hash": "42bc6e9ad638838ca7ec15f7dfa423f0"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/lib/utils.ts": {
+    "mtime": 1778548609.2064884,
+    "ast_hash": "12e1fb5e8c69d238c917af66bb72fbee",
+    "semantic_hash": "12e1fb5e8c69d238c917af66bb72fbee"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/main.tsx": {
+    "mtime": 1778548609.206624,
+    "ast_hash": "2b36426d5ad7e08ef79746aa524f4fb7",
+    "semantic_hash": "2b36426d5ad7e08ef79746aa524f4fb7"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/types.ts": {
+    "mtime": 1779754660.3711092,
+    "ast_hash": "610a4f02feb65ecca4db81947770a13e",
+    "semantic_hash": "610a4f02feb65ecca4db81947770a13e"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src/types/png.d.ts": {
+    "mtime": 1778548609.2068806,
+    "ast_hash": "a82f088f473c72b785bce3e5b9f3fd59",
+    "semantic_hash": "a82f088f473c72b785bce3e5b9f3fd59"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/tsconfig.json": {
+    "mtime": 1779754660.3713899,
+    "ast_hash": "44ae80cd8258a734146b8b3d296e9897",
+    "semantic_hash": "44ae80cd8258a734146b8b3d296e9897"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/vite.config.ts": {
+    "mtime": 1779754660.3715248,
+    "ast_hash": "64698b9c16bca8c4073f179d90328d2d",
+    "semantic_hash": "64698b9c16bca8c4073f179d90328d2d"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/AGENTS.md": {
+    "mtime": 1780281351.6016483,
+    "ast_hash": "3f833e88473dda58a2d950e270931d4c",
+    "semantic_hash": "3f833e88473dda58a2d950e270931d4c"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/README.md": {
+    "mtime": 1779754660.3401113,
+    "ast_hash": "4e1c9d849dca1af2f2facea53e87fe1b",
+    "semantic_hash": "4e1c9d849dca1af2f2facea53e87fe1b"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/TODO-TAURI-MIGRATION.md": {
+    "mtime": 1779754660.340534,
+    "ast_hash": "5e66dcf545cf919a06d380af7668b6c5",
+    "semantic_hash": "5e66dcf545cf919a06d380af7668b6c5"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/index.html": {
+    "mtime": 1779843562.4347472,
+    "ast_hash": "9599e5e195203125a2ec69ec6b96a5ce",
+    "semantic_hash": "9599e5e195203125a2ec69ec6b96a5ce"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/todo-implementation.md": {
+    "mtime": 1778548609.20715,
+    "ast_hash": "427786df7c6c4768340c6c78deba1485",
+    "semantic_hash": "427786df7c6c4768340c6c78deba1485"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/icon-design.icon/Assets/512x512-removebg-preview.png": {
+    "mtime": 1778948564.782049,
+    "ast_hash": "eef62119766693b3ed2e1a746f36df19",
+    "semantic_hash": "eef62119766693b3ed2e1a746f36df19"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/resources/icons/128x128.png": {
+    "mtime": 1778948834.7569523,
+    "ast_hash": "57a75105b5a624c01c539767201f32c2",
+    "semantic_hash": "57a75105b5a624c01c539767201f32c2"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/resources/icons/16x16.png": {
+    "mtime": 1778948834.7506874,
+    "ast_hash": "e74664e059677ecc88a8a12452aec91a",
+    "semantic_hash": "e74664e059677ecc88a8a12452aec91a"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/resources/icons/256x256.png": {
+    "mtime": 1778948834.759987,
+    "ast_hash": "31bcae9b656419ae043eed5f40f1479d",
+    "semantic_hash": "31bcae9b656419ae043eed5f40f1479d"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/resources/icons/32x32.png": {
+    "mtime": 1778948834.7537975,
+    "ast_hash": "d303587e0fc3ab311904ffb21eac69e9",
+    "semantic_hash": "d303587e0fc3ab311904ffb21eac69e9"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/resources/icons/48x48.png": {
+    "mtime": 1778948844.8967078,
+    "ast_hash": "338412873c22a37a73f903056e2c1e42",
+    "semantic_hash": "338412873c22a37a73f903056e2c1e42"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/resources/icons/512x512.png": {
+    "mtime": 1778948834.7632966,
+    "ast_hash": "e07f6d287614aad9dd4cada054b42fb2",
+    "semantic_hash": "e07f6d287614aad9dd4cada054b42fb2"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/resources/icons/64x64.png": {
+    "mtime": 1778948844.8765283,
+    "ast_hash": "280ffdac9775a10261d5d975a0c2a909",
+    "semantic_hash": "280ffdac9775a10261d5d975a0c2a909"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/128x128.png": {
+    "mtime": 1779754660.3442178,
+    "ast_hash": "09d0763cd06f3ac509c0a50bd6f7a8be",
+    "semantic_hash": "09d0763cd06f3ac509c0a50bd6f7a8be"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/128x128@2x.png": {
+    "mtime": 1779754660.344685,
+    "ast_hash": "20328cb5b655d115f8577cbd7a5e5ca3",
+    "semantic_hash": "20328cb5b655d115f8577cbd7a5e5ca3"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/32x32.png": {
+    "mtime": 1779754660.3450065,
+    "ast_hash": "68a3af4a0005af63952163348a0af957",
+    "semantic_hash": "68a3af4a0005af63952163348a0af957"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/64x64.png": {
+    "mtime": 1779754660.3452246,
+    "ast_hash": "64176c338c445510517e37512e767d37",
+    "semantic_hash": "64176c338c445510517e37512e767d37"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square107x107Logo.png": {
+    "mtime": 1779754660.3454428,
+    "ast_hash": "81abd27093e43594988c82f8a216f601",
+    "semantic_hash": "81abd27093e43594988c82f8a216f601"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square142x142Logo.png": {
+    "mtime": 1779754660.345763,
+    "ast_hash": "32f8e292238d99ee47584f1215656c72",
+    "semantic_hash": "32f8e292238d99ee47584f1215656c72"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square150x150Logo.png": {
+    "mtime": 1779754660.3463376,
+    "ast_hash": "97f5aee5c935cf55bb0465c47e746885",
+    "semantic_hash": "97f5aee5c935cf55bb0465c47e746885"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square284x284Logo.png": {
+    "mtime": 1779754660.3468041,
+    "ast_hash": "8e87de4958db28332f267fa1c0643f6f",
+    "semantic_hash": "8e87de4958db28332f267fa1c0643f6f"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square30x30Logo.png": {
+    "mtime": 1779754660.3470635,
+    "ast_hash": "fa54a2ef2c0f73dc3b64619302f0122b",
+    "semantic_hash": "fa54a2ef2c0f73dc3b64619302f0122b"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square310x310Logo.png": {
+    "mtime": 1779754660.3473454,
+    "ast_hash": "f3b220dedae23b6be2540927c1498a46",
+    "semantic_hash": "f3b220dedae23b6be2540927c1498a46"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square44x44Logo.png": {
+    "mtime": 1779754660.3476446,
+    "ast_hash": "49a952f95dfb93201578795b343fc36b",
+    "semantic_hash": "49a952f95dfb93201578795b343fc36b"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square71x71Logo.png": {
+    "mtime": 1779754660.347874,
+    "ast_hash": "6199c06b9cf02b457c42413e511a3056",
+    "semantic_hash": "6199c06b9cf02b457c42413e511a3056"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/Square89x89Logo.png": {
+    "mtime": 1779754660.3481898,
+    "ast_hash": "b949e98c9ea199e245aaa84ca21b5d3c",
+    "semantic_hash": "b949e98c9ea199e245aaa84ca21b5d3c"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/StoreLogo.png": {
+    "mtime": 1779754660.3484683,
+    "ast_hash": "9d3a10a1c36c1b1203ff9b430b33eb28",
+    "semantic_hash": "9d3a10a1c36c1b1203ff9b430b33eb28"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-hdpi/ic_launcher.png": {
+    "mtime": 1779754660.3490443,
+    "ast_hash": "b60611710508bb6a38b3c9a609c2b7e5",
+    "semantic_hash": "b60611710508bb6a38b3c9a609c2b7e5"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-hdpi/ic_launcher_foreground.png": {
+    "mtime": 1779754660.349636,
+    "ast_hash": "7f49d48b9b8cbe924702ebc8e7a63ba4",
+    "semantic_hash": "7f49d48b9b8cbe924702ebc8e7a63ba4"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-hdpi/ic_launcher_round.png": {
+    "mtime": 1779754660.3497953,
+    "ast_hash": "87b5fdc9e40d9ed0fcaef1807f56adb8",
+    "semantic_hash": "87b5fdc9e40d9ed0fcaef1807f56adb8"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-mdpi/ic_launcher.png": {
+    "mtime": 1779754660.3500423,
+    "ast_hash": "370195d5e9d0251b85ee0514a645363f",
+    "semantic_hash": "370195d5e9d0251b85ee0514a645363f"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-mdpi/ic_launcher_foreground.png": {
+    "mtime": 1779754660.350274,
+    "ast_hash": "27110f681e1022afc63095ed9b2a35e8",
+    "semantic_hash": "27110f681e1022afc63095ed9b2a35e8"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-mdpi/ic_launcher_round.png": {
+    "mtime": 1779754660.350559,
+    "ast_hash": "1f717bc0f17f57580d05dfd9d237c349",
+    "semantic_hash": "1f717bc0f17f57580d05dfd9d237c349"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xhdpi/ic_launcher.png": {
+    "mtime": 1779754660.3509126,
+    "ast_hash": "5fa8b25d1944ce6e48a51d111feb5462",
+    "semantic_hash": "5fa8b25d1944ce6e48a51d111feb5462"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xhdpi/ic_launcher_foreground.png": {
+    "mtime": 1779754660.3511398,
+    "ast_hash": "2a0847f2b811066b041fd8fc3a5b0de4",
+    "semantic_hash": "2a0847f2b811066b041fd8fc3a5b0de4"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xhdpi/ic_launcher_round.png": {
+    "mtime": 1779754660.3513906,
+    "ast_hash": "5b7d5fcf3e1b079ed22d5b61029aac09",
+    "semantic_hash": "5b7d5fcf3e1b079ed22d5b61029aac09"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher.png": {
+    "mtime": 1779754660.3517215,
+    "ast_hash": "8813d02af59cfcb28c07101b34144689",
+    "semantic_hash": "8813d02af59cfcb28c07101b34144689"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher_foreground.png": {
+    "mtime": 1779754660.3521037,
+    "ast_hash": "c96ab770cc32fcb2b80a66dfcbf8f5a6",
+    "semantic_hash": "c96ab770cc32fcb2b80a66dfcbf8f5a6"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xxhdpi/ic_launcher_round.png": {
+    "mtime": 1779754660.3523245,
+    "ast_hash": "48f5845ad176fe827f492d90f85e5170",
+    "semantic_hash": "48f5845ad176fe827f492d90f85e5170"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher.png": {
+    "mtime": 1779754660.3526611,
+    "ast_hash": "f47ffdf2609e565fe75fdbd53b8918a7",
+    "semantic_hash": "f47ffdf2609e565fe75fdbd53b8918a7"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher_foreground.png": {
+    "mtime": 1779754660.3534143,
+    "ast_hash": "4ef392b9405f56b9184c4df5fd3dc097",
+    "semantic_hash": "4ef392b9405f56b9184c4df5fd3dc097"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/android/mipmap-xxxhdpi/ic_launcher_round.png": {
+    "mtime": 1779754660.3539732,
+    "ast_hash": "7702f4a29bc5da663bb1ee0e90639e21",
+    "semantic_hash": "7702f4a29bc5da663bb1ee0e90639e21"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/icon.png": {
+    "mtime": 1779754660.3596637,
+    "ast_hash": "0cd5a891533c5e188a4cd19707bb4cee",
+    "semantic_hash": "0cd5a891533c5e188a4cd19707bb4cee"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-20x20@1x.png": {
+    "mtime": 1779754660.3601189,
+    "ast_hash": "52e312373956af1fb3dee5ae374ca458",
+    "semantic_hash": "52e312373956af1fb3dee5ae374ca458"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-20x20@2x-1.png": {
+    "mtime": 1779754660.360623,
+    "ast_hash": "368d4869e09a03d28b6e3ef59bcdd882",
+    "semantic_hash": "368d4869e09a03d28b6e3ef59bcdd882"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-20x20@2x.png": {
+    "mtime": 1779754660.3607433,
+    "ast_hash": "368d4869e09a03d28b6e3ef59bcdd882",
+    "semantic_hash": "368d4869e09a03d28b6e3ef59bcdd882"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-20x20@3x.png": {
+    "mtime": 1779754660.3617218,
+    "ast_hash": "5ddc7a10733abe489622ea08cfc72027",
+    "semantic_hash": "5ddc7a10733abe489622ea08cfc72027"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-29x29@1x.png": {
+    "mtime": 1779754660.3619235,
+    "ast_hash": "38f6bb709972c30accaa99c9fdefcef9",
+    "semantic_hash": "38f6bb709972c30accaa99c9fdefcef9"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-29x29@2x-1.png": {
+    "mtime": 1779754660.3631806,
+    "ast_hash": "6514507a2ea94c39342579495496bb25",
+    "semantic_hash": "6514507a2ea94c39342579495496bb25"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-29x29@2x.png": {
+    "mtime": 1779754660.3633149,
+    "ast_hash": "6514507a2ea94c39342579495496bb25",
+    "semantic_hash": "6514507a2ea94c39342579495496bb25"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-29x29@3x.png": {
+    "mtime": 1779754660.3641293,
+    "ast_hash": "8c5f20a9d5617e42ce1c3b0a52eaaa17",
+    "semantic_hash": "8c5f20a9d5617e42ce1c3b0a52eaaa17"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-40x40@1x.png": {
+    "mtime": 1779754660.3642576,
+    "ast_hash": "368d4869e09a03d28b6e3ef59bcdd882",
+    "semantic_hash": "368d4869e09a03d28b6e3ef59bcdd882"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-40x40@2x-1.png": {
+    "mtime": 1779754660.3644984,
+    "ast_hash": "a177fd2f68b88c55c13db2dab9d42806",
+    "semantic_hash": "a177fd2f68b88c55c13db2dab9d42806"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-40x40@2x.png": {
+    "mtime": 1779754660.3646128,
+    "ast_hash": "a177fd2f68b88c55c13db2dab9d42806",
+    "semantic_hash": "a177fd2f68b88c55c13db2dab9d42806"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-40x40@3x.png": {
+    "mtime": 1779754660.3649137,
+    "ast_hash": "df85d197add04d25b359bcd14b07e0cb",
+    "semantic_hash": "df85d197add04d25b359bcd14b07e0cb"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-512@2x.png": {
+    "mtime": 1779754660.366618,
+    "ast_hash": "ee3ed1cf0a942a9fb5448bec10a7989f",
+    "semantic_hash": "ee3ed1cf0a942a9fb5448bec10a7989f"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-60x60@2x.png": {
+    "mtime": 1779754660.3667967,
+    "ast_hash": "df85d197add04d25b359bcd14b07e0cb",
+    "semantic_hash": "df85d197add04d25b359bcd14b07e0cb"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-60x60@3x.png": {
+    "mtime": 1779754660.3672645,
+    "ast_hash": "61804e8ef30b5e231d09eed95ad79cba",
+    "semantic_hash": "61804e8ef30b5e231d09eed95ad79cba"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-76x76@1x.png": {
+    "mtime": 1779754660.3675153,
+    "ast_hash": "e17a16c0b9a52f0d8267c09327533a3f",
+    "semantic_hash": "e17a16c0b9a52f0d8267c09327533a3f"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-76x76@2x.png": {
+    "mtime": 1779754660.3677454,
+    "ast_hash": "caaa15d230d19df5025b02aa7e932b38",
+    "semantic_hash": "caaa15d230d19df5025b02aa7e932b38"
+  },
+  "/Users/macbook/projects/typescript/calcite-notes/src-tauri/icons/ios/AppIcon-83.5x83.5@2x.png": {
+    "mtime": 1779754660.3681371,
+    "ast_hash": "242ba86cfd1c4dfbdca05175b1800f34",
+    "semantic_hash": "242ba86cfd1c4dfbdca05175b1800f34"
+  }
+}
