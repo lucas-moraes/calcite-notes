@@ -71,3 +71,27 @@ pub fn save_tree_width(app_handle: tauri::AppHandle, width: u32) -> bool {
         Err(_) => false,
     }
 }
+
+#[tauri::command]
+pub fn get_show_graph(app_handle: tauri::AppHandle) -> bool {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => s
+            .get("showGraph")
+            .and_then(|v| v.as_bool())
+            .unwrap_or(true),
+        Err(_) => true,
+    }
+}
+
+#[tauri::command]
+pub fn save_show_graph(app_handle: tauri::AppHandle, show: bool) -> bool {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => {
+            s.set("showGraph", serde_json::Value::Bool(show));
+            s.save().is_ok()
+        }
+        Err(_) => false,
+    }
+}

@@ -70,6 +70,12 @@ export const tauriAPI = {
   saveTreeWidth: (width: number): Promise<boolean> =>
     tauriInvoke<boolean>('save_tree_width', { width }),
 
+  getShowGraph: (): Promise<boolean> =>
+    tauriInvoke<boolean>('get_show_graph'),
+
+  saveShowGraph: (show: boolean): Promise<boolean> =>
+    tauriInvoke<boolean>('save_show_graph', { show }),
+
   setNotesDir: (dir: string): Promise<void> =>
     tauriInvoke<void>('set_notes_dir', { dir }),
 

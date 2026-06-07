@@ -127,6 +127,8 @@ pub fn run() {
             commands::config::save_theme,
             commands::config::get_tree_width,
             commands::config::save_tree_width,
+            commands::config::get_show_graph,
+            commands::config::save_show_graph,
             select_notes_folder,
         ])
         .setup(|app| {

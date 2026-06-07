@@ -35,6 +35,7 @@ export default function App() {
   const [splitRatio, setSplitRatio] = useState(0.4);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
   const [activePanel, setActivePanel] = useState<null | "files" | "more">(null);
+  const [showGraph, setShowGraph] = useState(true);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<
     { id: string; name: string; content: string; tags?: string[] }[]
   >([]);
@@ -106,6 +107,9 @@ export default function App() {
       if (folder) {
         setNotesFolder(folder);
       }
+    });
+    tauriAPI.getShowGraph().then((v) => {
+      if (v !== undefined) setShowGraph(v);
     });
   }, []);
 
@@ -531,6 +535,16 @@ export default function App() {
           >
             <Settings size={20} />
           </button>
+          <button
+            onClick={() => {
+              setShowGraph(!showGraph);
+              tauriAPI.saveShowGraph(!showGraph);
+            }}
+            className={`p-2 rounded transition-colors ${showGraph ? "text-accent bg-accent/10" : "text-base-400 hover:text-base-200 hover:bg-base-800"}`}
+            title="Toggle graph view"
+          >
+            <Network size={20} />
+          </button>
         </div>
 
         {/* Expandable Panel */}
@@ -816,44 +830,48 @@ export default function App() {
         className="flex flex-1 min-w-0 overflow-hidden"
         style={{ cursor: isResizingSplit ? "col-resize" : "default" }}
       >
-        {/* Graph View - Panel Principal */}
-        <div style={{ width: `${splitRatio * 100}%` }} className="border-r border-base-800 relative">
-          <button
-            onClick={() => setGraphRefresh((r) => r + 1)}
-            className="absolute top-3 left-3 z-30 flex items-center gap-1.5 px-2.5 py-1.5 bg-base-800/90 backdrop-blur-sm rounded-lg text-xs font-medium text-base-400 hover:text-base-200 hover:bg-base-700 transition-colors"
-            title="Update Graph"
-          >
-            <RefreshCw size={12} />
-            Update
-          </button>
-          <GraphView
-            key={graphRefresh}
-            nodes={nodes}
-            links={links}
-            onNodeClick={handleGraphNodeClick}
-            activeNodeId={activeNoteId || undefined}
-          />
-        </div>
+        {showGraph && (
+          <>
+            {/* Graph View - Panel Principal */}
+            <div style={{ width: `${splitRatio * 100}%` }} className="border-r border-base-800 relative">
+              <button
+                onClick={() => setGraphRefresh((r) => r + 1)}
+                className="absolute top-3 left-3 z-30 flex items-center gap-1.5 px-2.5 py-1.5 bg-base-800/90 backdrop-blur-sm rounded-lg text-xs font-medium text-base-400 hover:text-base-200 hover:bg-base-700 transition-colors"
+                title="Update Graph"
+              >
+                <RefreshCw size={12} />
+                Update
+              </button>
+              <GraphView
+                key={graphRefresh}
+                nodes={nodes}
+                links={links}
+                onNodeClick={handleGraphNodeClick}
+                activeNodeId={activeNoteId || undefined}
+              />
+            </div>
 
-        {/* Resizable Divider */}
-        <div
-          className="w-1.5 bg-base-800 hover:bg-base-700 cursor-col-resize flex items-center justify-center transition-colors group"
-          onMouseDown={(e) => {
-            e.preventDefault();
-            setIsResizingSplit(true);
-          }}
-        >
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-            <svg width="8" height="24" viewBox="0 0 8 24" fill="none" stroke="currentColor" className="text-base-400">
-              <circle cx="4" cy="4" r="1.5" fill="currentColor" />
-              <circle cx="4" cy="12" r="1.5" fill="currentColor" />
-              <circle cx="4" cy="20" r="1.5" fill="currentColor" />
-            </svg>
-          </div>
-        </div>
+            {/* Resizable Divider */}
+            <div
+              className="w-1.5 bg-base-800 hover:bg-base-700 cursor-col-resize flex items-center justify-center transition-colors group"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setIsResizingSplit(true);
+              }}
+            >
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg width="8" height="24" viewBox="0 0 8 24" fill="none" stroke="currentColor" className="text-base-400">
+                  <circle cx="4" cy="4" r="1.5" fill="currentColor" />
+                  <circle cx="4" cy="12" r="1.5" fill="currentColor" />
+                  <circle cx="4" cy="20" r="1.5" fill="currentColor" />
+                </svg>
+              </div>
+            </div>
+          </>
+        )}
 
         {/* Editor Area - Só mostra quando há nota ativa */}
-        <main style={{ width: `${(1 - splitRatio) * 100}%` }} className="flex flex-col min-w-0 bg-base-950 relative">
+        <main style={{ width: showGraph ? `${(1 - splitRatio) * 100}%` : "100%" }} className="flex flex-col min-w-0 bg-base-950 relative">
           {activeNote ? (
             <div className="flex flex-col h-full p-6 bg-base-950 overflow-hidden slide-in-from-right">
               {/* Meta info */}
