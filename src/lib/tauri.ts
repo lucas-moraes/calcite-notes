@@ -76,6 +76,18 @@ export const tauriAPI = {
   saveShowGraph: (show: boolean): Promise<boolean> =>
     tauriInvoke<boolean>('save_show_graph', { show }),
 
+  getOpenTabs: (): Promise<string[]> =>
+    tauriInvoke<string[]>('get_open_tabs'),
+
+  saveOpenTabs: (tabs: string[]): Promise<boolean> =>
+    tauriInvoke<boolean>('save_open_tabs', { tabs }),
+
+  getActiveTab: (): Promise<string | null> =>
+    tauriInvoke<string | null>('get_active_tab'),
+
+  saveActiveTab: (tab: string | null): Promise<boolean> =>
+    tauriInvoke<boolean>('save_active_tab', { tab }),
+
   setNotesDir: (dir: string): Promise<void> =>
     tauriInvoke<void>('set_notes_dir', { dir }),
 

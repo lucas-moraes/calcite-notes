@@ -5,7 +5,8 @@ import { tauriAPI } from "./lib/tauri";
 
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw, PanelLeftOpen, Settings, GitCommitHorizontal } from "lucide-react";
+import TabBar from "./components/TabBar";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw, PanelLeftOpen, Settings, GitCommitHorizontal, Globe, Crosshair } from "lucide-react";
 import GitDiffView from "./components/GitDiffView";
 import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
@@ -37,6 +38,7 @@ export default function App() {
   const [isResizingSplit, setIsResizingSplit] = useState(false);
   const [activePanel, setActivePanel] = useState<null | "files" | "more" | "git">(null);
   const [showGraph, setShowGraph] = useState(true);
+  const [graphMode, setGraphMode] = useState<"global" | "local">("global");
   const [gitStatus, setGitStatus] = useState<GitFileStatus[]>([]);
   const [gitLog, setGitLog] = useState<GitCommit[]>([]);
   const [gitCommitMsg, setGitCommitMsg] = useState("");
@@ -47,6 +49,9 @@ export default function App() {
   >([]);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [graphRefresh, setGraphRefresh] = useState(0);
+
+  const [openTabIds, setOpenTabIds] = useState<string[]>([]);
+  const scrollPosMapRef = useRef<Map<string, number>>(new Map());
 
   const [previewReady, setPreviewReady] = useState(false);
 
@@ -175,8 +180,21 @@ export default function App() {
     tauriAPI.getNotes().then((loadedNotes) => {
       if (loadedNotes.length > 0) {
         setNotes(loadedNotes);
-        const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
-        setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0].id);
+
+        tauriAPI.getOpenTabs().then((savedTabs) => {
+          tauriAPI.getActiveTab().then((savedActive) => {
+            const validTabs = savedTabs.filter((tid) => loadedNotes.some((n) => n.id === tid));
+            const activeStillValid = savedActive && loadedNotes.some((n) => n.id === savedActive);
+
+            if (validTabs.length > 0) {
+              setOpenTabIds(validTabs);
+              setActiveNoteId(activeStillValid ? savedActive : validTabs[0]);
+            } else {
+              const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
+              setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0].id);
+            }
+          });
+        });
       }
       setIsLoaded(true);
     });
@@ -193,7 +211,16 @@ export default function App() {
       tauriAPI.getNotes().then((loadedNotes) => {
         setNotes(loadedNotes);
         const indexNote = loadedNotes.find((n) => n.title.toLowerCase() === "index");
-        setActiveNoteId(indexNote ? indexNote.id : loadedNotes[0]?.id || null);
+        const fallbackId = indexNote ? indexNote.id : loadedNotes[0]?.id || null;
+        setOpenTabIds((prev) => {
+          const valid = prev.filter((tid) => loadedNotes.some((n) => n.id === tid));
+          if (valid.length === 0 && fallbackId) valid.push(fallbackId);
+          return valid;
+        });
+        setActiveNoteId((prev) => {
+          if (prev && loadedNotes.some((n) => n.id === prev)) return prev;
+          return fallbackId;
+        });
       });
     }).then((fn) => { unlistenReload = fn; });
 
@@ -215,8 +242,53 @@ export default function App() {
 
   const activeNote = useMemo(() => notes.find((n) => n.id === activeNoteId) || null, [notes, activeNoteId]);
 
+  const MAX_TABS = 15;
+
+  useEffect(() => {
+    if (!activeNoteId) return;
+    setOpenTabIds((prev) => {
+      if (prev.includes(activeNoteId)) return prev;
+      if (prev.length >= MAX_TABS) return [...prev.slice(1), activeNoteId];
+      return [...prev, activeNoteId];
+    });
+  }, [activeNoteId]);
+
+  const handleCloseTab = (id: string) => {
+    const idx = openTabIds.indexOf(id);
+    if (idx === -1) return;
+    const next = openTabIds.filter((tid) => tid !== id);
+    setOpenTabIds(next);
+
+    if (activeNoteId === id) {
+      if (next.length > 0) {
+        const newIdx = Math.min(idx, next.length - 1);
+        setActiveNoteId(next[newIdx]);
+      } else {
+        setActiveNoteId(null);
+      }
+    }
+  };
+
+  useEffect(() => {
+    tauriAPI.saveOpenTabs(openTabIds);
+  }, [openTabIds]);
+
+  useEffect(() => {
+    tauriAPI.saveActiveTab(activeNoteId);
+  }, [activeNoteId]);
+
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (!textareaRef.current || !activeNoteId) return;
+    const saved = scrollPosMapRef.current.get(activeNoteId);
+    if (saved !== undefined) {
+      requestAnimationFrame(() => {
+        if (textareaRef.current) textareaRef.current.scrollTop = saved;
+      });
+    }
+  }, [activeNoteId]);
 
   useEffect(() => {
     if (!activeNote || activeNote.isNew) return;
@@ -418,6 +490,65 @@ export default function App() {
     return { nodes, links };
   }, [allNotesFromDisk, graphRefresh]);
 
+  const localGraphData = useMemo(() => {
+    if (!activeNoteId) return null;
+
+    const allNotes = allNotesFromDisk.map((n) => ({
+      id: n.id,
+      name: n.name || "",
+      content: n.content || "",
+      tags: n.tags || [],
+    }));
+
+    const activeNoteData = allNotes.find((n) => n.id === activeNoteId);
+    if (!activeNoteData) return null;
+
+    const connectedIds = new Set<string>();
+    connectedIds.add(activeNoteId);
+
+    // Outgoing wiki links
+    const linkRegex = /\[\[(.*?)\]\]/g;
+    let match;
+    while ((match = linkRegex.exec(activeNoteData.content || "")) !== null) {
+      const targetTitle = match[1];
+      const targetNote = allNotes.find((n) => (n.name || "").toLowerCase() === targetTitle.toLowerCase());
+      if (targetNote) connectedIds.add(targetNote.id);
+    }
+
+    // Incoming wiki links (backlinks)
+    const activeName = activeNoteData.name;
+    for (const note of allNotes) {
+      if (note.id === activeNoteId) continue;
+      linkRegex.lastIndex = 0;
+      while ((match = linkRegex.exec(note.content || "")) !== null) {
+        if (match[1].toLowerCase() === activeName.toLowerCase()) {
+          connectedIds.add(note.id);
+        }
+      }
+    }
+
+    // Tag connections (shared tags)
+    const activeTags = activeNoteData.tags || [];
+    for (const note of allNotes) {
+      if (note.id === activeNoteId) continue;
+      if (note.tags?.some((t) => activeTags.includes(t))) {
+        connectedIds.add(note.id);
+      }
+    }
+
+    // Tags belonging to the active note
+    for (const tag of activeTags) {
+      connectedIds.add(`tag-${tag}`);
+    }
+
+    return {
+      nodes: nodes.filter((n) => connectedIds.has(n.id)),
+      links: links.filter(
+        (l) => connectedIds.has(l.source) && connectedIds.has(l.target),
+      ),
+    };
+  }, [allNotesFromDisk, graphRefresh, activeNoteId, nodes, links]);
+
   useEffect(() => {
     if (notesFolder) {
       tauriAPI.getAllNotesForGraph().then((allNotes) => {
@@ -462,6 +593,8 @@ export default function App() {
       prev.map((n) => (n.id === id ? { ...n, id: filePath, isNew: false, updatedAt: Date.now() } : n)),
     );
 
+    setOpenTabIds((prev) => prev.map((tid) => (tid === id ? filePath : tid)));
+
     setFileTreeKey((prev) => prev + 1);
   };
 
@@ -486,6 +619,10 @@ export default function App() {
       prev.map((n) => (n.id === id ? { ...n, id: result.newPath || n.id, updatedAt: Date.now() } : n)),
     );
 
+    setOpenTabIds((prev) =>
+      prev.map((tid) => (tid === id ? result.newPath || id : tid)),
+    );
+
     setActiveNoteId(result.newPath || id);
     setRenamingNoteId(null);
     setRenamingNoteName("");
@@ -506,6 +643,7 @@ export default function App() {
       }
       setFileTreeKey((prev) => prev + 1);
 
+      setOpenTabIds((prev) => prev.filter((tid) => tid !== id));
       setNotes((prev) => prev.filter((n) => n.id !== id));
       if (activeNoteId === id) setActiveNoteId(notes.find((n) => n.id !== id)?.id || null);
     }
@@ -1006,21 +1144,45 @@ export default function App() {
           <>
             {/* Graph View - Panel Principal */}
             <div style={{ width: `${splitRatio * 100}%` }} className="border-r border-base-800 relative">
-              <button
-                onClick={() => setGraphRefresh((r) => r + 1)}
-                className="absolute top-3 left-3 z-30 flex items-center gap-1.5 px-2.5 py-1.5 bg-base-800/90 backdrop-blur-sm rounded-lg text-xs font-medium text-base-400 hover:text-base-200 hover:bg-base-700 transition-colors"
-                title="Update Graph"
-              >
-                <RefreshCw size={12} />
-                Update
-              </button>
-              <GraphView
-                key={graphRefresh}
-                nodes={nodes}
-                links={links}
-                onNodeClick={handleGraphNodeClick}
-                activeNodeId={activeNoteId || undefined}
-              />
+              <div className="absolute top-3 left-3 z-30 flex items-center gap-1.5">
+                <button
+                  onClick={() => setGraphMode((m) => (m === "global" ? "local" : "global"))}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                    graphMode === "local"
+                      ? "bg-accent/20 text-accent"
+                      : "bg-base-800/90 backdrop-blur-sm text-base-400 hover:text-base-200 hover:bg-base-700"
+                  }`}
+                  title={graphMode === "global" ? "Local graph (1 hop)" : "Global graph"}
+                >
+                  {graphMode === "global" ? <Crosshair size={12} /> : <Globe size={12} />}
+                  {graphMode === "global" ? "Local" : "Global"}
+                </button>
+                <button
+                  onClick={() => setGraphRefresh((r) => r + 1)}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 bg-base-800/90 backdrop-blur-sm rounded-lg text-xs font-medium text-base-400 hover:text-base-200 hover:bg-base-700 transition-colors"
+                  title="Update Graph"
+                >
+                  <RefreshCw size={12} />
+                  Update
+                </button>
+              </div>
+              {graphMode === "local" && !activeNoteId ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-3 text-base-500">
+                    <Network size={32} className="opacity-50" />
+                    <span className="text-sm">Select a note to view local graph</span>
+                  </div>
+                </div>
+              ) : (
+                <GraphView
+                  key={`${graphRefresh}-${graphMode}`}
+                  nodes={graphMode === "local" ? localGraphData?.nodes || [] : nodes}
+                  links={graphMode === "local" ? localGraphData?.links || [] : links}
+                  onNodeClick={handleGraphNodeClick}
+                  activeNodeId={activeNoteId || undefined}
+                  centerOnActive={true}
+                />
+              )}
             </div>
 
             {/* Resizable Divider */}
@@ -1044,8 +1206,17 @@ export default function App() {
 
         {/* Editor Area - Só mostra quando há nota ativa */}
         <main style={{ width: showGraph ? `${(1 - splitRatio) * 100}%` : "100%" }} className="flex flex-col min-w-0 bg-base-950 relative">
+          {openTabIds.length > 0 && (
+            <TabBar
+              tabIds={openTabIds}
+              activeTabId={activeNoteId}
+              notes={notes}
+              onSelectTab={(id) => setActiveNoteId(id)}
+              onCloseTab={handleCloseTab}
+            />
+          )}
           {activeNote ? (
-            <div className="flex flex-col h-full p-6 bg-base-950 overflow-hidden slide-in-from-right">
+            <div className="flex flex-col flex-1 min-h-0 p-6 bg-base-950 overflow-hidden slide-in-from-right">
               {/* Meta info */}
               <div className="flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900">
                 <div className="flex items-center gap-2">
@@ -1117,7 +1288,6 @@ export default function App() {
                   <div className="absolute inset-0 py-4 pl-4 animate-fade-in overflow-y-hidden">
                     <textarea
                       ref={textareaRef}
-                      key={activeNote.id}
                       placeholder="Start writing..."
                       style={{ color: "#e8eaed", height: "100%", minHeight: "100%" }}
                       className="w-full bg-transparent border-none pr-4 outline-none resize-none font-mono text-[15px] leading-relaxed"
@@ -1131,6 +1301,9 @@ export default function App() {
                       }}
                       onKeyDown={handleTextareaKeyDown}
                       onBlur={() => setTimeout(() => setWikiLinkOpen(false), 200)}
+                      onScroll={(e) => {
+                        scrollPosMapRef.current.set(activeNote.id, e.currentTarget.scrollTop);
+                      }}
                     />
                   </div>
                 ) : previewReady ? (

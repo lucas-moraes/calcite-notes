@@ -1,6 +1,7 @@
 use crate::commands::notes::AppState;
 use tauri::State;
 use tauri_plugin_store::StoreExt;
+use serde_json;
 
 #[tauri::command]
 pub fn get_notes_folder(state: State<'_, AppState>) -> String {
@@ -90,6 +91,58 @@ pub fn save_show_graph(app_handle: tauri::AppHandle, show: bool) -> bool {
     match store {
         Ok(s) => {
             s.set("showGraph", serde_json::Value::Bool(show));
+            s.save().is_ok()
+        }
+        Err(_) => false,
+    }
+}
+
+#[tauri::command]
+pub fn get_open_tabs(app_handle: tauri::AppHandle) -> Vec<String> {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => s
+            .get("openTabs")
+            .and_then(|v| serde_json::from_value::<Vec<String>>(v.clone()).ok())
+            .unwrap_or_default(),
+        Err(_) => vec![],
+    }
+}
+
+#[tauri::command]
+pub fn save_open_tabs(app_handle: tauri::AppHandle, tabs: Vec<String>) -> bool {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => {
+            s.set("openTabs", serde_json::Value::Array(
+                tabs.into_iter().map(serde_json::Value::String).collect()
+            ));
+            s.save().is_ok()
+        }
+        Err(_) => false,
+    }
+}
+
+#[tauri::command]
+pub fn get_active_tab(app_handle: tauri::AppHandle) -> Option<String> {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => s
+            .get("activeTab")
+            .and_then(|v| v.as_str().map(String::from)),
+        Err(_) => None,
+    }
+}
+
+#[tauri::command]
+pub fn save_active_tab(app_handle: tauri::AppHandle, tab: Option<String>) -> bool {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => {
+            s.set("activeTab", match tab {
+                Some(t) => serde_json::Value::String(t),
+                None => serde_json::Value::Null,
+            });
             s.save().is_ok()
         }
         Err(_) => false,

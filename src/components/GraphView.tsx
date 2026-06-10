@@ -8,9 +8,10 @@ interface GraphViewProps {
   links: GraphLink[];
   onNodeClick: (id: string) => void;
   activeNodeId?: string;
+  centerOnActive?: boolean;
 }
 
-export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: GraphViewProps) {
+export default function GraphView({ nodes, links, onNodeClick, activeNodeId, centerOnActive }: GraphViewProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const zoomBehaviorRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
@@ -207,6 +208,29 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId }: G
     const svg = d3.select(svgRef.current);
     svg.transition().duration(300).call(zoomBehaviorRef.current.transform, d3.zoomIdentity);
   };
+
+  // Centralizar view no nó ativo
+  useEffect(() => {
+    if (!centerOnActive || !activeNodeId || !zoomBehaviorRef.current || !svgRef.current) return;
+
+    const svg = d3.select(svgRef.current);
+    const timer = setTimeout(() => {
+      const activeDatum = (nodes as any[]).find((n) => n.id === activeNodeId);
+      if (!activeDatum || activeDatum.x == null || activeDatum.y == null) return;
+
+      const w = svgRef.current?.clientWidth || 800;
+      const h = svgRef.current?.clientHeight || 600;
+      const scale = 1;
+      const tx = w / 2 - activeDatum.x * scale;
+      const ty = h / 2 - activeDatum.y * scale;
+      const transform = d3.zoomIdentity.translate(tx, ty).scale(scale);
+
+      svg.transition().duration(400).call(zoomBehaviorRef.current.transform, transform);
+      setZoom(scale);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [centerOnActive, activeNodeId, nodes]);
 
   return (
     <div ref={containerRef} className="w-full h-full relative overflow-hidden" style={{ 
