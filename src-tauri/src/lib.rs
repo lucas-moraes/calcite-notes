@@ -129,6 +129,12 @@ pub fn run() {
             commands::config::save_tree_width,
             commands::config::get_show_graph,
             commands::config::save_show_graph,
+            commands::git::git_init,
+            commands::git::git_status,
+            commands::git::git_commit,
+            commands::git::git_log,
+            commands::git::git_diff_file,
+            commands::git::git_restore_file,
             select_notes_folder,
         ])
         .setup(|app| {

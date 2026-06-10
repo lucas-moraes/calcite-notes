@@ -1,6 +1,6 @@
 import { invoke } from '@tauri-apps/api/core';
 import { listen, type UnlistenFn } from '@tauri-apps/api/event';
-import type { Note, GraphNote, OperationResult, FileEntry, FileReadResult } from '../types';
+import type { Note, GraphNote, OperationResult, FileEntry, FileReadResult, GitCommit, GitFileStatus, GitFileDiff } from '../types';
 
 async function tauriInvoke<T>(command: string, args?: Record<string, unknown>): Promise<T> {
   return invoke<T>(command, args);
@@ -78,6 +78,24 @@ export const tauriAPI = {
 
   setNotesDir: (dir: string): Promise<void> =>
     tauriInvoke<void>('set_notes_dir', { dir }),
+
+  gitInit: (): Promise<boolean> =>
+    tauriInvoke<boolean>('git_init'),
+
+  gitStatus: (): Promise<GitFileStatus[]> =>
+    tauriInvoke<GitFileStatus[]>('git_status'),
+
+  gitCommit: (message: string): Promise<OperationResult> =>
+    tauriInvoke<OperationResult>('git_commit', { message }),
+
+  gitLog: (limit: number): Promise<GitCommit[]> =>
+    tauriInvoke<GitCommit[]>('git_log', { limit }),
+
+  gitDiffFile: (path: string, commitHash: string): Promise<GitFileDiff> =>
+    tauriInvoke<GitFileDiff>('git_diff_file', { path, commitHash }),
+
+  gitRestoreFile: (path: string, commitHash: string): Promise<OperationResult> =>
+    tauriInvoke<OperationResult>('git_restore_file', { path, commitHash }),
 
   onNewNote: (callback: () => void): Promise<UnlistenFn> =>
     listen('menu:new-note', () => callback()),

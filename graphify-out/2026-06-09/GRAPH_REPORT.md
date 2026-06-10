@@ -1,18 +1,13 @@
-# Graph Report - calcite-notes  (2026-06-09)
+# Graph Report - .  (2026-06-07)
 
 ## Corpus Check
-- 43 files · ~194,996 words
+- 98 files · ~193,087 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 864 nodes · 1224 edges · 101 communities (90 shown, 11 thin omitted)
-- Extraction: 96% EXTRACTED · 4% INFERRED · 0% AMBIGUOUS · INFERRED: 52 edges (avg confidence: 0.87)
+- 851 nodes · 1176 edges · 105 communities (94 shown, 11 thin omitted)
+- Extraction: 95% EXTRACTED · 5% INFERRED · 0% AMBIGUOUS · INFERRED: 61 edges (avg confidence: 0.87)
 - Token cost: 0 input · 0 output
-
-## Graph Freshness
-- Built from commit: `d1e97cee`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Filesystem Commands|Filesystem Commands]]
@@ -104,12 +99,16 @@
 - [[_COMMUNITY_TagManager|TagManager]]
 - [[_COMMUNITY_OpenCode Dependencies|OpenCode Dependencies]]
 - [[_COMMUNITY_Desktop Schema Identifiers|Desktop Schema Identifiers]]
+- [[_COMMUNITY_Desktop Schema Shell Args|Desktop Schema Shell Args]]
 - [[_COMMUNITY_Desktop Schema Value Types|Desktop Schema Value Types]]
 - [[_COMMUNITY_macOS Schema Shell Args|macOS Schema Shell Args]]
 - [[_COMMUNITY_macOS Schema Value Types|macOS Schema Value Types]]
 - [[_COMMUNITY_Community 95|Community 95]]
 - [[_COMMUNITY_Community 96|Community 96]]
 - [[_COMMUNITY_Community 97|Community 97]]
+- [[_COMMUNITY_Community 98|Community 98]]
+- [[_COMMUNITY_Community 99|Community 99]]
+- [[_COMMUNITY_Community 100|Community 100]]
 - [[_COMMUNITY_Community 101|Community 101]]
 - [[_COMMUNITY_Community 102|Community 102]]
 
@@ -120,29 +119,28 @@
 4. `permissions` - 30 edges
 5. `Calcite Notes App Icon` - 19 edges
 6. `compilerOptions` - 15 edges
-7. `OperationResult` - 13 edges
-8. `AppState` - 13 edges
-9. `permissions` - 11 edges
-10. `definitions` - 11 edges
+7. `App Component` - 14 edges
+8. `OperationResult` - 13 edges
+9. `AppState` - 13 edges
+10. `permissions` - 11 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `App Component` --implements--> `Graph View`  [INFERRED]
+  src/App.tsx → README.md
+- `Tauri Migration Plan` --rationale_for--> `tauriAPI`  [INFERRED]
+  TODO-TAURI-MIGRATION.md → src/lib/tauri.ts
 - `Graph View` --references--> `GraphNode`  [INFERRED]
   README.md → src/types.ts
 - `Graph View` --references--> `GraphLink`  [INFERRED]
   README.md → src/types.ts
 - `Theme System` --implements--> `setThemeColors`  [INFERRED]
   AGENTS.md → src/lib/themes.ts
-- `Theme System` --references--> `ThemePreset`  [INFERRED]
-  AGENTS.md → src/lib/themes.ts
-- `Theme System` --references--> `ThemeMode`  [INFERRED]
-  AGENTS.md → src/lib/themes.ts
 
 ## Import Cycles
-- 1-file cycle: `src-tauri/src/commands/git.rs -> src-tauri/src/commands/git.rs`
-- 1-file cycle: `src-tauri/src/commands/notes.rs -> src-tauri/src/commands/notes.rs`
-- 1-file cycle: `src-tauri/src/lib.rs -> src-tauri/src/lib.rs`
 - 1-file cycle: `src-tauri/src/commands/config.rs -> src-tauri/src/commands/config.rs`
 - 1-file cycle: `src-tauri/src/commands/filesystem.rs -> src-tauri/src/commands/filesystem.rs`
+- 1-file cycle: `src-tauri/src/commands/notes.rs -> src-tauri/src/commands/notes.rs`
+- 1-file cycle: `src-tauri/src/lib.rs -> src-tauri/src/lib.rs`
 
 ## Hyperedges (group relationships)
 - **Theme System: definition → application → persistence** — src_lib_themes_themes, src_lib_themes_setthemecolors, src_lib_tauri_tauriapi [INFERRED 0.85]
@@ -159,7 +157,7 @@
 - **Windows Store Icon Size Variants** — windows_store_icon_set, icons_square44x44logo, icons_square71x71logo, icons_square89x89logo, icons_storelogo [INFERRED 0.75]
 - **iOS App Icon Size Variants** — icons_ios_appicon_set, ios_appicon_20x20_1x_image, ios_appicon_20x20_2x_image, ios_appicon_20x20_3x_image, ios_appicon_29x29_1x_image, ios_appicon_29x29_2x_image, ios_appicon_29x29_3x_image, ios_appicon_40x40_1x_image, ios_appicon_40x40_2x_image, ios_appicon_40x40_3x_image, ios_appicon_512_2x_image, ios_appicon_60x60_2x_image, ios_appicon_60x60_3x_image, ios_appicon_76x76_1x_image, ios_appicon_76x76_2x_image, ios_appicon_83_5x83_5_2x_image, icons_icon_image [INFERRED 0.85]
 
-## Communities (101 total, 11 thin omitted)
+## Communities (105 total, 11 thin omitted)
 
 ### Community 0 - "Filesystem Commands"
 Cohesion: 0.13
@@ -171,7 +169,7 @@ Nodes (43): dependencies, clsx, d3, lucide-react, motion, react, react-dom, reac
 
 ### Community 2 - "ACL Allow Commands"
 Cohesion: 0.05
-Nodes (44): commands, description, identifier, commands, description, identifier, commands, description (+36 more)
+Nodes (41): commands, description, identifier, commands, description, identifier, commands, description (+33 more)
 
 ### Community 3 - "ACL Emit Commands"
 Cohesion: 0.06
@@ -182,8 +180,8 @@ Cohesion: 0.08
 Nodes (25): commands, description, identifier, commands, description, identifier, commands, description (+17 more)
 
 ### Community 5 - "ACL Name/Listener Commands"
-Cohesion: 0.15
-Nodes (13): commands, description, identifier, commands, description, identifier, commands, description (+5 more)
+Cohesion: 0.08
+Nodes (24): commands, description, identifier, commands, description, identifier, commands, description (+16 more)
 
 ### Community 6 - "App Icons & Capabilities"
 Cohesion: 0.10
@@ -202,8 +200,8 @@ Cohesion: 0.10
 Nodes (19): app, security, windows, build, beforeBuildCommand, beforeDevCommand, devUrl, frontendDist (+11 more)
 
 ### Community 10 - "UI Loader & Logo"
-Cohesion: 0.06
-Nodes (40): FileTree, GraphView, Sidebar, TreeNode, WikiLinkPopup, Command, CommandPaletteProps, ContextMenuState (+32 more)
+Cohesion: 0.16
+Nodes (10): delays, setThemeColors(), ThemeColors, ThemeDefinition, ThemeMode, ThemePreset, themes, formatTime() (+2 more)
 
 ### Community 11 - "TypeScript Configuration"
 Cohesion: 0.11
@@ -211,47 +209,55 @@ Nodes (17): compilerOptions, allowImportingTsExtensions, allowJs, experimentalDe
 
 ### Community 12 - "ACL Core Manifests"
 Cohesion: 0.19
-Nodes (16): core, core:app, default_permission, global_scope_schema, permission_sets, default_permission, default_permission, global_scope_schema (+8 more)
+Nodes (16): core, default_permission, default_permission, default_permission, global_scope_schema, core:image, default_permission, global_scope_schema (+8 more)
 
 ### Community 13 - "Desktop Schema Application"
 Cohesion: 0.12
-Nodes (16): anyOf, description, definitions, Application, Number, PermissionEntry, ShellScopeEntryAllowedArgs, Target (+8 more)
+Nodes (16): anyOf, description, definitions, Application, Number, PermissionEntry, ShellScopeEntryAllowedArg, Target (+8 more)
 
 ### Community 14 - "macOS Schema Application"
-Cohesion: 0.13
-Nodes (15): anyOf, description, definitions, Application, Identifier, Number, PermissionEntry, Target (+7 more)
+Cohesion: 0.12
+Nodes (16): anyOf, description, definitions, Application, Number, PermissionEntry, ShellScopeEntryAllowedArg, Target (+8 more)
 
 ### Community 15 - "Config Commands"
-Cohesion: 0.13
-Nodes (27): AppHandle, Box, get_notes_folder(), get_show_graph(), get_theme(), get_tree_width(), save_show_graph(), save_theme() (+19 more)
+Cohesion: 0.31
+Nodes (14): get_notes_folder(), get_show_graph(), get_theme(), get_tree_width(), save_show_graph(), save_theme(), save_tree_width(), set_notes_dir() (+6 more)
+
+### Community 16 - "WikiLink & Tauri Bridge"
+Cohesion: 0.24
+Nodes (10): WikiLinkPopup, WikiLinkPopupProps, tauriAPI, FileEntry, FileReadResult, GraphNote, Note, OperationResult (+2 more)
 
 ### Community 17 - "Rust Core Library"
-Cohesion: 0.32
-Nodes (18): get_repo(), git_commit(), git_diff_file(), git_init(), git_log(), git_restore_file(), git_status(), GitCommit (+10 more)
+Cohesion: 0.21
+Nodes (13): Box, Tauri invoke handler registration, Error, get_default_notes_dir(), run(), select_notes_folder(), setup_menu(), AppHandle (+5 more)
 
 ### Community 18 - "GraphView & Sidebar"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-append
+Cohesion: 0.25
+Nodes (8): GraphView, Sidebar, GraphViewProps, SidebarProps, Graph View, cn(), GraphLink, GraphNode
 
 ### Community 19 - "Desktop Schema Permissions"
-Cohesion: 0.15
-Nodes (13): properties, Identifier, description, oneOf, type, default, description, type (+5 more)
+Cohesion: 0.14
+Nodes (14): properties, default, description, type, type, default, description, type (+6 more)
 
 ### Community 20 - "ACL Core Permissions"
 Cohesion: 0.15
-Nodes (13): commands, description, identifier, commands, description, identifier, allow, commands (+5 more)
+Nodes (13): commands, description, identifier, allow, commands, description, identifier, commands (+5 more)
 
 ### Community 21 - "ACL App Window Commands"
-Cohesion: 0.08
-Nodes (25): commands, description, identifier, commands, description, identifier, commands, description (+17 more)
+Cohesion: 0.15
+Nodes (13): commands, description, identifier, commands, description, identifier, deny, commands (+5 more)
 
 ### Community 22 - "macOS Schema Identifiers"
-Cohesion: 0.18
-Nodes (11): properties, default, description, type, description, type, description, identifier (+3 more)
+Cohesion: 0.15
+Nodes (13): properties, Identifier, description, oneOf, type, default, description, type (+5 more)
 
 ### Community 23 - "FileTree Component"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-name
+Cohesion: 0.20
+Nodes (9): FileTree, TreeNode, ContextMenuState, FileNode, FileTree(), FileTreeProps, formatPathname(), TreeNodeProps (+1 more)
+
+### Community 24 - "Note Management Concepts"
+Cohesion: 0.18
+Nodes (11): Auto-save Debounced, Bi-directional Linking, Note CRUD Lifecycle, Wiki-link Detection & Popup, App Component, CommandPalette Component, FileTree Component, GraphView Component (+3 more)
 
 ### Community 25 - "Desktop Schema Permissions Items"
 Cohesion: 0.20
@@ -313,10 +319,6 @@ Nodes (4): anyOf, description, $schema, title
 Cohesion: 0.40
 Nodes (4): anyOf, description, $schema, title
 
-### Community 40 - "Command Palette"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-remove-at
-
 ### Community 41 - "OpenCode Configuration"
 Cohesion: 0.50
 Nodes (3): permission, skill, $schema
@@ -335,7 +337,7 @@ Nodes (4): commands, description, identifier, allow-default-window-icon
 
 ### Community 45 - "ACL Data Store Identifiers"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-text
+Nodes (4): commands, description, identifier, allow-fetch-data-store-identifiers
 
 ### Community 46 - "ACL Get Permissions"
 Cohesion: 0.50
@@ -363,7 +365,7 @@ Nodes (4): commands, description, identifier, allow-items
 
 ### Community 52 - "ACL Popup Permissions"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-app-show
+Nodes (4): commands, description, identifier, allow-popup
 
 ### Community 53 - "ACL Prepend Permissions"
 Cohesion: 0.50
@@ -375,23 +377,23 @@ Nodes (4): commands, description, identifier, allow-register-listener
 
 ### Community 55 - "ACL Remove Permissions"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-is-checked
+Nodes (4): commands, description, identifier, allow-remove
 
 ### Community 56 - "ACL Remove Data Store"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-is-enabled
+Nodes (4): commands, description, identifier, allow-remove-data-store
 
 ### Community 57 - "ACL App Menu Permissions"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-version
+Nodes (4): commands, description, identifier, allow-set-as-app-menu
 
 ### Community 58 - "ACL Help Menu Permissions"
 Cohesion: 0.50
-Nodes (4): default, description, type, description
+Nodes (4): commands, description, identifier, allow-set-as-help-menu-for-nsapp
 
 ### Community 59 - "ACL Window Menu Permissions"
 Cohesion: 0.50
-Nodes (4): default, description, type, local
+Nodes (4): commands, description, identifier, allow-set-as-window-menu
 
 ### Community 60 - "ACL Windows Menu (NSApp)"
 Cohesion: 0.50
@@ -442,12 +444,12 @@ Cohesion: 0.50
 Nodes (4): commands, description, identifier, deny-fetch-data-store-identifiers
 
 ### Community 72 - "ACL Deny Get"
-Cohesion: 0.67
-Nodes (3): ShellScopeEntryAllowedArg, anyOf, description
+Cohesion: 0.50
+Nodes (4): commands, description, identifier, deny-get
 
 ### Community 73 - "ACL Deny Identifier"
-Cohesion: 0.67
-Nodes (3): ShellScopeEntryAllowedArg, anyOf, description
+Cohesion: 0.50
+Nodes (4): commands, description, identifier, deny-identifier
 
 ### Community 74 - "ACL Deny Insert"
 Cohesion: 0.50
@@ -493,6 +495,18 @@ Nodes (4): description, required, type, Capability
 Cohesion: 0.50
 Nodes (4): description, required, type, Capability
 
+### Community 85 - "macOS Schema Description"
+Cohesion: 0.50
+Nodes (4): default, description, type, description
+
+### Community 88 - "Desktop Schema Identifiers"
+Cohesion: 0.67
+Nodes (3): Identifier, description, oneOf
+
+### Community 89 - "Desktop Schema Shell Args"
+Cohesion: 0.67
+Nodes (3): ShellScopeEntryAllowedArgs, anyOf, description
+
 ### Community 90 - "Desktop Schema Value Types"
 Cohesion: 0.67
 Nodes (3): Value, anyOf, description
@@ -506,24 +520,24 @@ Cohesion: 0.67
 Nodes (3): Value, anyOf, description
 
 ## Knowledge Gaps
-- **438 isolated node(s):** `Option`, `Repository`, `Mutex`, `GraphNote`, `Box` (+433 more)
+- **443 isolated node(s):** `@opencode-ai/plugin`, `automatic-gradient`, `groups`, `circles`, `squares` (+438 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **11 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `allow` connect `ACL Core Permissions` to `ACL Allow Commands`, `ACL Emit Commands`, `ACL List Operations`, `ACL Name/Listener Commands`, `GraphView & Sidebar`, `ACL App Window Commands`, `FileTree Component`, `Command Palette`, `ACL Bundle Type Permissions`, `ACL Create Default Permissions`, `ACL Default Window Icon`, `ACL Data Store Identifiers`, `ACL Get Permissions`, `ACL Identifier Permissions`, `ACL Insert Permissions`, `ACL Checked State Permissions`, `ACL Enabled State Permissions`, `ACL Items Permissions`, `ACL Popup Permissions`, `ACL Prepend Permissions`, `ACL Register Listener Permissions`, `ACL Remove Permissions`, `ACL Remove Data Store`, `ACL App Menu Permissions`, `ACL Windows Menu (NSApp)`, `ACL Checked State (Set)`, `ACL Dock Visibility`, `ACL Enabled State (Set)`, `ACL Icon (Set)`, `ACL Text (Set)`, `ACL Tauri Version`, `ACL Version Permissions`, `ACL Deny Append`, `ACL Deny Bundle Type`, `ACL Deny Default Window Icon`, `ACL Deny Data Store Identifiers`, `ACL Deny Insert`, `ACL Deny Items`, `ACL Deny Name`, `ACL Deny Register Listener`, `ACL Deny Remove Data Store`, `ACL Deny App Theme`, `ACL Deny Dock Visibility`, `ACL Deny Multiple Windows`, `ACL Deny Tauri Version`?**
-  _High betweenness centrality (0.049) - this node is a cross-community bridge._
-- **Why does `deny` connect `ACL Name/Listener Commands` to `ACL Allow Commands`, `ACL Emit Commands`, `ACL List Operations`, `GraphView & Sidebar`, `ACL Core Permissions`, `ACL App Window Commands`, `FileTree Component`, `Command Palette`, `ACL Bundle Type Permissions`, `ACL Create Default Permissions`, `ACL Default Window Icon`, `ACL Data Store Identifiers`, `ACL Get Permissions`, `ACL Identifier Permissions`, `ACL Insert Permissions`, `ACL Checked State Permissions`, `ACL Enabled State Permissions`, `ACL Items Permissions`, `ACL Popup Permissions`, `ACL Prepend Permissions`, `ACL Register Listener Permissions`, `ACL Remove Permissions`, `ACL Remove Data Store`, `ACL App Menu Permissions`, `ACL Windows Menu (NSApp)`, `ACL Checked State (Set)`, `ACL Dock Visibility`, `ACL Enabled State (Set)`, `ACL Icon (Set)`, `ACL Text (Set)`, `ACL Tauri Version`, `ACL Version Permissions`, `ACL Deny Append`, `ACL Deny Bundle Type`, `ACL Deny Default Window Icon`, `ACL Deny Data Store Identifiers`, `ACL Deny Insert`, `ACL Deny Items`, `ACL Deny Name`, `ACL Deny Register Listener`, `ACL Deny Remove Data Store`, `ACL Deny App Theme`, `ACL Deny Dock Visibility`, `ACL Deny Multiple Windows`, `ACL Deny Tauri Version`?**
-  _High betweenness centrality (0.049) - this node is a cross-community bridge._
-- **Why does `permissions` connect `ACL List Operations` to `ACL Allow Commands`, `ACL Name/Listener Commands`, `ACL Core Manifests`, `GraphView & Sidebar`, `ACL Core Permissions`, `Command Palette`, `ACL Create Default Permissions`, `ACL Data Store Identifiers`, `ACL Get Permissions`, `ACL Insert Permissions`, `ACL Checked State Permissions`, `ACL Enabled State Permissions`, `ACL Items Permissions`, `ACL Prepend Permissions`, `ACL Remove Permissions`, `ACL Remove Data Store`, `ACL Windows Menu (NSApp)`, `ACL Checked State (Set)`, `ACL Enabled State (Set)`, `ACL Icon (Set)`, `ACL Text (Set)`, `ACL Deny Append`, `ACL Deny Insert`, `ACL Deny Items`?**
+- **Why does `allow` connect `ACL Core Permissions` to `ACL Allow Commands`, `ACL Emit Commands`, `ACL List Operations`, `ACL Name/Listener Commands`, `ACL App Window Commands`, `ACL Bundle Type Permissions`, `ACL Create Default Permissions`, `ACL Default Window Icon`, `ACL Data Store Identifiers`, `ACL Get Permissions`, `ACL Identifier Permissions`, `ACL Insert Permissions`, `ACL Checked State Permissions`, `ACL Enabled State Permissions`, `ACL Items Permissions`, `ACL Popup Permissions`, `ACL Prepend Permissions`, `ACL Register Listener Permissions`, `ACL Remove Permissions`, `ACL Remove Data Store`, `ACL App Menu Permissions`, `ACL Help Menu Permissions`, `ACL Window Menu Permissions`, `ACL Windows Menu (NSApp)`, `ACL Checked State (Set)`, `ACL Dock Visibility`, `ACL Enabled State (Set)`, `ACL Icon (Set)`, `ACL Text (Set)`, `ACL Tauri Version`, `ACL Version Permissions`, `ACL Deny Append`, `ACL Deny Bundle Type`, `ACL Deny Default Window Icon`, `ACL Deny Data Store Identifiers`, `ACL Deny Get`, `ACL Deny Identifier`, `ACL Deny Insert`, `ACL Deny Items`, `ACL Deny Name`, `ACL Deny Register Listener`, `ACL Deny Remove Data Store`, `ACL Deny App Theme`, `ACL Deny Dock Visibility`, `ACL Deny Multiple Windows`, `ACL Deny Tauri Version`?**
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `deny` connect `ACL App Window Commands` to `ACL Allow Commands`, `ACL Emit Commands`, `ACL List Operations`, `ACL Name/Listener Commands`, `ACL Core Permissions`, `ACL Bundle Type Permissions`, `ACL Create Default Permissions`, `ACL Default Window Icon`, `ACL Data Store Identifiers`, `ACL Get Permissions`, `ACL Identifier Permissions`, `ACL Insert Permissions`, `ACL Checked State Permissions`, `ACL Enabled State Permissions`, `ACL Items Permissions`, `ACL Popup Permissions`, `ACL Prepend Permissions`, `ACL Register Listener Permissions`, `ACL Remove Permissions`, `ACL Remove Data Store`, `ACL App Menu Permissions`, `ACL Help Menu Permissions`, `ACL Window Menu Permissions`, `ACL Windows Menu (NSApp)`, `ACL Checked State (Set)`, `ACL Dock Visibility`, `ACL Enabled State (Set)`, `ACL Icon (Set)`, `ACL Text (Set)`, `ACL Tauri Version`, `ACL Version Permissions`, `ACL Deny Append`, `ACL Deny Bundle Type`, `ACL Deny Default Window Icon`, `ACL Deny Data Store Identifiers`, `ACL Deny Get`, `ACL Deny Identifier`, `ACL Deny Insert`, `ACL Deny Items`, `ACL Deny Name`, `ACL Deny Register Listener`, `ACL Deny Remove Data Store`, `ACL Deny App Theme`, `ACL Deny Dock Visibility`, `ACL Deny Multiple Windows`, `ACL Deny Tauri Version`?**
+  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `permissions` connect `ACL List Operations` to `ACL Allow Commands`, `ACL Core Manifests`, `ACL Core Permissions`, `ACL Create Default Permissions`, `ACL Get Permissions`, `ACL Insert Permissions`, `ACL Checked State Permissions`, `ACL Enabled State Permissions`, `ACL Items Permissions`, `ACL Popup Permissions`, `ACL Prepend Permissions`, `ACL Remove Permissions`, `ACL App Menu Permissions`, `ACL Help Menu Permissions`, `ACL Window Menu Permissions`, `ACL Windows Menu (NSApp)`, `ACL Checked State (Set)`, `ACL Enabled State (Set)`, `ACL Icon (Set)`, `ACL Text (Set)`, `ACL Deny Append`, `ACL Deny Get`, `ACL Deny Insert`, `ACL Deny Items`?**
   _High betweenness centrality (0.021) - this node is a cross-community bridge._
-- **What connects `Option`, `Repository`, `Mutex` to the rest of the system?**
-  _438 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **What connects `@opencode-ai/plugin`, `automatic-gradient`, `groups` to the rest of the system?**
+  _443 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Filesystem Commands` be split into smaller, more focused modules?**
   _Cohesion score 0.13386524822695037 - nodes in this community are weakly interconnected._
 - **Should `Package Dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
 - **Should `ACL Allow Commands` be split into smaller, more focused modules?**
-  _Cohesion score 0.045454545454545456 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._

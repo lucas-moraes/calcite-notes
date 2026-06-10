@@ -53,3 +53,24 @@ export interface FileReadResult {
   tags: string[];
 }
 
+export interface GitCommit {
+  hash: string;
+  shortHash: string;
+  message: string;
+  author: string;
+  timestamp: number;
+}
+
+export interface GitFileStatus {
+  path: string;
+  status: "modified" | "new" | "deleted" | "unmodified";
+}
+
+export interface GitFileDiff {
+  path: string;
+  oldContent: string | null;
+  newContent: string | null;
+  additions: number;
+  deletions: number;
+}
+

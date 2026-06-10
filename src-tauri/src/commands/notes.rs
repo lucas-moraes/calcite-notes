@@ -27,7 +27,7 @@ fn parse_frontmatter(content: &str) -> Vec<String> {
     Vec::new()
 }
 
-fn is_path_within_notes_dir(file_path: &str, notes_dir: &str) -> bool {
+pub fn is_path_within_notes_dir(file_path: &str, notes_dir: &str) -> bool {
     let resolved_path = Path::new(file_path).canonicalize().unwrap_or_default();
     let resolved_notes_dir = Path::new(notes_dir).canonicalize().unwrap_or_default();
     resolved_path.starts_with(&resolved_notes_dir)

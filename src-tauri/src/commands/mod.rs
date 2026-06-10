@@ -53,3 +53,4 @@ pub struct OperationResult {
 pub mod notes;
 pub mod config;
 pub mod filesystem;
+pub mod git;

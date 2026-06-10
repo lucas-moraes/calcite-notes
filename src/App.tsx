@@ -1,11 +1,12 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
-import { Note, GraphNode, GraphLink } from "./types";
+import { Note, GraphNode, GraphLink, GitCommit, GitFileStatus, GitFileDiff } from "./types";
 import { cn, formatTime, wordCount } from "./lib/utils";
 import { tauriAPI } from "./lib/tauri";
 
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw, PanelLeftOpen, Settings } from "lucide-react";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw, PanelLeftOpen, Settings, GitCommitHorizontal } from "lucide-react";
+import GitDiffView from "./components/GitDiffView";
 import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
 import WikiLinkPopup from "./components/WikiLinkPopup";
@@ -34,8 +35,13 @@ export default function App() {
   const [renamingNoteName, setRenamingNoteName] = useState("");
   const [splitRatio, setSplitRatio] = useState(0.4);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
-  const [activePanel, setActivePanel] = useState<null | "files" | "more">(null);
+  const [activePanel, setActivePanel] = useState<null | "files" | "more" | "git">(null);
   const [showGraph, setShowGraph] = useState(true);
+  const [gitStatus, setGitStatus] = useState<GitFileStatus[]>([]);
+  const [gitLog, setGitLog] = useState<GitCommit[]>([]);
+  const [gitCommitMsg, setGitCommitMsg] = useState("");
+  const [selectedCommitHash, setSelectedCommitHash] = useState<string | null>(null);
+  const [gitDiff, setGitDiff] = useState<GitFileDiff | null>(null);
   const [allNotesFromDisk, setAllNotesFromDisk] = useState<
     { id: string; name: string; content: string; tags?: string[] }[]
   >([]);
@@ -71,7 +77,37 @@ export default function App() {
         setThemeColors("gruvbox", "dark");
       }
     });
-    }, []);
+}, []);
+
+  const [gitInitialized, setGitInitialized] = useState(false);
+
+  const refreshGitStatus = useCallback(() => {
+    tauriAPI.gitStatus().then(setGitStatus).catch(() => setGitStatus([]));
+  }, []);
+
+  const refreshGitLog = useCallback(() => {
+    tauriAPI.gitLog(20).then(setGitLog).catch(() => setGitLog([]));
+  }, []);
+
+  const handleGitInit = useCallback(() => {
+    tauriAPI.gitInit().then((created) => {
+      if (created || !created) {
+        setGitInitialized(true);
+        refreshGitStatus();
+        refreshGitLog();
+      }
+    });
+  }, [refreshGitStatus, refreshGitLog]);
+
+  useEffect(() => {
+    tauriAPI.gitLog(1).then(() => {
+      setGitInitialized(true);
+      refreshGitStatus();
+      refreshGitLog();
+    }).catch(() => {
+      setGitInitialized(false);
+    });
+  }, [refreshGitStatus, refreshGitLog]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -545,6 +581,13 @@ export default function App() {
           >
             <Network size={20} />
           </button>
+          <button
+            onClick={() => setActivePanel(activePanel === "git" ? null : "git")}
+            className={`p-2 rounded transition-colors ${activePanel === "git" ? "text-accent bg-accent/10" : "text-base-400 hover:text-base-200 hover:bg-base-800"}`}
+            title="Version history"
+          >
+            <GitCommitHorizontal size={20} />
+          </button>
         </div>
 
         {/* Expandable Panel */}
@@ -552,18 +595,60 @@ export default function App() {
           className={`border-r border-base-800 bg-base-900 flex flex-col overflow-hidden transition-[width] duration-200 ease-out ${activePanel ? "w-[280px]" : "w-0"}`}
         >
             {activePanel === "files" && (
-              <div className="flex-1 overflow-y-auto overflow-x-hidden">
-                <FileTree
-                  key={fileTreeKey}
-                  rootPath={notesFolder}
-                  onFileSelect={(path) => {
-                    handleOpenFile(path);
-                  }}
-                  onFileCreated={(path) => {
-                    handleOpenFile(path);
-                  }}
-                  onTreeChange={() => setFileTreeKey((prev) => prev + 1)}
-                />
+              <div className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col">
+                <div className="flex-1 min-h-0">
+                  <FileTree
+                    key={fileTreeKey}
+                    rootPath={notesFolder}
+                    onFileSelect={(path) => {
+                      handleOpenFile(path);
+                    }}
+                    onFileCreated={(path) => {
+                      handleOpenFile(path);
+                    }}
+                    onTreeChange={() => setFileTreeKey((prev) => prev + 1)}
+                  />
+                </div>
+                <div className="border-t border-base-800 my-1 shrink-0" />
+                <div className="px-1 py-2 flex flex-col gap-1 shrink-0">
+                  <button
+                    onClick={async () => {
+                      const folder = await tauriAPI.selectNotesFolder();
+                      if (folder) setNotesFolder(folder);
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+                  >
+                    <FolderOpen size={16} className="text-base-400" />
+                    Open folder
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleCreateNote();
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+                  >
+                    <Plus size={16} className="text-base-400" />
+                    New note
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (activeNote) handleDeleteNote(activeNote.id);
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+                  >
+                    <Trash2 size={16} className="text-red-400" />
+                    Delete note
+                  </button>
+                  <button
+                    onClick={() => {
+                      setIsCommandPaletteOpen(true);
+                    }}
+                    className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
+                  >
+                    <Search size={16} className="text-base-400" />
+                    Commands
+                  </button>
+                </div>
               </div>
             )}
             {activePanel === "more" && (
@@ -687,45 +772,6 @@ export default function App() {
                 )}
 
                 <div className="border-t border-base-800 my-1" />
-                <button
-                  onClick={async () => {
-                    const folder = await tauriAPI.selectNotesFolder();
-                    if (folder) setNotesFolder(folder);
-                  }}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-                >
-                  <FolderOpen size={16} className="text-base-400" />
-                  Open folder
-                </button>
-                <div className="border-t border-base-800 my-1" />
-                <button
-                  onClick={() => {
-                    handleCreateNote();
-                  }}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-                >
-                  <Plus size={16} className="text-base-400" />
-                  New note
-                </button>
-                <button
-                  onClick={() => {
-                    if (activeNote) handleDeleteNote(activeNote.id);
-                  }}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-                >
-                  <Trash2 size={16} className="text-red-400" />
-                  Delete note
-                </button>
-                <button
-                  onClick={() => {
-                    setIsCommandPaletteOpen(true);
-                  }}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-base-200 hover:bg-base-800 transition-colors text-left"
-                >
-                  <Search size={16} className="text-base-400" />
-                  Commands
-                </button>
-                <div className="border-t border-base-800 my-1" />
                 <div className="px-1 py-2">
                   <span className="text-xs text-base-500 font-medium px-2 block mb-2">Theme</span>
                   <div className="grid grid-cols-2 gap-2">
@@ -818,6 +864,132 @@ export default function App() {
                       );
                     })}
                   </div>
+                </div>
+              </div>
+            )}
+            {activePanel === "git" && (
+              <div className="flex-1 overflow-y-auto p-2 flex flex-col gap-1">
+                <div className="px-1 py-2">
+                  <span className="text-xs text-base-500 font-medium px-2 block mb-2">Git</span>
+                  {!gitInitialized ? (
+                    <div className="px-2 py-6 flex flex-col items-center gap-3">
+                      <GitCommitHorizontal size={24} className="text-base-500" />
+                      <span className="text-xs text-base-400 text-center">No Git repository in this folder</span>
+                      <button
+                        onClick={handleGitInit}
+                        className="px-3 py-1.5 rounded-lg text-xs font-medium bg-accent/10 text-accent hover:bg-accent/20 transition-colors"
+                      >
+                        Initialize repository
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      {gitStatus.length > 0 && (
+                        <div className="flex items-center gap-2 px-2 mb-2 text-xs text-base-400">
+                          <span className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400" />
+                            {gitStatus.filter((f) => f.status === "modified").length} modified
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                            {gitStatus.filter((f) => f.status === "new").length} new
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                            {gitStatus.filter((f) => f.status === "deleted").length} deleted
+                          </span>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-2 px-2 mb-2">
+                        <input
+                          type="text"
+                          value={gitCommitMsg}
+                          onChange={(e) => setGitCommitMsg(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && gitCommitMsg.trim()) {
+                              tauriAPI.gitCommit(gitCommitMsg.trim()).then(() => {
+                                setGitCommitMsg("");
+                                refreshGitStatus();
+                                refreshGitLog();
+                              });
+                            }
+                          }}
+                          placeholder="Commit message..."
+                          className="flex-1 bg-base-800 text-base-200 text-xs px-2 py-1.5 rounded outline-none border border-base-700 focus:border-accent transition-colors"
+                        />
+                        <button
+                          onClick={() => {
+                            if (gitCommitMsg.trim()) {
+                              tauriAPI.gitCommit(gitCommitMsg.trim()).then(() => {
+                                setGitCommitMsg("");
+                                refreshGitStatus();
+                                refreshGitLog();
+                              });
+                            }
+                          }}
+                          disabled={!gitCommitMsg.trim()}
+                          className={`p-1.5 rounded transition-colors ${gitCommitMsg.trim() ? "text-accent hover:bg-base-800" : "text-base-600 cursor-not-allowed"}`}
+                          title="Commit changes"
+                        >
+                          <GitCommitHorizontal size={16} />
+                        </button>
+                      </div>
+                      {gitLog.length > 0 && (
+                        <div className="flex flex-col gap-0.5 max-h-[200px] overflow-y-auto">
+                          {gitLog.map((commit) => (
+                            <button
+                              key={commit.hash}
+                              onClick={() => {
+                                setSelectedCommitHash(selectedCommitHash === commit.hash ? null : commit.hash);
+                                if (activeNote) {
+                                  tauriAPI.gitDiffFile(activeNote.id, commit.hash).then(setGitDiff).catch(() => setGitDiff(null));
+                                }
+                              }}
+                              className={`flex flex-col items-start px-2 py-1.5 rounded text-left transition-colors ${selectedCommitHash === commit.hash ? "bg-accent/10 text-accent" : "hover:bg-base-800 text-base-200"}`}
+                            >
+                              <div className="flex items-center gap-2 w-full">
+                                <span className="text-[10px] font-mono text-base-500">{commit.shortHash}</span>
+                                <span className="text-xs truncate flex-1">{commit.message}</span>
+                              </div>
+                              <span className="text-[10px] text-base-500">
+                                {commit.author} &middot; {new Date(commit.timestamp * 1000).toLocaleDateString()}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      {selectedCommitHash && gitDiff && (
+                        <div className="mt-2 border-t border-base-800 pt-2">
+                          <div className="flex items-center justify-between px-2 mb-1">
+                            <span className="text-xs text-base-400 font-medium">Changes</span>
+                            {activeNote && (
+                              <button
+                                onClick={async () => {
+                                  await tauriAPI.gitRestoreFile(activeNote.id, selectedCommitHash);
+                                  setSelectedCommitHash(null);
+                                  setGitDiff(null);
+                                  refreshGitStatus();
+                                  refreshGitLog();
+                                  tauriAPI.getNotes().then((loadedNotes) => {
+                                    if (loadedNotes.length > 0) {
+                                      setNotes(loadedNotes);
+                                    }
+                                  });
+                                }}
+                                className="text-xs text-accent hover:text-accent/80 transition-colors"
+                              >
+                                Restore this version
+                              </button>
+                            )}
+                          </div>
+                          <GitDiffView diff={gitDiff} />
+                        </div>
+                      )}
+                      {gitStatus.length === 0 && gitLog.length === 0 && (
+                        <span className="text-xs text-base-500 px-2">No repository</span>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
             )}
