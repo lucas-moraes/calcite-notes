@@ -60,9 +60,9 @@
     "semantic_hash": "43a74391bbd3ae401476b567608beda5"
   },
   "src-tauri/src/commands/config.rs": {
-    "mtime": 1781061337.8870955,
-    "ast_hash": "0d16b418d799d6147a6b91682cf853c8",
-    "semantic_hash": ""
+    "mtime": 1780802698.816688,
+    "ast_hash": "03d02102fcac34fb283a1380bb633515",
+    "semantic_hash": "03d02102fcac34fb283a1380bb633515"
   },
   "src-tauri/src/commands/filesystem.rs": {
     "mtime": 1779852533.3201656,
@@ -80,8 +80,8 @@
     "semantic_hash": ""
   },
   "src-tauri/src/lib.rs": {
-    "mtime": 1781061342.1743307,
-    "ast_hash": "fa9450d6a3c4384d82e5172c116a5697",
+    "mtime": 1780843746.677133,
+    "ast_hash": "41ee44d1f1d0844e8d3081cc3e4af7c7",
     "semantic_hash": ""
   },
   "src-tauri/src/main.rs": {
@@ -95,8 +95,8 @@
     "semantic_hash": "00a3a1970058ba3cb05042fcdb922a9e"
   },
   "src/App.tsx": {
-    "mtime": 1781061378.5620852,
-    "ast_hash": "f6082821e6b284f681b137e7f6753275",
+    "mtime": 1780848384.6070445,
+    "ast_hash": "f5afa8907862c5ad908ba6298ab4000e",
     "semantic_hash": ""
   },
   "src/components/CommandPalette.tsx": {
@@ -115,9 +115,9 @@
     "semantic_hash": "7a075afdb6fa98316ed6163b5d24b8fd"
   },
   "src/components/GraphView.tsx": {
-    "mtime": 1781197129.7474694,
-    "ast_hash": "0b85172862e94012af97b3c2d404fbfe",
-    "semantic_hash": ""
+    "mtime": 1780279537.154703,
+    "ast_hash": "4f71dd74f3569025f742bc3dc8a4bea7",
+    "semantic_hash": "4f71dd74f3569025f742bc3dc8a4bea7"
   },
   "src/components/Loader.tsx": {
     "mtime": 1780258561.4703693,
@@ -145,8 +145,8 @@
     "semantic_hash": "56d9093f704a689fc5189ddea749e82b"
   },
   "src/lib/tauri.ts": {
-    "mtime": 1781061347.0492375,
-    "ast_hash": "24b2588bd20d6524b1f80bc37b405466",
+    "mtime": 1780843782.5523288,
+    "ast_hash": "88d571adccf48e449a9c18a0e249c35c",
     "semantic_hash": ""
   },
   "src/lib/themes.ts": {
@@ -193,6 +193,11 @@
     "mtime": 1779754660.3401113,
     "ast_hash": "4e1c9d849dca1af2f2facea53e87fe1b",
     "semantic_hash": "4e1c9d849dca1af2f2facea53e87fe1b"
+  },
+  "TODO-TAURI-MIGRATION.md": {
+    "mtime": 1779754660.340534,
+    "ast_hash": "5e66dcf545cf919a06d380af7668b6c5",
+    "semantic_hash": "5e66dcf545cf919a06d380af7668b6c5"
   },
   "index.html": {
     "mtime": 1779843562.4347472,
@@ -492,16 +497,6 @@
   "src/components/GitDiffView.tsx": {
     "mtime": 1780843944.8279564,
     "ast_hash": "690a77f838ad9ebec5056ea3e00bc150",
-    "semantic_hash": ""
-  },
-  "src/components/TabBar.tsx": {
-    "mtime": 1781061195.3909795,
-    "ast_hash": "d8f6c5e2efc1fcd6679372da76751b26",
-    "semantic_hash": ""
-  },
-  "GAPS.md": {
-    "mtime": 1781052930.8645031,
-    "ast_hash": "7323300e7e7f827912510db05a27f7ff",
     "semantic_hash": ""
   }
 }

@@ -16,12 +16,22 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId, cen
   const containerRef = useRef<HTMLDivElement>(null);
   const zoomBehaviorRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
   const [zoom, setZoom] = useState(1);
+  const isLight = document.documentElement.classList.contains('light');
 
   useEffect(() => {
     if (!svgRef.current || nodes.length === 0) return;
 
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
+
+    const tagFill = isLight ? '#6366f1' : '#e0e7ff';
+    const tagFillHover = isLight ? '#4f46e5' : '#f0f4ff';
+    const tagGlow = isLight ? 'drop-shadow(0 0 6px rgba(99, 102, 241, 0.5))' : 'drop-shadow(0 0 8px #c7d2fe) drop-shadow(0 0 16px rgba(199, 210, 254, 0.4))';
+    const tagGlowHover = isLight ? 'drop-shadow(0 0 10px rgba(99, 102, 241, 0.7))' : 'drop-shadow(0 0 12px #e0e7ff) drop-shadow(0 0 20px rgba(224, 231, 255, 0.5))';
+    const tagPulseStroke = isLight ? '#818cf8' : '#c7d2fe';
+    const tagLinkColor = isLight ? '#818cf8' : '#c7d2fe';
+    const tagNodeTextColor = isLight ? '#312e81' : 'var(--color-base-500)';
+    const tagStrokeOutline = isLight ? 'var(--color-base-100)' : 'var(--color-base-950)';
 
     const width = svgRef.current.clientWidth;
     const height = svgRef.current.clientHeight;
@@ -61,11 +71,14 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId, cen
       node.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
     });
 
+    const tagPulseGroup = g.append('g').attr('class', 'tag-pulse-group');
+    const tagPulseIntervals: number[] = [];
+
     const link = g.append('g')
       .selectAll('line')
       .data(links)
       .join('line')
-      .attr('stroke', (d: any) => d.type === 'tag' ? 'var(--color-accent)' : 'var(--color-base-600)')
+      .attr('stroke', (d: any) => d.type === 'tag' ? tagLinkColor : 'var(--color-base-600)')
       .attr('stroke-opacity', 0)
       .attr('stroke-width', 1)
       .attr('stroke-dasharray', (d: any) => d.type === 'tag' ? '4,4' : 'none');
@@ -87,36 +100,69 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId, cen
 
     node.append('circle')
       .attr('r', (d) => (d as any).isTag ? 4 : (d.id === activeNodeId ? 8 : 5))
-      .attr('fill', (d) => (d as any).isTag ? '#818cf8' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
+      .attr('fill', (d) => (d as any).isTag ? tagFill : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
       .attr('stroke', 'none')
-      .style('filter', (d) => (d as any).isTag ? 'drop-shadow(0 0 6px #6366f1)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'))
+      .style('filter', (d) => (d as any).isTag ? tagGlow : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'))
       .on('mouseenter', function(event, d) {
         const isTag = (d as any).isTag;
         d3.select(this)
           .transition()
           .duration(150)
-          .attr('fill', isTag ? '#a5b4fc' : 'var(--color-accent)')
+          .attr('fill', isTag ? tagFillHover : 'var(--color-accent)')
           .attr('r', isTag ? 6 : 8)
-          .style('filter', isTag ? 'drop-shadow(0 0 10px #6366f1)' : 'drop-shadow(0 0 8px var(--color-accent))');
+          .style('filter', isTag ? tagGlowHover : 'drop-shadow(0 0 8px var(--color-accent))');
       })
       .on('mouseleave', function(event, d) {
         const isTag = (d as any).isTag;
         d3.select(this)
           .transition()
           .duration(150)
-          .attr('fill', isTag ? '#818cf8' : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
+          .attr('fill', isTag ? tagFill : (d.id === activeNodeId ? 'var(--color-accent)' : 'var(--color-base-400)'))
           .attr('r', isTag ? 4 : (d.id === activeNodeId ? 8 : 5))
-          .style('filter', isTag ? 'drop-shadow(0 0 6px #6366f1)' : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'));
+          .style('filter', isTag ? tagGlow : (d.id === activeNodeId ? 'drop-shadow(0 0 8px var(--color-accent))' : 'none'));
       });
+
+    nodes.forEach((tagNode, idx) => {
+      if (!(tagNode as any).isTag) return;
+      const delay = idx * 400;
+      const animateTagPulse = () => {
+        tagPulseGroup.append('circle')
+          .attr('cx', (tagNode as any).x)
+          .attr('cy', (tagNode as any).y)
+          .attr('r', 4)
+          .attr('fill', 'none')
+          .attr('stroke', tagPulseStroke)
+          .attr('stroke-width', 1.5)
+          .attr('opacity', 0.7)
+          .transition()
+          .duration(2000)
+          .ease(d3.easeQuadOut)
+          .attr('r', 22)
+          .attr('opacity', 0)
+          .on('end', function() { d3.select(this).remove(); });
+      };
+      const timeout = setTimeout(() => {
+        animateTagPulse();
+        const interval = window.setInterval(animateTagPulse, 2200);
+        tagPulseIntervals.push(interval);
+      }, delay);
+      tagPulseIntervals.push(timeout as unknown as number);
+    });
 
     node.append('text')
       .attr('dx', 12)
       .attr('dy', 4)
       .text((d) => d.name)
-      .attr('fill', (d) => (d.id === activeNodeId ? 'var(--color-base-100)' : 'var(--color-base-500)'))
+      .attr('fill', (d) => {
+        if ((d as any).isTag) return tagNodeTextColor;
+        return d.id === activeNodeId ? 'var(--color-base-100)' : 'var(--color-base-500)';
+      })
       .attr('font-size', '10px')
-      .attr('stroke', 'var(--color-base-950)')
-      .attr('stroke-width', 3)
+      .attr('stroke', (d) => {
+        if ((d as any).isTag && isLight) return 'none';
+        return (d as any).isTag ? tagStrokeOutline : 'var(--color-base-950)';
+      })
+      .attr('stroke-width', (d) => ((d as any).isTag && isLight) ? 0 : 3)
       .attr('paint-order', 'stroke')
       .attr('stroke-linejoin', 'round')
       .attr('class', 'pointer-events-none select-none');
@@ -188,8 +234,9 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId, cen
     return () => {
       simulation.stop();
       resizeObserver.disconnect();
+      tagPulseIntervals.forEach((id) => window.clearInterval(id));
     };
-  }, [nodes, links, activeNodeId, onNodeClick]);
+  }, [nodes, links, activeNodeId, onNodeClick, isLight]);
 
   const handleZoomIn = () => {
     if (!svgRef.current || !zoomBehaviorRef.current) return;
@@ -234,7 +281,9 @@ export default function GraphView({ nodes, links, onNodeClick, activeNodeId, cen
 
   return (
     <div ref={containerRef} className="w-full h-full relative overflow-hidden" style={{ 
-      backgroundImage: 'radial-gradient(ellipse at 30% 20%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(79, 70, 229, 0.05) 0%, transparent 50%)' 
+      backgroundImage: isLight 
+        ? 'radial-gradient(ellipse at 30% 20%, rgba(79, 70, 229, 0.06) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(99, 102, 241, 0.04) 0%, transparent 50%)'
+        : 'radial-gradient(ellipse at 30% 20%, rgba(217, 119, 6, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(79, 70, 229, 0.05) 0%, transparent 50%)'
     }}>
       {nodes.length === 0 && (
         <div className="absolute inset-0 flex items-center justify-center">

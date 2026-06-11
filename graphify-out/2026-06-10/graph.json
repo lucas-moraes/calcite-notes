@@ -225,534 +225,14 @@
   },
   "nodes": [
     {
-      "label": "GraphView.tsx",
-      "file_type": "code",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "components_graphview",
-      "community": 10,
-      "norm_label": "graphview.tsx"
-    },
-    {
-      "label": "GraphViewProps",
-      "file_type": "code",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L6",
-      "_origin": "ast",
-      "id": "components_graphview_graphviewprops",
-      "community": 10,
-      "norm_label": "graphviewprops"
-    },
-    {
-      "label": "GraphView()",
-      "file_type": "code",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L14",
-      "_origin": "ast",
-      "id": "components_graphview_graphview",
-      "community": 10,
-      "norm_label": "graphview()"
-    },
-    {
-      "label": "GAPS.md",
-      "file_type": "document",
-      "source_file": "GAPS.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 23,
-      "norm_label": "gaps.md",
-      "id": "gaps"
-    },
-    {
-      "label": "GAPS.md \u2014 Recursos do Obsidian que calcite-notes n\u00e3o tem",
-      "file_type": "document",
-      "source_file": "GAPS.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 23,
-      "norm_label": "gaps.md \u2014 recursos do obsidian que calcite-notes nao tem",
-      "id": "gaps_gaps_md_recursos_do_obsidian_que_calcite_notes_n\u00e3o_tem"
-    },
-    {
-      "label": "Editor",
-      "file_type": "document",
-      "source_file": "GAPS.md",
-      "source_location": "L3",
-      "_origin": "ast",
-      "community": 23,
-      "norm_label": "editor",
-      "id": "gaps_editor"
-    },
-    {
-      "label": "Navega\u00e7\u00e3o & Descoberta",
-      "file_type": "document",
-      "source_file": "GAPS.md",
-      "source_location": "L11",
-      "_origin": "ast",
-      "community": 23,
-      "norm_label": "navegacao & descoberta",
-      "id": "gaps_navega\u00e7\u00e3o_descoberta"
-    },
-    {
-      "label": "Customiza\u00e7\u00e3o",
-      "file_type": "document",
-      "source_file": "GAPS.md",
-      "source_location": "L21",
-      "_origin": "ast",
-      "community": 23,
-      "norm_label": "customizacao",
-      "id": "gaps_customiza\u00e7\u00e3o"
-    },
-    {
-      "label": "Visualiza\u00e7\u00e3o",
-      "file_type": "document",
-      "source_file": "GAPS.md",
-      "source_location": "L27",
-      "_origin": "ast",
-      "community": 23,
-      "norm_label": "visualizacao",
-      "id": "gaps_visualiza\u00e7\u00e3o"
-    },
-    {
-      "label": "Produtividade",
-      "file_type": "document",
-      "source_file": "GAPS.md",
-      "source_location": "L34",
-      "_origin": "ast",
-      "community": 23,
-      "norm_label": "produtividade",
-      "id": "gaps_produtividade"
-    },
-    {
-      "label": "Outros",
-      "file_type": "document",
-      "source_file": "GAPS.md",
-      "source_location": "L42",
-      "_origin": "ast",
-      "community": 23,
-      "norm_label": "outros",
-      "id": "gaps_outros"
-    },
-    {
-      "label": "config.rs",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "config.rs",
-      "id": "commands_config"
-    },
-    {
-      "label": "get_notes_folder()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "get_notes_folder()",
-      "id": "commands_config_get_notes_folder"
-    },
-    {
-      "label": "State",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "state",
-      "id": "src_tauri_src_commands_config_rs_state"
-    },
-    {
-      "label": "AppState",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "appstate",
-      "id": "src_tauri_src_commands_config_rs_appstate"
-    },
-    {
-      "label": "String",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L7",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "string",
-      "id": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "label": "set_notes_dir()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "set_notes_dir()",
-      "id": "commands_config_set_notes_dir"
-    },
-    {
-      "label": "AppHandle",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "apphandle",
-      "id": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "label": "Result",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "result",
-      "id": "src_tauri_src_commands_config_rs_result"
-    },
-    {
-      "label": "get_theme()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L28",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "get_theme()",
-      "id": "commands_config_get_theme"
-    },
-    {
-      "label": "save_theme()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L40",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "save_theme()",
-      "id": "commands_config_save_theme"
-    },
-    {
-      "label": "get_tree_width()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L52",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "get_tree_width()",
-      "id": "commands_config_get_tree_width"
-    },
-    {
-      "label": "save_tree_width()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L65",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "save_tree_width()",
-      "id": "commands_config_save_tree_width"
-    },
-    {
-      "label": "get_show_graph()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L77",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "get_show_graph()",
-      "id": "commands_config_get_show_graph"
-    },
-    {
-      "label": "save_show_graph()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L89",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "save_show_graph()",
-      "id": "commands_config_save_show_graph"
-    },
-    {
-      "label": "get_open_tabs()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L101",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "get_open_tabs()",
-      "id": "commands_config_get_open_tabs"
-    },
-    {
-      "label": "Vec",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L101",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "vec",
-      "id": "vec"
-    },
-    {
-      "label": "save_open_tabs()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L113",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "save_open_tabs()",
-      "id": "commands_config_save_open_tabs"
-    },
-    {
-      "label": "get_active_tab()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L127",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "get_active_tab()",
-      "id": "commands_config_get_active_tab"
-    },
-    {
-      "label": "Option",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L127",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "option",
-      "id": "src_tauri_src_commands_config_rs_option"
-    },
-    {
-      "label": "save_active_tab()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L138",
-      "_origin": "ast",
-      "community": 15,
-      "norm_label": "save_active_tab()",
-      "id": "commands_config_save_active_tab"
-    },
-    {
-      "label": "lib.rs",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "lib.rs",
-      "id": "src_lib"
-    },
-    {
-      "label": "setup_menu()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "setup_menu()",
-      "id": "src_lib_setup_menu"
-    },
-    {
-      "label": "AppHandle",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "apphandle",
-      "id": "src_tauri_src_lib_rs_apphandle"
-    },
-    {
-      "label": "Result",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "result",
-      "id": "src_tauri_src_lib_rs_result"
-    },
-    {
-      "label": "Box",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "box",
-      "id": "box"
-    },
-    {
-      "label": "Error",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "error",
-      "id": "error"
-    },
-    {
-      "label": "get_default_notes_dir()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L75",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "get_default_notes_dir()",
-      "id": "src_lib_get_default_notes_dir"
-    },
-    {
-      "label": "String",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L75",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "string",
-      "id": "src_tauri_src_lib_rs_string"
-    },
-    {
-      "label": "run()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L85",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "run()",
-      "id": "src_lib_run"
-    },
-    {
-      "label": "select_notes_folder()",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L219",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "select_notes_folder()",
-      "id": "src_lib_select_notes_folder"
-    },
-    {
-      "label": "State",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L219",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "state",
-      "id": "src_tauri_src_lib_rs_state"
-    },
-    {
-      "label": "AppState",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L219",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "appstate",
-      "id": "src_tauri_src_lib_rs_appstate"
-    },
-    {
-      "label": "Option",
-      "file_type": "code",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L219",
-      "_origin": "ast",
-      "community": 18,
-      "norm_label": "option",
-      "id": "src_tauri_src_lib_rs_option"
-    },
-    {
-      "label": "App.tsx",
-      "file_type": "code",
-      "source_file": "src/App.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 10,
-      "norm_label": "app.tsx",
-      "id": "src_app"
-    },
-    {
-      "label": "App()",
-      "file_type": "code",
-      "source_file": "src/App.tsx",
-      "source_location": "L24",
-      "_origin": "ast",
-      "community": 10,
-      "norm_label": "app()",
-      "id": "src_app_app"
-    },
-    {
-      "label": "TabBar.tsx",
-      "file_type": "code",
-      "source_file": "src/components/TabBar.tsx",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 10,
-      "norm_label": "tabbar.tsx",
-      "id": "components_tabbar"
-    },
-    {
-      "label": "TabBarProps",
-      "file_type": "code",
-      "source_file": "src/components/TabBar.tsx",
-      "source_location": "L4",
-      "_origin": "ast",
-      "community": 10,
-      "norm_label": "tabbarprops",
-      "id": "components_tabbar_tabbarprops"
-    },
-    {
-      "label": "TabBar()",
-      "file_type": "code",
-      "source_file": "src/components/TabBar.tsx",
-      "source_location": "L12",
-      "_origin": "ast",
-      "community": 10,
-      "norm_label": "tabbar()",
-      "id": "components_tabbar_tabbar"
-    },
-    {
-      "label": "tauri.ts",
-      "file_type": "code",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L1",
-      "_origin": "ast",
-      "community": 10,
-      "norm_label": "tauri.ts",
-      "id": "lib_tauri"
-    },
-    {
-      "label": "tauriInvoke()",
-      "file_type": "code",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L5",
-      "_origin": "ast",
-      "community": 10,
-      "norm_label": "tauriinvoke()",
-      "id": "lib_tauri_tauriinvoke"
-    },
-    {
-      "label": "tauriAPI",
-      "file_type": "code",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L9",
-      "_origin": "ast",
-      "community": 10,
-      "norm_label": "tauriapi",
-      "id": "lib_tauri_tauriapi"
-    },
-    {
       "label": "git.rs",
       "file_type": "code",
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "commands_git",
       "community": 17,
-      "norm_label": "git.rs",
-      "id": "commands_git"
+      "norm_label": "git.rs"
     },
     {
       "label": "GitCommit",
@@ -760,9 +240,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L8",
       "_origin": "ast",
+      "id": "commands_git_gitcommit",
       "community": 17,
-      "norm_label": "gitcommit",
-      "id": "commands_git_gitcommit"
+      "norm_label": "gitcommit"
     },
     {
       "label": "String",
@@ -770,9 +250,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L9",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_git_rs_string",
       "community": 17,
-      "norm_label": "string",
-      "id": "src_tauri_src_commands_git_rs_string"
+      "norm_label": "string"
     },
     {
       "label": "GitFileStatus",
@@ -780,9 +260,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L18",
       "_origin": "ast",
+      "id": "commands_git_gitfilestatus",
       "community": 17,
-      "norm_label": "gitfilestatus",
-      "id": "commands_git_gitfilestatus"
+      "norm_label": "gitfilestatus"
     },
     {
       "label": "GitFileDiff",
@@ -790,9 +270,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L25",
       "_origin": "ast",
+      "id": "commands_git_gitfilediff",
       "community": 17,
-      "norm_label": "gitfilediff",
-      "id": "commands_git_gitfilediff"
+      "norm_label": "gitfilediff"
     },
     {
       "label": "Option",
@@ -800,9 +280,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L27",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_git_rs_option",
       "community": 17,
-      "norm_label": "option",
-      "id": "src_tauri_src_commands_git_rs_option"
+      "norm_label": "option"
     },
     {
       "label": "get_repo()",
@@ -810,9 +290,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L33",
       "_origin": "ast",
+      "id": "commands_git_get_repo",
       "community": 17,
-      "norm_label": "get_repo()",
-      "id": "commands_git_get_repo"
+      "norm_label": "get_repo()"
     },
     {
       "label": "Result",
@@ -820,9 +300,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L33",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_git_rs_result",
       "community": 17,
-      "norm_label": "result",
-      "id": "src_tauri_src_commands_git_rs_result"
+      "norm_label": "result"
     },
     {
       "label": "Repository",
@@ -830,9 +310,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L33",
       "_origin": "ast",
+      "id": "repository",
       "community": 17,
-      "norm_label": "repository",
-      "id": "repository"
+      "norm_label": "repository"
     },
     {
       "label": "git_init()",
@@ -840,9 +320,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L39",
       "_origin": "ast",
+      "id": "commands_git_git_init",
       "community": 17,
-      "norm_label": "git_init()",
-      "id": "commands_git_git_init"
+      "norm_label": "git_init()"
     },
     {
       "label": "State",
@@ -850,9 +330,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L39",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_git_rs_state",
       "community": 17,
-      "norm_label": "state",
-      "id": "src_tauri_src_commands_git_rs_state"
+      "norm_label": "state"
     },
     {
       "label": "AppState",
@@ -860,9 +340,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L39",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_git_rs_appstate",
       "community": 17,
-      "norm_label": "appstate",
-      "id": "src_tauri_src_commands_git_rs_appstate"
+      "norm_label": "appstate"
     },
     {
       "label": "git_status()",
@@ -870,9 +350,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L53",
       "_origin": "ast",
+      "id": "commands_git_git_status",
       "community": 17,
-      "norm_label": "git_status()",
-      "id": "commands_git_git_status"
+      "norm_label": "git_status()"
     },
     {
       "label": "Vec",
@@ -880,9 +360,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L53",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_git_rs_vec",
       "community": 17,
-      "norm_label": "vec",
-      "id": "src_tauri_src_commands_git_rs_vec"
+      "norm_label": "vec"
     },
     {
       "label": "git_commit()",
@@ -890,9 +370,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L89",
       "_origin": "ast",
+      "id": "commands_git_git_commit",
       "community": 17,
-      "norm_label": "git_commit()",
-      "id": "commands_git_git_commit"
+      "norm_label": "git_commit()"
     },
     {
       "label": "OperationResult",
@@ -900,9 +380,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L89",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_git_rs_operationresult",
       "community": 17,
-      "norm_label": "operationresult",
-      "id": "src_tauri_src_commands_git_rs_operationresult"
+      "norm_label": "operationresult"
     },
     {
       "label": "git_log()",
@@ -910,9 +390,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L132",
       "_origin": "ast",
+      "id": "commands_git_git_log",
       "community": 17,
-      "norm_label": "git_log()",
-      "id": "commands_git_git_log"
+      "norm_label": "git_log()"
     },
     {
       "label": "git_diff_file()",
@@ -920,9 +400,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L176",
       "_origin": "ast",
+      "id": "commands_git_git_diff_file",
       "community": 17,
-      "norm_label": "git_diff_file()",
-      "id": "commands_git_git_diff_file"
+      "norm_label": "git_diff_file()"
     },
     {
       "label": "git_restore_file()",
@@ -930,9 +410,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L257",
       "_origin": "ast",
+      "id": "commands_git_git_restore_file",
       "community": 17,
-      "norm_label": "git_restore_file()",
-      "id": "commands_git_git_restore_file"
+      "norm_label": "git_restore_file()"
     },
     {
       "label": "mod.rs",
@@ -940,9 +420,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "commands_mod",
       "community": 0,
-      "norm_label": "mod.rs",
-      "id": "commands_mod"
+      "norm_label": "mod.rs"
     },
     {
       "label": "Note",
@@ -950,9 +430,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L5",
       "_origin": "ast",
+      "id": "commands_mod_note",
       "community": 0,
-      "norm_label": "note",
-      "id": "commands_mod_note"
+      "norm_label": "note"
     },
     {
       "label": "String",
@@ -960,9 +440,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L6",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_mod_rs_string",
       "community": 0,
-      "norm_label": "string",
-      "id": "src_tauri_src_commands_mod_rs_string"
+      "norm_label": "string"
     },
     {
       "label": "Vec",
@@ -970,9 +450,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L11",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_mod_rs_vec",
       "community": 0,
-      "norm_label": "vec",
-      "id": "src_tauri_src_commands_mod_rs_vec"
+      "norm_label": "vec"
     },
     {
       "label": "GraphNote",
@@ -980,9 +460,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L16",
       "_origin": "ast",
+      "id": "commands_mod_graphnote",
       "community": 0,
-      "norm_label": "graphnote",
-      "id": "commands_mod_graphnote"
+      "norm_label": "graphnote"
     },
     {
       "label": "Option",
@@ -990,9 +470,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L20",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_mod_rs_option",
       "community": 0,
-      "norm_label": "option",
-      "id": "src_tauri_src_commands_mod_rs_option"
+      "norm_label": "option"
     },
     {
       "label": "FileEntry",
@@ -1000,9 +480,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L27",
       "_origin": "ast",
+      "id": "commands_mod_fileentry",
       "community": 0,
-      "norm_label": "fileentry",
-      "id": "commands_mod_fileentry"
+      "norm_label": "fileentry"
     },
     {
       "label": "FileReadResult",
@@ -1010,9 +490,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L35",
       "_origin": "ast",
+      "id": "commands_mod_filereadresult",
       "community": 0,
-      "norm_label": "filereadresult",
-      "id": "commands_mod_filereadresult"
+      "norm_label": "filereadresult"
     },
     {
       "label": "OperationResult",
@@ -1020,9 +500,9 @@
       "source_file": "src-tauri/src/commands/mod.rs",
       "source_location": "L46",
       "_origin": "ast",
+      "id": "commands_mod_operationresult",
       "community": 0,
-      "norm_label": "operationresult",
-      "id": "commands_mod_operationresult"
+      "norm_label": "operationresult"
     },
     {
       "label": "notes.rs",
@@ -1030,9 +510,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "commands_notes",
       "community": 0,
-      "norm_label": "notes.rs",
-      "id": "commands_notes"
+      "norm_label": "notes.rs"
     },
     {
       "label": "AppState",
@@ -1040,9 +520,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L8",
       "_origin": "ast",
+      "id": "commands_notes_appstate",
       "community": 0,
-      "norm_label": "appstate",
-      "id": "commands_notes_appstate"
+      "norm_label": "appstate"
     },
     {
       "label": "Mutex",
@@ -1050,9 +530,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L9",
       "_origin": "ast",
+      "id": "mutex",
       "community": 0,
-      "norm_label": "mutex",
-      "id": "mutex"
+      "norm_label": "mutex"
     },
     {
       "label": "String",
@@ -1060,9 +540,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L9",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_notes_rs_string",
       "community": 0,
-      "norm_label": "string",
-      "id": "src_tauri_src_commands_notes_rs_string"
+      "norm_label": "string"
     },
     {
       "label": "parse_frontmatter()",
@@ -1070,9 +550,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L12",
       "_origin": "ast",
+      "id": "commands_notes_parse_frontmatter",
       "community": 0,
-      "norm_label": "parse_frontmatter()",
-      "id": "commands_notes_parse_frontmatter"
+      "norm_label": "parse_frontmatter()"
     },
     {
       "label": "Vec",
@@ -1080,9 +560,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L12",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_notes_rs_vec",
       "community": 0,
-      "norm_label": "vec",
-      "id": "src_tauri_src_commands_notes_rs_vec"
+      "norm_label": "vec"
     },
     {
       "label": "is_path_within_notes_dir()",
@@ -1090,9 +570,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L30",
       "_origin": "ast",
+      "id": "commands_notes_is_path_within_notes_dir",
       "community": 0,
-      "norm_label": "is_path_within_notes_dir()",
-      "id": "commands_notes_is_path_within_notes_dir"
+      "norm_label": "is_path_within_notes_dir()"
     },
     {
       "label": "get_notes()",
@@ -1100,9 +580,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L37",
       "_origin": "ast",
+      "id": "commands_notes_get_notes",
       "community": 0,
-      "norm_label": "get_notes()",
-      "id": "commands_notes_get_notes"
+      "norm_label": "get_notes()"
     },
     {
       "label": "State",
@@ -1110,9 +590,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L37",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_notes_rs_state",
       "community": 0,
-      "norm_label": "state",
-      "id": "src_tauri_src_commands_notes_rs_state"
+      "norm_label": "state"
     },
     {
       "label": "Note",
@@ -1120,9 +600,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L37",
       "_origin": "ast",
+      "id": "note",
       "community": 0,
-      "norm_label": "note",
-      "id": "note"
+      "norm_label": "note"
     },
     {
       "label": "get_all_notes_for_graph()",
@@ -1130,9 +610,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L81",
       "_origin": "ast",
+      "id": "commands_notes_get_all_notes_for_graph",
       "community": 0,
-      "norm_label": "get_all_notes_for_graph()",
-      "id": "commands_notes_get_all_notes_for_graph"
+      "norm_label": "get_all_notes_for_graph()"
     },
     {
       "label": "GraphNote",
@@ -1140,9 +620,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L81",
       "_origin": "ast",
+      "id": "graphnote",
       "community": 0,
-      "norm_label": "graphnote",
-      "id": "graphnote"
+      "norm_label": "graphnote"
     },
     {
       "label": "save_note()",
@@ -1150,9 +630,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L123",
       "_origin": "ast",
+      "id": "commands_notes_save_note",
       "community": 0,
-      "norm_label": "save_note()",
-      "id": "commands_notes_save_note"
+      "norm_label": "save_note()"
     },
     {
       "label": "OperationResult",
@@ -1160,9 +640,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L123",
       "_origin": "ast",
+      "id": "src_tauri_src_commands_notes_rs_operationresult",
       "community": 0,
-      "norm_label": "operationresult",
-      "id": "src_tauri_src_commands_notes_rs_operationresult"
+      "norm_label": "operationresult"
     },
     {
       "label": "delete_note()",
@@ -1170,9 +650,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L161",
       "_origin": "ast",
+      "id": "commands_notes_delete_note",
       "community": 0,
-      "norm_label": "delete_note()",
-      "id": "commands_notes_delete_note"
+      "norm_label": "delete_note()"
     },
     {
       "label": "save_new_note()",
@@ -1180,9 +660,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L199",
       "_origin": "ast",
+      "id": "commands_notes_save_new_note",
       "community": 0,
-      "norm_label": "save_new_note()",
-      "id": "commands_notes_save_new_note"
+      "norm_label": "save_new_note()"
     },
     {
       "label": "rename_note()",
@@ -1190,9 +670,9 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L232",
       "_origin": "ast",
+      "id": "commands_notes_rename_note",
       "community": 0,
-      "norm_label": "rename_note()",
-      "id": "commands_notes_rename_note"
+      "norm_label": "rename_note()"
     },
     {
       "label": "update_note_tags()",
@@ -1200,9 +680,159 @@
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L278",
       "_origin": "ast",
+      "id": "commands_notes_update_note_tags",
       "community": 0,
-      "norm_label": "update_note_tags()",
-      "id": "commands_notes_update_note_tags"
+      "norm_label": "update_note_tags()"
+    },
+    {
+      "label": "lib.rs",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_lib",
+      "community": 15,
+      "norm_label": "lib.rs"
+    },
+    {
+      "label": "setup_menu()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "src_lib_setup_menu",
+      "community": 15,
+      "norm_label": "setup_menu()"
+    },
+    {
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "apphandle",
+      "community": 15,
+      "norm_label": "apphandle"
+    },
+    {
+      "label": "Result",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "src_tauri_src_lib_rs_result",
+      "community": 15,
+      "norm_label": "result"
+    },
+    {
+      "label": "Box",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "box",
+      "community": 15,
+      "norm_label": "box"
+    },
+    {
+      "label": "Error",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "error",
+      "community": 15,
+      "norm_label": "error"
+    },
+    {
+      "label": "get_default_notes_dir()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L75",
+      "_origin": "ast",
+      "id": "src_lib_get_default_notes_dir",
+      "community": 15,
+      "norm_label": "get_default_notes_dir()"
+    },
+    {
+      "label": "String",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L75",
+      "_origin": "ast",
+      "id": "src_tauri_src_lib_rs_string",
+      "community": 15,
+      "norm_label": "string"
+    },
+    {
+      "label": "run()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L85",
+      "_origin": "ast",
+      "id": "src_lib_run",
+      "community": 15,
+      "norm_label": "run()"
+    },
+    {
+      "label": "select_notes_folder()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L215",
+      "_origin": "ast",
+      "id": "src_lib_select_notes_folder",
+      "community": 15,
+      "norm_label": "select_notes_folder()"
+    },
+    {
+      "label": "State",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L215",
+      "_origin": "ast",
+      "id": "src_tauri_src_lib_rs_state",
+      "community": 15,
+      "norm_label": "state"
+    },
+    {
+      "label": "AppState",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L215",
+      "_origin": "ast",
+      "id": "src_tauri_src_lib_rs_appstate",
+      "community": 15,
+      "norm_label": "appstate"
+    },
+    {
+      "label": "Option",
+      "file_type": "code",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L215",
+      "_origin": "ast",
+      "id": "src_tauri_src_lib_rs_option",
+      "community": 15,
+      "norm_label": "option"
+    },
+    {
+      "label": "App.tsx",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "src_app",
+      "community": 10,
+      "norm_label": "app.tsx"
+    },
+    {
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src/App.tsx",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "src_app_app",
+      "community": 10,
+      "norm_label": "app()"
     },
     {
       "label": "GitDiffView.tsx",
@@ -1210,9 +840,9 @@
       "source_file": "src/components/GitDiffView.tsx",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "components_gitdiffview",
       "community": 10,
-      "norm_label": "gitdiffview.tsx",
-      "id": "components_gitdiffview"
+      "norm_label": "gitdiffview.tsx"
     },
     {
       "label": "GitDiffViewProps",
@@ -1220,9 +850,9 @@
       "source_file": "src/components/GitDiffView.tsx",
       "source_location": "L3",
       "_origin": "ast",
+      "id": "components_gitdiffview_gitdiffviewprops",
       "community": 10,
-      "norm_label": "gitdiffviewprops",
-      "id": "components_gitdiffview_gitdiffviewprops"
+      "norm_label": "gitdiffviewprops"
     },
     {
       "label": "GitDiffView()",
@@ -1230,9 +860,39 @@
       "source_file": "src/components/GitDiffView.tsx",
       "source_location": "L7",
       "_origin": "ast",
+      "id": "components_gitdiffview_gitdiffview",
       "community": 10,
-      "norm_label": "gitdiffview()",
-      "id": "components_gitdiffview_gitdiffview"
+      "norm_label": "gitdiffview()"
+    },
+    {
+      "label": "tauri.ts",
+      "file_type": "code",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "lib_tauri",
+      "community": 10,
+      "norm_label": "tauri.ts"
+    },
+    {
+      "label": "tauriInvoke()",
+      "file_type": "code",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "lib_tauri_tauriinvoke",
+      "community": 10,
+      "norm_label": "tauriinvoke()"
+    },
+    {
+      "label": "tauriAPI",
+      "file_type": "code",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "lib_tauri_tauriapi",
+      "community": 10,
+      "norm_label": "tauriapi"
     },
     {
       "label": "types.ts",
@@ -1240,9 +900,9 @@
       "source_file": "src/types.ts",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "src_types",
       "community": 10,
-      "norm_label": "types.ts",
-      "id": "src_types"
+      "norm_label": "types.ts"
     },
     {
       "label": "Note",
@@ -1250,9 +910,9 @@
       "source_file": "src/types.ts",
       "source_location": "L1",
       "_origin": "ast",
+      "id": "src_types_note",
       "community": 10,
-      "norm_label": "note",
-      "id": "src_types_note"
+      "norm_label": "note"
     },
     {
       "label": "GraphNode",
@@ -1260,9 +920,9 @@
       "source_file": "src/types.ts",
       "source_location": "L11",
       "_origin": "ast",
+      "id": "src_types_graphnode",
       "community": 10,
-      "norm_label": "graphnode",
-      "id": "src_types_graphnode"
+      "norm_label": "graphnode"
     },
     {
       "label": "GraphLink",
@@ -1270,9 +930,9 @@
       "source_file": "src/types.ts",
       "source_location": "L19",
       "_origin": "ast",
+      "id": "src_types_graphlink",
       "community": 10,
-      "norm_label": "graphlink",
-      "id": "src_types_graphlink"
+      "norm_label": "graphlink"
     },
     {
       "label": "GraphNote",
@@ -1280,9 +940,9 @@
       "source_file": "src/types.ts",
       "source_location": "L25",
       "_origin": "ast",
+      "id": "src_types_graphnote",
       "community": 10,
-      "norm_label": "graphnote",
-      "id": "src_types_graphnote"
+      "norm_label": "graphnote"
     },
     {
       "label": "FileEntry",
@@ -1290,9 +950,9 @@
       "source_file": "src/types.ts",
       "source_location": "L34",
       "_origin": "ast",
+      "id": "src_types_fileentry",
       "community": 10,
-      "norm_label": "fileentry",
-      "id": "src_types_fileentry"
+      "norm_label": "fileentry"
     },
     {
       "label": "OperationResult",
@@ -1300,9 +960,9 @@
       "source_file": "src/types.ts",
       "source_location": "L40",
       "_origin": "ast",
+      "id": "src_types_operationresult",
       "community": 10,
-      "norm_label": "operationresult",
-      "id": "src_types_operationresult"
+      "norm_label": "operationresult"
     },
     {
       "label": "FileReadResult",
@@ -1310,9 +970,9 @@
       "source_file": "src/types.ts",
       "source_location": "L47",
       "_origin": "ast",
+      "id": "src_types_filereadresult",
       "community": 10,
-      "norm_label": "filereadresult",
-      "id": "src_types_filereadresult"
+      "norm_label": "filereadresult"
     },
     {
       "label": "GitCommit",
@@ -1320,9 +980,9 @@
       "source_file": "src/types.ts",
       "source_location": "L56",
       "_origin": "ast",
+      "id": "src_types_gitcommit",
       "community": 10,
-      "norm_label": "gitcommit",
-      "id": "src_types_gitcommit"
+      "norm_label": "gitcommit"
     },
     {
       "label": "GitFileStatus",
@@ -1330,9 +990,9 @@
       "source_file": "src/types.ts",
       "source_location": "L64",
       "_origin": "ast",
+      "id": "src_types_gitfilestatus",
       "community": 10,
-      "norm_label": "gitfilestatus",
-      "id": "src_types_gitfilestatus"
+      "norm_label": "gitfilestatus"
     },
     {
       "label": "GitFileDiff",
@@ -1340,9 +1000,9 @@
       "source_file": "src/types.ts",
       "source_location": "L69",
       "_origin": "ast",
+      "id": "src_types_gitfilediff",
       "community": 10,
-      "norm_label": "gitfilediff",
-      "id": "src_types_gitfilediff"
+      "norm_label": "gitfilediff"
     },
     {
       "label": "package.json",
@@ -2390,7 +2050,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 45,
+      "community": 44,
       "norm_label": "allow-default-window-icon",
       "id": "schemas_acl_manifests_permissions_allow_default_window_icon"
     },
@@ -2400,7 +2060,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 45,
+      "community": 44,
       "norm_label": "identifier",
       "id": "schemas_acl_manifests_allow_default_window_icon_identifier"
     },
@@ -2410,7 +2070,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 45,
+      "community": 44,
       "norm_label": "description",
       "id": "schemas_acl_manifests_allow_default_window_icon_description"
     },
@@ -2420,7 +2080,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 45,
+      "community": 44,
       "norm_label": "commands",
       "id": "schemas_acl_manifests_allow_default_window_icon_commands"
     },
@@ -2510,7 +2170,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 55,
+      "community": 23,
       "norm_label": "allow-name",
       "id": "schemas_acl_manifests_permissions_allow_name"
     },
@@ -2520,7 +2180,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 55,
+      "community": 23,
       "norm_label": "identifier",
       "id": "schemas_acl_manifests_allow_name_identifier"
     },
@@ -2530,7 +2190,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 55,
+      "community": 23,
       "norm_label": "description",
       "id": "schemas_acl_manifests_allow_name_description"
     },
@@ -2540,7 +2200,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 55,
+      "community": 23,
       "norm_label": "commands",
       "id": "schemas_acl_manifests_allow_name_commands"
     },
@@ -3270,7 +2930,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 98,
+      "community": 79,
       "norm_label": "deny-set-app-theme",
       "id": "schemas_acl_manifests_permissions_deny_set_app_theme"
     },
@@ -3280,7 +2940,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 98,
+      "community": 79,
       "norm_label": "identifier",
       "id": "schemas_acl_manifests_deny_set_app_theme_identifier"
     },
@@ -3290,7 +2950,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 98,
+      "community": 79,
       "norm_label": "description",
       "id": "schemas_acl_manifests_deny_set_app_theme_description"
     },
@@ -3300,7 +2960,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 98,
+      "community": 79,
       "norm_label": "commands",
       "id": "schemas_acl_manifests_deny_set_app_theme_commands"
     },
@@ -4340,7 +4000,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 44,
+      "community": 18,
       "norm_label": "allow-append",
       "id": "schemas_acl_manifests_permissions_allow_append"
     },
@@ -4350,7 +4010,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 44,
+      "community": 18,
       "norm_label": "identifier",
       "id": "schemas_acl_manifests_allow_append_identifier"
     },
@@ -4360,7 +4020,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 44,
+      "community": 18,
       "norm_label": "description",
       "id": "schemas_acl_manifests_allow_append_description"
     },
@@ -4370,7 +4030,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 44,
+      "community": 18,
       "norm_label": "commands",
       "id": "schemas_acl_manifests_allow_append_commands"
     },
@@ -5140,7 +4800,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 74,
+      "community": 45,
       "norm_label": "allow-text",
       "id": "schemas_acl_manifests_permissions_allow_text"
     },
@@ -5150,7 +4810,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 74,
+      "community": 45,
       "norm_label": "identifier",
       "id": "schemas_acl_manifests_allow_text_identifier"
     },
@@ -5160,7 +4820,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 74,
+      "community": 45,
       "norm_label": "description",
       "id": "schemas_acl_manifests_allow_text_description"
     },
@@ -5170,7 +4830,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 74,
+      "community": 45,
       "norm_label": "commands",
       "id": "schemas_acl_manifests_allow_text_commands"
     },
@@ -5300,7 +4960,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 79,
+      "community": 74,
       "norm_label": "deny-insert",
       "id": "schemas_acl_manifests_permissions_deny_insert"
     },
@@ -5310,7 +4970,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 79,
+      "community": 74,
       "norm_label": "identifier",
       "id": "schemas_acl_manifests_deny_insert_identifier"
     },
@@ -5320,7 +4980,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 79,
+      "community": 74,
       "norm_label": "description",
       "id": "schemas_acl_manifests_deny_insert_description"
     },
@@ -5330,7 +4990,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 79,
+      "community": 74,
       "norm_label": "commands",
       "id": "schemas_acl_manifests_deny_insert_commands"
     },
@@ -5340,7 +5000,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 89,
+      "community": 55,
       "norm_label": "deny-is-checked",
       "id": "schemas_acl_manifests_permissions_deny_is_checked"
     },
@@ -5350,7 +5010,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 89,
+      "community": 55,
       "norm_label": "identifier",
       "id": "schemas_acl_manifests_deny_is_checked_identifier"
     },
@@ -5360,7 +5020,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 89,
+      "community": 55,
       "norm_label": "description",
       "id": "schemas_acl_manifests_deny_is_checked_description"
     },
@@ -5370,7 +5030,7 @@
       "source_file": "src-tauri/gen/schemas/acl-manifests.json",
       "source_location": "L1",
       "_origin": "ast",
-      "community": 89,
+      "community": 55,
       "norm_label": "commands",
       "id": "schemas_acl_manifests_deny_is_checked_commands"
     },
@@ -7045,6 +6705,146 @@
       "id": "schemas_macos_schema_shellscopeentryallowedargs_anyof"
     },
     {
+      "label": "config.rs",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "config.rs",
+      "id": "commands_config"
+    },
+    {
+      "label": "get_notes_folder()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "get_notes_folder()",
+      "id": "commands_config_get_notes_folder"
+    },
+    {
+      "label": "State",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "state",
+      "id": "src_tauri_src_commands_config_rs_state"
+    },
+    {
+      "label": "AppState",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "appstate",
+      "id": "src_tauri_src_commands_config_rs_appstate"
+    },
+    {
+      "label": "String",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "string",
+      "id": "src_tauri_src_commands_config_rs_string"
+    },
+    {
+      "label": "set_notes_dir()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "set_notes_dir()",
+      "id": "commands_config_set_notes_dir"
+    },
+    {
+      "label": "AppHandle",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "apphandle",
+      "id": "src_tauri_src_commands_config_rs_apphandle"
+    },
+    {
+      "label": "Result",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "result",
+      "id": "src_tauri_src_commands_config_rs_result"
+    },
+    {
+      "label": "get_theme()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L27",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "get_theme()",
+      "id": "commands_config_get_theme"
+    },
+    {
+      "label": "save_theme()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L39",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "save_theme()",
+      "id": "commands_config_save_theme"
+    },
+    {
+      "label": "get_tree_width()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L51",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "get_tree_width()",
+      "id": "commands_config_get_tree_width"
+    },
+    {
+      "label": "save_tree_width()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L64",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "save_tree_width()",
+      "id": "commands_config_save_tree_width"
+    },
+    {
+      "label": "get_show_graph()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L76",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "get_show_graph()",
+      "id": "commands_config_get_show_graph"
+    },
+    {
+      "label": "save_show_graph()",
+      "file_type": "code",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L88",
+      "_origin": "ast",
+      "community": 15,
+      "norm_label": "save_show_graph()",
+      "id": "commands_config_save_show_graph"
+    },
+    {
       "label": "filesystem.rs",
       "file_type": "code",
       "source_file": "src-tauri/src/commands/filesystem.rs",
@@ -7643,6 +7443,36 @@
       "community": 10,
       "norm_label": "filetree()",
       "id": "components_filetree_filetree"
+    },
+    {
+      "label": "GraphView.tsx",
+      "file_type": "code",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "community": 10,
+      "norm_label": "graphview.tsx",
+      "id": "components_graphview"
+    },
+    {
+      "label": "GraphViewProps",
+      "file_type": "code",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L6",
+      "_origin": "ast",
+      "community": 10,
+      "norm_label": "graphviewprops",
+      "id": "components_graphview_graphviewprops"
+    },
+    {
+      "label": "GraphView()",
+      "file_type": "code",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L13",
+      "_origin": "ast",
+      "community": 10,
+      "norm_label": "graphview()",
+      "id": "components_graphview_graphview"
     },
     {
       "label": "Loader.tsx",
@@ -8255,6 +8085,19 @@
       "id": "src_main_entry"
     },
     {
+      "label": "Tauri Migration Plan",
+      "file_type": "document",
+      "source_file": "TODO-TAURI-MIGRATION.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 16,
+      "norm_label": "tauri migration plan",
+      "id": "todo_tauri_migration_taurimigration"
+    },
+    {
       "label": "Electron Implementation Checklist",
       "file_type": "document",
       "source_file": "todo-implementation.md",
@@ -8331,6 +8174,19 @@
       "community": 10,
       "norm_label": "filetree",
       "id": "commands_filetree"
+    },
+    {
+      "label": "GraphView",
+      "file_type": "code",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 10,
+      "norm_label": "graphview",
+      "id": "commands_graphview"
     },
     {
       "label": "Loader",
@@ -8457,7 +8313,7 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 18,
+      "community": 15,
       "norm_label": "tauri invoke handler registration",
       "id": "concept_tauri_invoke_handler"
     },
@@ -9285,1454 +9141,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_graphview",
-      "target": "components_graphview_graphview"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_graphview",
-      "target": "components_graphview_graphviewprops"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_graphview",
-      "target": "src_types"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_graphview",
-      "target": "src_types_graphlink"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_graphview",
-      "target": "src_types_graphnode"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/Sidebar.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_sidebar",
-      "target": "components_graphview"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_graphview"
-    },
-    {
-      "relation": "references",
-      "context": "field",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_graphview_graphviewprops",
-      "target": "src_types_graphlink"
-    },
-    {
-      "relation": "references",
-      "context": "field",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/GraphView.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_graphview_graphviewprops",
-      "target": "src_types_graphnode"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "GAPS.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gaps",
-      "target": "gaps_gaps_md_recursos_do_obsidian_que_calcite_notes_n\u00e3o_tem"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "GAPS.md",
-      "source_location": "L21",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gaps_gaps_md_recursos_do_obsidian_que_calcite_notes_n\u00e3o_tem",
-      "target": "gaps_customiza\u00e7\u00e3o"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "GAPS.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gaps_gaps_md_recursos_do_obsidian_que_calcite_notes_n\u00e3o_tem",
-      "target": "gaps_editor"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "GAPS.md",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gaps_gaps_md_recursos_do_obsidian_que_calcite_notes_n\u00e3o_tem",
-      "target": "gaps_navega\u00e7\u00e3o_descoberta"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "GAPS.md",
-      "source_location": "L42",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gaps_gaps_md_recursos_do_obsidian_que_calcite_notes_n\u00e3o_tem",
-      "target": "gaps_outros"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "GAPS.md",
-      "source_location": "L34",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gaps_gaps_md_recursos_do_obsidian_que_calcite_notes_n\u00e3o_tem",
-      "target": "gaps_produtividade"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "GAPS.md",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "gaps_gaps_md_recursos_do_obsidian_que_calcite_notes_n\u00e3o_tem",
-      "target": "gaps_visualiza\u00e7\u00e3o"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L127",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_get_active_tab"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L6",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_get_notes_folder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L101",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_get_open_tabs"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L76",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_get_show_graph"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L27",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_get_theme"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L51",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_get_tree_width"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L138",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_save_active_tab"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L113",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_save_open_tabs"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L88",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_save_show_graph"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L39",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_save_theme"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L64",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_save_tree_width"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "commands_config_set_notes_dir"
-    },
-    {
-      "relation": "imports_from",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L1",
-      "weight": 1.0,
-      "context": "import",
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "src_tauri_src_commands_config_rs_appstate"
-    },
-    {
-      "relation": "imports_from",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L2",
-      "weight": 1.0,
-      "context": "import",
-      "confidence_score": 1.0,
-      "source": "commands_config",
-      "target": "src_tauri_src_commands_config_rs_state"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_get_notes_folder",
-      "target": "commands_notes_appstate"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L6",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_notes_folder",
-      "target": "src_tauri_src_commands_config_rs_appstate"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L6",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_notes_folder",
-      "target": "src_tauri_src_commands_config_rs_state"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L6",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_notes_folder",
-      "target": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L11",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_set_notes_dir",
-      "target": "src_tauri_src_commands_config_rs_state"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L11",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "commands_config_set_notes_dir",
-      "target": "src_tauri_src_commands_config_rs_appstate"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L127",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_active_tab",
-      "target": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L101",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_open_tabs",
-      "target": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L27",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_theme",
-      "target": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L138",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_active_tab",
-      "target": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L113",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_open_tabs",
-      "target": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L39",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_theme",
-      "target": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L11",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "commands_config_set_notes_dir",
-      "target": "src_tauri_src_commands_config_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_set_notes_dir",
-      "target": "commands_notes_appstate"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_set_notes_dir",
-      "target": "concept_settings_store"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L11",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_set_notes_dir",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L11",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_set_notes_dir",
-      "target": "src_tauri_src_commands_config_rs_result"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "src_lib_select_notes_folder",
-      "target": "commands_config_set_notes_dir"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L127",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_active_tab",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L101",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_open_tabs",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L76",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_show_graph",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L27",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_theme",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L51",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_tree_width",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L138",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_active_tab",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L113",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_open_tabs",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L88",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_show_graph",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L39",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_theme",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L64",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_tree_width",
-      "target": "src_tauri_src_commands_config_rs_apphandle"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_get_theme",
-      "target": "concept_settings_store"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_save_theme",
-      "target": "concept_settings_store"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_get_tree_width",
-      "target": "concept_settings_store"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_save_tree_width",
-      "target": "concept_settings_store"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_get_show_graph",
-      "target": "concept_settings_store"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_config_save_show_graph",
-      "target": "concept_settings_store"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L101",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_open_tabs",
-      "target": "vec"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L113",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_open_tabs",
-      "target": "vec"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L127",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_get_active_tab",
-      "target": "src_tauri_src_commands_config_rs_option"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/commands/config.rs",
-      "source_location": "L138",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "commands_config_save_active_tab",
-      "target": "src_tauri_src_commands_config_rs_option"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L75",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_lib",
-      "target": "src_lib_get_default_notes_dir"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L85",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_lib",
-      "target": "src_lib_run"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L209",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_lib",
-      "target": "src_lib_select_notes_folder"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_lib",
-      "target": "src_lib_setup_menu"
-    },
-    {
-      "relation": "imports_from",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L3",
-      "weight": 1.0,
-      "context": "import",
-      "confidence_score": 1.0,
-      "source": "src_lib",
-      "target": "src_tauri_src_lib_rs_appstate"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_lib_run",
-      "target": "src_lib_setup_menu"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "src_lib_setup_menu",
-      "target": "box"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "src_lib_setup_menu",
-      "target": "error"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "src_lib_setup_menu",
-      "target": "src_tauri_src_lib_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L10",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "src_lib_setup_menu",
-      "target": "src_tauri_src_lib_rs_result"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L219",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "src_lib_select_notes_folder",
-      "target": "src_tauri_src_lib_rs_apphandle"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L209",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "src_lib_select_notes_folder",
-      "target": "src_tauri_src_lib_rs_result"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L75",
-      "weight": 1.0,
-      "context": "return_type",
-      "confidence_score": 1.0,
-      "source": "src_lib_get_default_notes_dir",
-      "target": "src_tauri_src_lib_rs_string"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L86",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_lib_run",
-      "target": "src_lib_get_default_notes_dir"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L209",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "src_lib_select_notes_folder",
-      "target": "src_tauri_src_lib_rs_string"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "src_lib_run",
-      "target": "commands_notes_appstate"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "src_lib_run",
-      "target": "concept_tauri_invoke_handler"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L209",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "src_lib_select_notes_folder",
-      "target": "src_tauri_src_lib_rs_appstate"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L209",
-      "weight": 1.0,
-      "context": "generic_arg",
-      "confidence_score": 1.0,
-      "source": "src_lib_select_notes_folder",
-      "target": "src_tauri_src_lib_rs_option"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "source_file": "src-tauri/src/lib.rs",
-      "source_location": "L209",
-      "weight": 1.0,
-      "context": "parameter_type",
-      "confidence_score": 1.0,
-      "source": "src_lib_select_notes_folder",
-      "target": "src_tauri_src_lib_rs_state"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L10",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_commandpalette"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L13",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_errorboundary"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L7",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_filetree"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_gitdiffview"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_loader"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_logo"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_tabbar"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L11",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "components_wikilinkpopup"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_tauri"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_tauri_tauriapi"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_themes"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_themes_setthemecolors"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_themes_thememode"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L19",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_themes_themepreset"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L20",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_themes_themes"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_utils"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_utils_cn"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_utils_formattime"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "lib_utils_wordcount"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L22",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "src_app_app"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "src_types"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "src_types_gitcommit"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "src_types_gitfilediff"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "src_types_gitfilestatus"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "src_types_graphlink"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "src_types_graphnode"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/App.tsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_app",
-      "target": "src_types_note"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/main.tsx",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "src_main_tsx_src_main",
-      "target": "src_app"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/App.tsx",
-      "source_location": "L895",
-      "weight": 1.0,
-      "source": "src_app_app",
-      "target": "lib_utils_formattime"
-    },
-    {
-      "relation": "calls",
-      "context": "call",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/App.tsx",
-      "source_location": "L915",
-      "weight": 1.0,
-      "source": "src_app_app",
-      "target": "lib_utils_wordcount"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/TabBar.tsx",
-      "source_location": "L12",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_tabbar",
-      "target": "components_tabbar_tabbar"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/TabBar.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_tabbar",
-      "target": "components_tabbar_tabbarprops"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/TabBar.tsx",
-      "source_location": "L2",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_tabbar",
-      "target": "src_types_note"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/FileTree.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_filetree",
-      "target": "lib_tauri"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L9",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "lib_tauri_tauriapi"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L5",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "lib_tauri_tauriinvoke"
-    },
-    {
-      "relation": "imports_from",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types_fileentry"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types_filereadresult"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types_gitcommit"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types_gitfilediff"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types_gitfilestatus"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types_graphnote"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types_note"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/lib/tauri.ts",
-      "source_location": "L3",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "lib_tauri",
-      "target": "src_types_operationresult"
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/FileTree.tsx",
-      "source_location": null,
-      "weight": 1.0,
-      "source": "commands_filetree",
-      "target": "lib_tauri_tauriapi"
-    },
-    {
-      "relation": "imports",
-      "context": "import",
-      "confidence": "EXTRACTED",
-      "source_file": "src/components/FileTree.tsx",
-      "source_location": "L4",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "components_filetree",
-      "target": "lib_tauri_tauriapi"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L33",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_get_repo"
+      "target": "commands_git_get_repo",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10740,9 +9154,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L89",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_git_commit"
+      "target": "commands_git_git_commit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10750,9 +9164,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L176",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_git_diff_file"
+      "target": "commands_git_git_diff_file",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10760,9 +9174,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L39",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_git_init"
+      "target": "commands_git_git_init",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10770,9 +9184,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L132",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_git_log"
+      "target": "commands_git_git_log",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10780,9 +9194,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L257",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_git_restore_file"
+      "target": "commands_git_git_restore_file",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10790,9 +9204,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L53",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_git_status"
+      "target": "commands_git_git_status",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10800,9 +9214,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L8",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_gitcommit"
+      "target": "commands_git_gitcommit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10810,9 +9224,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L25",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_gitfilediff"
+      "target": "commands_git_gitfilediff",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -10820,9 +9234,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L18",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "commands_git_gitfilestatus"
+      "target": "commands_git_gitfilestatus",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -10831,9 +9245,9 @@
       "source_location": "L1",
       "weight": 1.0,
       "context": "import",
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "src_tauri_src_commands_git_rs_appstate"
+      "target": "src_tauri_src_commands_git_rs_appstate",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -10842,9 +9256,9 @@
       "source_location": "L4",
       "weight": 1.0,
       "context": "import",
-      "confidence_score": 1.0,
       "source": "commands_git",
-      "target": "src_tauri_src_commands_git_rs_state"
+      "target": "src_tauri_src_commands_git_rs_state",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10853,9 +9267,9 @@
       "source_location": "L132",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_log",
-      "target": "commands_git_gitcommit"
+      "target": "commands_git_gitcommit",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10864,9 +9278,9 @@
       "source_location": "L12",
       "weight": 1.0,
       "context": "field",
-      "confidence_score": 1.0,
       "source": "commands_git_gitcommit",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10875,9 +9289,9 @@
       "source_location": "L33",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_get_repo",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10886,9 +9300,9 @@
       "source_location": "L89",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_commit",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10897,9 +9311,9 @@
       "source_location": "L176",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_diff_file",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10908,9 +9322,9 @@
       "source_location": "L39",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_init",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10919,9 +9333,9 @@
       "source_location": "L132",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_log",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10930,9 +9344,9 @@
       "source_location": "L257",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_restore_file",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10941,9 +9355,9 @@
       "source_location": "L53",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_status",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10952,9 +9366,9 @@
       "source_location": "L28",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_gitfilediff",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10963,9 +9377,9 @@
       "source_location": "L20",
       "weight": 1.0,
       "context": "field",
-      "confidence_score": 1.0,
       "source": "commands_git_gitfilestatus",
-      "target": "src_tauri_src_commands_git_rs_string"
+      "target": "src_tauri_src_commands_git_rs_string",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10974,9 +9388,9 @@
       "source_location": "L53",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_status",
-      "target": "commands_git_gitfilestatus"
+      "target": "commands_git_gitfilestatus",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10985,9 +9399,9 @@
       "source_location": "L176",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_diff_file",
-      "target": "commands_git_gitfilediff"
+      "target": "commands_git_gitfilediff",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -10996,9 +9410,9 @@
       "source_location": "L28",
       "weight": 1.0,
       "context": "field",
-      "confidence_score": 1.0,
       "source": "commands_git_gitfilediff",
-      "target": "src_tauri_src_commands_git_rs_option"
+      "target": "src_tauri_src_commands_git_rs_option",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11007,9 +9421,9 @@
       "source_location": "L33",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_get_repo",
-      "target": "repository"
+      "target": "repository",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11018,9 +9432,9 @@
       "source_location": "L33",
       "weight": 1.0,
       "context": "return_type",
-      "confidence_score": 1.0,
       "source": "commands_git_get_repo",
-      "target": "src_tauri_src_commands_git_rs_result"
+      "target": "src_tauri_src_commands_git_rs_result",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -11029,9 +9443,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L91",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git_git_commit",
-      "target": "commands_git_get_repo"
+      "target": "commands_git_get_repo",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -11040,9 +9454,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L182",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git_git_diff_file",
-      "target": "commands_git_get_repo"
+      "target": "commands_git_get_repo",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -11051,9 +9465,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L134",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git_git_log",
-      "target": "commands_git_get_repo"
+      "target": "commands_git_get_repo",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -11062,9 +9476,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L263",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git_git_restore_file",
-      "target": "commands_git_get_repo"
+      "target": "commands_git_get_repo",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -11073,9 +9487,9 @@
       "source_file": "src-tauri/src/commands/git.rs",
       "source_location": "L55",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "commands_git_git_status",
-      "target": "commands_git_get_repo"
+      "target": "commands_git_get_repo",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11084,9 +9498,9 @@
       "source_location": "L89",
       "weight": 1.0,
       "context": "return_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_commit",
-      "target": "src_tauri_src_commands_git_rs_result"
+      "target": "src_tauri_src_commands_git_rs_result",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11095,9 +9509,9 @@
       "source_location": "L176",
       "weight": 1.0,
       "context": "return_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_diff_file",
-      "target": "src_tauri_src_commands_git_rs_result"
+      "target": "src_tauri_src_commands_git_rs_result",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11106,9 +9520,9 @@
       "source_location": "L39",
       "weight": 1.0,
       "context": "return_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_init",
-      "target": "src_tauri_src_commands_git_rs_result"
+      "target": "src_tauri_src_commands_git_rs_result",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11117,9 +9531,9 @@
       "source_location": "L132",
       "weight": 1.0,
       "context": "return_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_log",
-      "target": "src_tauri_src_commands_git_rs_result"
+      "target": "src_tauri_src_commands_git_rs_result",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11128,9 +9542,9 @@
       "source_location": "L257",
       "weight": 1.0,
       "context": "return_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_restore_file",
-      "target": "src_tauri_src_commands_git_rs_result"
+      "target": "src_tauri_src_commands_git_rs_result",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11139,9 +9553,9 @@
       "source_location": "L53",
       "weight": 1.0,
       "context": "return_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_status",
-      "target": "src_tauri_src_commands_git_rs_result"
+      "target": "src_tauri_src_commands_git_rs_result",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11150,9 +9564,9 @@
       "source_location": "L39",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_init",
-      "target": "src_tauri_src_commands_git_rs_appstate"
+      "target": "src_tauri_src_commands_git_rs_appstate",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11161,9 +9575,9 @@
       "source_location": "L39",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_init",
-      "target": "src_tauri_src_commands_git_rs_state"
+      "target": "src_tauri_src_commands_git_rs_state",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11172,9 +9586,9 @@
       "source_location": "L89",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_commit",
-      "target": "src_tauri_src_commands_git_rs_state"
+      "target": "src_tauri_src_commands_git_rs_state",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11183,9 +9597,9 @@
       "source_location": "L176",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_diff_file",
-      "target": "src_tauri_src_commands_git_rs_state"
+      "target": "src_tauri_src_commands_git_rs_state",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11194,9 +9608,9 @@
       "source_location": "L132",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_log",
-      "target": "src_tauri_src_commands_git_rs_state"
+      "target": "src_tauri_src_commands_git_rs_state",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11205,9 +9619,9 @@
       "source_location": "L257",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_restore_file",
-      "target": "src_tauri_src_commands_git_rs_state"
+      "target": "src_tauri_src_commands_git_rs_state",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11216,9 +9630,9 @@
       "source_location": "L53",
       "weight": 1.0,
       "context": "parameter_type",
-      "confidence_score": 1.0,
       "source": "commands_git_git_status",
-      "target": "src_tauri_src_commands_git_rs_state"
+      "target": "src_tauri_src_commands_git_rs_state",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11227,9 +9641,9 @@
       "source_location": "L89",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_commit",
-      "target": "src_tauri_src_commands_git_rs_appstate"
+      "target": "src_tauri_src_commands_git_rs_appstate",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11238,9 +9652,9 @@
       "source_location": "L176",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_diff_file",
-      "target": "src_tauri_src_commands_git_rs_appstate"
+      "target": "src_tauri_src_commands_git_rs_appstate",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11249,9 +9663,9 @@
       "source_location": "L132",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_log",
-      "target": "src_tauri_src_commands_git_rs_appstate"
+      "target": "src_tauri_src_commands_git_rs_appstate",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11260,9 +9674,9 @@
       "source_location": "L257",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_restore_file",
-      "target": "src_tauri_src_commands_git_rs_appstate"
+      "target": "src_tauri_src_commands_git_rs_appstate",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11271,9 +9685,9 @@
       "source_location": "L53",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_status",
-      "target": "src_tauri_src_commands_git_rs_appstate"
+      "target": "src_tauri_src_commands_git_rs_appstate",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11282,9 +9696,9 @@
       "source_location": "L53",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_status",
-      "target": "src_tauri_src_commands_git_rs_vec"
+      "target": "src_tauri_src_commands_git_rs_vec",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11293,9 +9707,9 @@
       "source_location": "L132",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_log",
-      "target": "src_tauri_src_commands_git_rs_vec"
+      "target": "src_tauri_src_commands_git_rs_vec",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11304,9 +9718,9 @@
       "source_location": "L89",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_commit",
-      "target": "src_tauri_src_commands_git_rs_operationresult"
+      "target": "src_tauri_src_commands_git_rs_operationresult",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -11315,9 +9729,9 @@
       "source_location": "L257",
       "weight": 1.0,
       "context": "generic_arg",
-      "confidence_score": 1.0,
       "source": "commands_git_git_restore_file",
-      "target": "src_tauri_src_commands_git_rs_operationresult"
+      "target": "src_tauri_src_commands_git_rs_operationresult",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -11743,6 +10157,26 @@
     {
       "relation": "references",
       "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_get_notes_folder",
+      "target": "commands_notes_appstate"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_set_notes_dir",
+      "target": "commands_notes_appstate"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
       "source_file": "src-tauri/src/commands/notes.rs",
       "source_location": "L9",
       "weight": 1.0,
@@ -11837,6 +10271,16 @@
       "context": "generic_arg",
       "confidence_score": 1.0,
       "source": "commands_notes_update_note_tags",
+      "target": "commands_notes_appstate"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "src_lib_run",
       "target": "commands_notes_appstate"
     },
     {
@@ -12273,12 +10717,555 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "src/components/GitDiffView.tsx",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L75",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib",
+      "target": "src_lib_get_default_notes_dir"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib",
+      "target": "src_lib_run"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L209",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib",
+      "target": "src_lib_select_notes_folder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib",
+      "target": "src_lib_setup_menu"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "context": "import",
+      "confidence_score": 1.0,
+      "source": "src_lib",
+      "target": "src_tauri_src_lib_rs_appstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_run",
+      "target": "src_lib_setup_menu"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "src_lib_setup_menu",
+      "target": "apphandle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "src_lib_setup_menu",
+      "target": "box"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "src_lib_setup_menu",
+      "target": "error"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "src_lib_setup_menu",
+      "target": "src_tauri_src_lib_rs_result"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L215",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "source": "src_lib_select_notes_folder",
+      "target": "apphandle",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "src_lib_select_notes_folder",
+      "target": "src_tauri_src_lib_rs_result"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L75",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "src_lib_get_default_notes_dir",
+      "target": "src_tauri_src_lib_rs_string"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L86",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_lib_run",
+      "target": "src_lib_get_default_notes_dir"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "src_lib_select_notes_folder",
+      "target": "src_tauri_src_lib_rs_string"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "src_lib_run",
+      "target": "concept_tauri_invoke_handler"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "src_lib_select_notes_folder",
+      "target": "commands_config_set_notes_dir"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "src_lib_select_notes_folder",
+      "target": "src_tauri_src_lib_rs_appstate"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "src_lib_select_notes_folder",
+      "target": "src_tauri_src_lib_rs_option"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/lib.rs",
+      "source_location": "L209",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "src_lib_select_notes_folder",
+      "target": "src_tauri_src_lib_rs_state"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "components_commandpalette"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "components_errorboundary"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
       "source_location": "L7",
       "weight": 1.0,
       "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "components_filetree"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "components_gitdiffview",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "components_graphview"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "components_loader"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "components_logo"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "components_wikilinkpopup"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_tauri"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_tauri_tauriapi"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_themes"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_themes_setthemecolors"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_themes_thememode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_themes_themepreset"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_themes_themes"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_utils"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_utils_cn"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_utils_formattime"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "lib_utils_wordcount"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_app"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_types"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_types_gitcommit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_types_gitfilediff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_types_gitfilestatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_types_graphlink"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_types_graphnode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.tsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_types_note"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_main_tsx_src_main",
+      "target": "src_app"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/App.tsx",
+      "source_location": "L895",
+      "weight": 1.0,
+      "source": "src_app_app",
+      "target": "lib_utils_formattime"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/App.tsx",
+      "source_location": "L915",
+      "weight": 1.0,
+      "source": "src_app_app",
+      "target": "lib_utils_wordcount"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GitDiffView.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
       "source": "components_gitdiffview",
-      "target": "components_gitdiffview_gitdiffview"
+      "target": "components_gitdiffview_gitdiffview",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -12286,9 +11273,9 @@
       "source_file": "src/components/GitDiffView.tsx",
       "source_location": "L3",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "components_gitdiffview",
-      "target": "components_gitdiffview_gitdiffviewprops"
+      "target": "components_gitdiffview_gitdiffviewprops",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -12297,9 +11284,9 @@
       "source_file": "src/components/GitDiffView.tsx",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "components_gitdiffview",
-      "target": "src_types"
+      "target": "src_types",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports",
@@ -12308,9 +11295,9 @@
       "source_file": "src/components/GitDiffView.tsx",
       "source_location": "L1",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "components_gitdiffview",
-      "target": "src_types_gitfilediff"
+      "target": "src_types_gitfilediff",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -12319,9 +11306,171 @@
       "source_file": "src/components/GitDiffView.tsx",
       "source_location": "L4",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "components_gitdiffview_gitdiffviewprops",
-      "target": "src_types_gitfilediff"
+      "target": "src_types_gitfilediff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileTree.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_filetree",
+      "target": "lib_tauri"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_tauri",
+      "target": "lib_tauri_tauriapi"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_tauri",
+      "target": "lib_tauri_tauriinvoke"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types_fileentry"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types_filereadresult"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types_gitcommit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types_gitfilediff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types_gitfilestatus",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types_graphnote"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types_note"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/lib/tauri.ts",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "lib_tauri",
+      "target": "src_types_operationresult"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/FileTree.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_filetree",
+      "target": "lib_tauri_tauriapi"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/FileTree.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_filetree",
+      "target": "lib_tauri_tauriapi"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_graphview",
+      "target": "src_types"
     },
     {
       "relation": "imports_from",
@@ -12371,9 +11520,9 @@
       "source_file": "src/types.ts",
       "source_location": "L56",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "src_types",
-      "target": "src_types_gitcommit"
+      "target": "src_types_gitcommit",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -12381,9 +11530,9 @@
       "source_file": "src/types.ts",
       "source_location": "L69",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "src_types",
-      "target": "src_types_gitfilediff"
+      "target": "src_types_gitfilediff",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -12391,9 +11540,9 @@
       "source_file": "src/types.ts",
       "source_location": "L64",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "src_types",
-      "target": "src_types_gitfilestatus"
+      "target": "src_types_gitfilestatus",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -12513,10 +11662,42 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_graphview",
+      "target": "src_types_graphnode"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "src/components/Sidebar.tsx",
       "source_location": null,
       "weight": 1.0,
       "source": "commands_sidebar",
+      "target": "src_types_graphnode"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_graphview",
+      "target": "src_types_graphnode"
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_graphview_graphviewprops",
       "target": "src_types_graphnode"
     },
     {
@@ -12554,10 +11735,42 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_graphview",
+      "target": "src_types_graphlink"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "src/components/Sidebar.tsx",
       "source_location": null,
       "weight": 1.0,
       "source": "commands_sidebar",
+      "target": "src_types_graphlink"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_graphview",
+      "target": "src_types_graphlink"
+    },
+    {
+      "relation": "references",
+      "context": "field",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_graphview_graphviewprops",
       "target": "src_types_graphlink"
     },
     {
@@ -19884,6 +19097,354 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "commands_config_get_notes_folder"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L76",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "commands_config_get_show_graph"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "commands_config_get_theme"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L51",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "commands_config_get_tree_width"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L88",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "commands_config_save_show_graph"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "commands_config_save_theme"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "commands_config_save_tree_width"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "commands_config_set_notes_dir"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L1",
+      "weight": 1.0,
+      "context": "import",
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "src_tauri_src_commands_config_rs_appstate"
+    },
+    {
+      "relation": "imports_from",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L2",
+      "weight": 1.0,
+      "context": "import",
+      "confidence_score": 1.0,
+      "source": "commands_config",
+      "target": "src_tauri_src_commands_config_rs_state"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "commands_config_get_notes_folder",
+      "target": "src_tauri_src_commands_config_rs_appstate"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_get_notes_folder",
+      "target": "src_tauri_src_commands_config_rs_state"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_get_notes_folder",
+      "target": "src_tauri_src_commands_config_rs_string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_set_notes_dir",
+      "target": "src_tauri_src_commands_config_rs_state"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "commands_config_set_notes_dir",
+      "target": "src_tauri_src_commands_config_rs_appstate"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_get_theme",
+      "target": "src_tauri_src_commands_config_rs_string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_save_theme",
+      "target": "src_tauri_src_commands_config_rs_string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "generic_arg",
+      "confidence_score": 1.0,
+      "source": "commands_config_set_notes_dir",
+      "target": "src_tauri_src_commands_config_rs_string"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_set_notes_dir",
+      "target": "concept_settings_store"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_set_notes_dir",
+      "target": "src_tauri_src_commands_config_rs_apphandle"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L11",
+      "weight": 1.0,
+      "context": "return_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_set_notes_dir",
+      "target": "src_tauri_src_commands_config_rs_result"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L76",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_get_show_graph",
+      "target": "src_tauri_src_commands_config_rs_apphandle"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_get_theme",
+      "target": "src_tauri_src_commands_config_rs_apphandle"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L51",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_get_tree_width",
+      "target": "src_tauri_src_commands_config_rs_apphandle"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L88",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_save_show_graph",
+      "target": "src_tauri_src_commands_config_rs_apphandle"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L39",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_save_theme",
+      "target": "src_tauri_src_commands_config_rs_apphandle"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": "L64",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "confidence_score": 1.0,
+      "source": "commands_config_save_tree_width",
+      "target": "src_tauri_src_commands_config_rs_apphandle"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_get_theme",
+      "target": "concept_settings_store"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_save_theme",
+      "target": "concept_settings_store"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_get_tree_width",
+      "target": "concept_settings_store"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_save_tree_width",
+      "target": "concept_settings_store"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_get_show_graph",
+      "target": "concept_settings_store"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src-tauri/src/commands/config.rs",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_config_save_show_graph",
+      "target": "concept_settings_store"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src-tauri/src/commands/filesystem.rs",
       "source_location": "L246",
       "weight": 1.0,
@@ -20919,6 +20480,37 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_graphview",
+      "target": "components_graphview_graphview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/GraphView.tsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_graphview",
+      "target": "components_graphview_graphviewprops"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Sidebar.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "components_sidebar",
+      "target": "components_graphview"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "src/components/Loader.tsx",
       "source_location": "L1",
       "weight": 1.0,
@@ -21376,6 +20968,15 @@
       "target": "src_lib_themes_themecolors"
     },
     {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.75,
+      "source_file": "todo-implementation.md",
+      "weight": 1.0,
+      "source": "todo_implementation_electronchecklist",
+      "target": "todo_tauri_migration_taurimigration"
+    },
+    {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -21384,6 +20985,16 @@
       "weight": 1.0,
       "source": "commands_filetree",
       "target": "commands_treenode"
+    },
+    {
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/Sidebar.tsx",
+      "source_location": null,
+      "weight": 1.0,
+      "source": "commands_sidebar",
+      "target": "commands_graphview"
     },
     {
       "relation": "conceptually_related_to",
@@ -22216,5 +21827,5 @@
       "source_file": "src-tauri/icons/ios"
     }
   ],
-  "built_at_commit": "2d18bd6ef38535aabf2f18f1b681ead3c7c8702d"
+  "built_at_commit": "d1e97cee6cdac1d2f2f17b828ec13917fe6c495a"
 }
