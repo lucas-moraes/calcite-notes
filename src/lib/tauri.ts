@@ -82,6 +82,12 @@ export const tauriAPI = {
   saveOpenTabs: (tabs: string[]): Promise<boolean> =>
     tauriInvoke<boolean>('save_open_tabs', { tabs }),
 
+  getSidebarWidth: (): Promise<number> =>
+    tauriInvoke<number>('get_sidebar_width'),
+
+  saveSidebarWidth: (width: number): Promise<boolean> =>
+    tauriInvoke<boolean>('save_sidebar_width', { width }),
+
   getEditorMode: (): Promise<string> =>
     tauriInvoke<string>('get_editor_mode'),
 
@@ -114,6 +120,12 @@ export const tauriAPI = {
 
   gitRestoreFile: (path: string, commitHash: string): Promise<OperationResult> =>
     tauriInvoke<OperationResult>('git_restore_file', { path, commitHash }),
+
+  updateNoteProperties: (noteId: string, properties: Record<string, string>): Promise<OperationResult> =>
+    tauriInvoke<OperationResult>('update_note_properties', { noteId, properties }),
+
+  searchNotes: (query?: string, filters?: Record<string, string>): Promise<Note[]> =>
+    tauriInvoke<Note[]>('search_notes', { query: query || null, filters: filters || null }),
 
   onNewNote: (callback: () => void): Promise<UnlistenFn> =>
     listen('menu:new-note', () => callback()),

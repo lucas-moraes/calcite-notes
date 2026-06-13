@@ -6,6 +6,7 @@ export interface Note {
   createdAt: number;
   isNew?: boolean;
   tags?: string[];
+  properties?: Record<string, string>;
 }
 
 export interface GraphNode {
@@ -51,6 +52,7 @@ export interface FileReadResult {
   createdAt: number;
   updatedAt: number;
   tags: string[];
+  properties: Record<string, string>;
 }
 
 export interface GitCommit {

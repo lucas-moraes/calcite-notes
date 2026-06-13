@@ -20,9 +20,9 @@
     "semantic_hash": "f3b73b78a301f179c84027ff667b08e6"
   },
   "package.json": {
-    "mtime": 1780256916.0660732,
-    "ast_hash": "eb691d99264c7f2b85d06fc16dd3ac70",
-    "semantic_hash": "eb691d99264c7f2b85d06fc16dd3ac70"
+    "mtime": 1781313610.7423162,
+    "ast_hash": "d86994aad8df327b7c9a9c7bccec8f6f",
+    "semantic_hash": ""
   },
   "skills-lock.json": {
     "mtime": 1778548609.202933,
@@ -60,8 +60,8 @@
     "semantic_hash": "43a74391bbd3ae401476b567608beda5"
   },
   "src-tauri/src/commands/config.rs": {
-    "mtime": 1781061337.8870955,
-    "ast_hash": "0d16b418d799d6147a6b91682cf853c8",
+    "mtime": 1781312858.0835223,
+    "ast_hash": "b609259bdfa14e3572209399a2d009ea",
     "semantic_hash": ""
   },
   "src-tauri/src/commands/filesystem.rs": {
@@ -80,8 +80,8 @@
     "semantic_hash": ""
   },
   "src-tauri/src/lib.rs": {
-    "mtime": 1781061342.1743307,
-    "ast_hash": "fa9450d6a3c4384d82e5172c116a5697",
+    "mtime": 1781312861.2244096,
+    "ast_hash": "b603f70fe59032f919b345d297fcf8aa",
     "semantic_hash": ""
   },
   "src-tauri/src/main.rs": {
@@ -95,8 +95,8 @@
     "semantic_hash": "00a3a1970058ba3cb05042fcdb922a9e"
   },
   "src/App.tsx": {
-    "mtime": 1781061378.5620852,
-    "ast_hash": "f6082821e6b284f681b137e7f6753275",
+    "mtime": 1781362585.7355545,
+    "ast_hash": "df1abcfa48ff4ecd5dc2b384264494c5",
     "semantic_hash": ""
   },
   "src/components/CommandPalette.tsx": {
@@ -145,8 +145,8 @@
     "semantic_hash": "56d9093f704a689fc5189ddea749e82b"
   },
   "src/lib/tauri.ts": {
-    "mtime": 1781061347.0492375,
-    "ast_hash": "24b2588bd20d6524b1f80bc37b405466",
+    "mtime": 1781312865.8429015,
+    "ast_hash": "dd1083b128ecb306bf72daa4cc56831f",
     "semantic_hash": ""
   },
   "src/lib/themes.ts": {
@@ -500,8 +500,13 @@
     "semantic_hash": ""
   },
   "GAPS.md": {
-    "mtime": 1781052930.8645031,
-    "ast_hash": "7323300e7e7f827912510db05a27f7ff",
+    "mtime": 1781312140.660301,
+    "ast_hash": "cf0158f664e713602c0ef8ba5bd39bfa",
+    "semantic_hash": ""
+  },
+  "src/components/WysiwygEditor.tsx": {
+    "mtime": 1781361717.723668,
+    "ast_hash": "f1f8647fac1fd2b289d72bd658c190f7",
     "semantic_hash": ""
   }
 }

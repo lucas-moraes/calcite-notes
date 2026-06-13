@@ -12,25 +12,6 @@ fn is_path_within_notes_dir(file_path: &str, notes_dir: &str) -> bool {
     resolved_path.starts_with(&resolved_notes_dir)
 }
 
-fn parse_frontmatter(content: &str) -> Vec<String> {
-    use regex::Regex;
-    let frontmatter_regex = Regex::new(r"^---\n([\s\S]*?)\n---").unwrap();
-    let tags_regex = Regex::new(r"tags:\s*\[(.*?)\]").unwrap();
-
-    if let Some(captures) = frontmatter_regex.captures(content) {
-        if let Some(tags_capture) = tags_regex.captures(&captures[1]) {
-            let tags_str = tags_capture.get(1).map_or("", |m| m.as_str());
-            return tags_str
-                .replace(['\'', '"', ' '], "")
-                .split(',')
-                .filter(|s| !s.is_empty())
-                .map(String::from)
-                .collect();
-        }
-    }
-    Vec::new()
-}
-
 #[tauri::command]
 pub fn delete_folder(state: State<'_, AppState>, folder_path: String) -> OperationResult {
     let notes_dir = state.notes_dir.lock().unwrap().clone();
@@ -356,7 +337,8 @@ pub fn read_file(state: State<'_, AppState>, file_path: String) -> Option<FileRe
     let content = fs::read_to_string(path).ok()?;
     let name = path.file_stem().unwrap_or_default().to_string_lossy().to_string();
     let metadata = fs::metadata(path).ok();
-    let tags = parse_frontmatter(&content);
+    let props = crate::commands::parse_frontmatter_full(&content);
+    let tags = crate::commands::parse_tags(&props);
 
     Some(FileReadResult {
         id: file_path,
@@ -373,5 +355,6 @@ pub fn read_file(state: State<'_, AppState>, file_path: String) -> Option<FileRe
             .map(|t| t.duration_since(std::time::UNIX_EPOCH).unwrap_or_default().as_millis() as u64)
             .unwrap_or(0),
         tags,
+        properties: props,
     })
 }

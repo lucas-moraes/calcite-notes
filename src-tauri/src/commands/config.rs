@@ -135,6 +135,31 @@ pub fn get_active_tab(app_handle: tauri::AppHandle) -> Option<String> {
 }
 
 #[tauri::command]
+pub fn get_sidebar_width(app_handle: tauri::AppHandle) -> u32 {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => s
+            .get("sidebarWidth")
+            .and_then(|v| v.as_u64())
+            .map(|v| v as u32)
+            .unwrap_or(280),
+        Err(_) => 280,
+    }
+}
+
+#[tauri::command]
+pub fn save_sidebar_width(app_handle: tauri::AppHandle, width: u32) -> bool {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => {
+            s.set("sidebarWidth", serde_json::Value::Number(width.into()));
+            s.save().is_ok()
+        }
+        Err(_) => false,
+    }
+}
+
+#[tauri::command]
 pub fn get_editor_mode(app_handle: tauri::AppHandle) -> String {
     let store = app_handle.store("settings.json");
     match store {

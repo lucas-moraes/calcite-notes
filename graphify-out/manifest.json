@@ -60,28 +60,28 @@
     "semantic_hash": "43a74391bbd3ae401476b567608beda5"
   },
   "src-tauri/src/commands/config.rs": {
-    "mtime": 1781312858.0835223,
-    "ast_hash": "b609259bdfa14e3572209399a2d009ea",
+    "mtime": 1781378463.9472873,
+    "ast_hash": "75defd5ab42539a3919f13932d9f09c9",
     "semantic_hash": ""
   },
   "src-tauri/src/commands/filesystem.rs": {
-    "mtime": 1779852533.3201656,
-    "ast_hash": "c8f5ff6f5955b10f49c8cde85ef1cf34",
-    "semantic_hash": "c8f5ff6f5955b10f49c8cde85ef1cf34"
+    "mtime": 1781377743.288263,
+    "ast_hash": "5900c81c5f08a31d292cb6996fb0aa98",
+    "semantic_hash": ""
   },
   "src-tauri/src/commands/mod.rs": {
-    "mtime": 1780843739.0993397,
-    "ast_hash": "f5d8fb35db06cc9c7a186ab90d99cfbe",
+    "mtime": 1781377699.377078,
+    "ast_hash": "a721d8c0fe2cc639b33037a18ff34d28",
     "semantic_hash": ""
   },
   "src-tauri/src/commands/notes.rs": {
-    "mtime": 1780843985.072043,
-    "ast_hash": "de852ac904f662c2f6b1034ff2f5b90b",
+    "mtime": 1781377766.9343867,
+    "ast_hash": "c34e66688e8f7e78d885c97db6e2d30c",
     "semantic_hash": ""
   },
   "src-tauri/src/lib.rs": {
-    "mtime": 1781312861.2244096,
-    "ast_hash": "b603f70fe59032f919b345d297fcf8aa",
+    "mtime": 1781378470.3611963,
+    "ast_hash": "579177b48fa1a731517d0a3e235ba2b5",
     "semantic_hash": ""
   },
   "src-tauri/src/main.rs": {
@@ -95,14 +95,14 @@
     "semantic_hash": "00a3a1970058ba3cb05042fcdb922a9e"
   },
   "src/App.tsx": {
-    "mtime": 1781362585.7355545,
-    "ast_hash": "df1abcfa48ff4ecd5dc2b384264494c5",
+    "mtime": 1781381160.8046513,
+    "ast_hash": "f0e66704e8d152a5fb1059315d73c137",
     "semantic_hash": ""
   },
   "src/components/CommandPalette.tsx": {
-    "mtime": 1778548609.203369,
-    "ast_hash": "7b98ae1f3de366d19db6019a9a86ddb6",
-    "semantic_hash": "7b98ae1f3de366d19db6019a9a86ddb6"
+    "mtime": 1781379109.680589,
+    "ast_hash": "8e19f640ad321e2e8dd8d183086b0952",
+    "semantic_hash": ""
   },
   "src/components/ErrorBoundary.tsx": {
     "mtime": 1780418673.351313,
@@ -145,8 +145,8 @@
     "semantic_hash": "56d9093f704a689fc5189ddea749e82b"
   },
   "src/lib/tauri.ts": {
-    "mtime": 1781312865.8429015,
-    "ast_hash": "dd1083b128ecb306bf72daa4cc56831f",
+    "mtime": 1781378473.960174,
+    "ast_hash": "727fa00330d686891d5b6dbe51b713d3",
     "semantic_hash": ""
   },
   "src/lib/themes.ts": {
@@ -165,8 +165,8 @@
     "semantic_hash": "2b36426d5ad7e08ef79746aa524f4fb7"
   },
   "src/types.ts": {
-    "mtime": 1780843761.607552,
-    "ast_hash": "2eff56d15dabac86bfae9e0433c5a228",
+    "mtime": 1781377786.8534014,
+    "ast_hash": "3233b1aa47d786953946b8cf246530d1",
     "semantic_hash": ""
   },
   "src/types/png.d.ts": {
@@ -500,13 +500,23 @@
     "semantic_hash": ""
   },
   "GAPS.md": {
-    "mtime": 1781312140.660301,
-    "ast_hash": "cf0158f664e713602c0ef8ba5bd39bfa",
+    "mtime": 1781362707.6378484,
+    "ast_hash": "d3641b88efc1dcb1f3d027748954dc55",
     "semantic_hash": ""
   },
   "src/components/WysiwygEditor.tsx": {
-    "mtime": 1781361717.723668,
-    "ast_hash": "f1f8647fac1fd2b289d72bd658c190f7",
+    "mtime": 1781381135.3648844,
+    "ast_hash": "ddda96ac8a4ed5b391ddae52e035bc29",
+    "semantic_hash": ""
+  },
+  "src/components/DataviewPanel.tsx": {
+    "mtime": 1781381157.2661698,
+    "ast_hash": "5fd565c9b72a78eeb25152ad18a9f5c0",
+    "semantic_hash": ""
+  },
+  "src/components/PropertiesPanel.tsx": {
+    "mtime": 1781377805.9857616,
+    "ast_hash": "f6201fc2fa57cac97c442bd81b0b5f49",
     "semantic_hash": ""
   }
 }

@@ -6,7 +6,7 @@ import { tauriAPI } from "./lib/tauri";
 import GraphView from "./components/GraphView";
 import FileTree from "./components/FileTree";
 import TabBar from "./components/TabBar";
-import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw, PanelLeftOpen, Settings, GitCommitHorizontal, Globe, Crosshair } from "lucide-react";
+import { X, Network, Plus, Pencil, Trash2, FolderOpen, Save, Sun, Moon, FilePen, Search, RefreshCw, PanelLeftOpen, Settings, GitCommitHorizontal, Globe, Crosshair, Table2 } from "lucide-react";
 import GitDiffView from "./components/GitDiffView";
 import Logo from "./components/Logo";
 import CommandPalette from "./components/CommandPalette";
@@ -14,6 +14,8 @@ import WikiLinkPopup from "./components/WikiLinkPopup";
 import Loader from "./components/Loader";
 import ErrorBoundary from "./components/ErrorBoundary";
 import WysiwygEditor from "./components/WysiwygEditor";
+import PropertiesPanel from "./components/PropertiesPanel";
+import DataviewPanel from "./components/DataviewPanel";
 
 import { MarkdownHooks } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -38,9 +40,13 @@ export default function App() {
   const [renamingNoteName, setRenamingNoteName] = useState("");
   const [splitRatio, setSplitRatio] = useState(0.4);
   const [isResizingSplit, setIsResizingSplit] = useState(false);
-  const [activePanel, setActivePanel] = useState<null | "files" | "more" | "git">(null);
+  const [sidebarWidth, setSidebarWidth] = useState(280);
+  const [isResizingSidebar, setIsResizingSidebar] = useState(false);
+  const [sidebarWidthLoaded, setSidebarWidthLoaded] = useState(false);
+  const [activePanel, setActivePanel] = useState<null | "files" | "more" | "git" | "dataview">(null);
   const [showGraph, setShowGraph] = useState(true);
   const [graphMode, setGraphMode] = useState<"global" | "local">("global");
+  const [highlightQuery, setHighlightQuery] = useState<string | null>(null);
   const [gitStatus, setGitStatus] = useState<GitFileStatus[]>([]);
   const [gitLog, setGitLog] = useState<GitCommit[]>([]);
   const [gitCommitMsg, setGitCommitMsg] = useState("");
@@ -54,6 +60,8 @@ export default function App() {
 
   const [openTabIds, setOpenTabIds] = useState<string[]>([]);
   const scrollPosMapRef = useRef<Map<string, number>>(new Map());
+  const sidebarWidthRef = useRef(sidebarWidth);
+  sidebarWidthRef.current = sidebarWidth;
 
   const [previewReady, setPreviewReady] = useState(false);
 
@@ -146,6 +154,23 @@ export default function App() {
   }, [isResizingSplit]);
 
   useEffect(() => {
+    if (!isResizingSidebar) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      setSidebarWidth(Math.max(200, Math.min(600, e.clientX)));
+    };
+    const handleMouseUp = () => {
+      setIsResizingSidebar(false);
+      tauriAPI.saveSidebarWidth(sidebarWidthRef.current);
+    };
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isResizingSidebar]);
+
+  useEffect(() => {
     tauriAPI.getNotesFolder().then((folder) => {
       if (folder) {
         setNotesFolder(folder);
@@ -157,7 +182,17 @@ export default function App() {
     tauriAPI.getEditorMode().then((mode) => {
       if (mode === "raw" || mode === "live") setEditorMode(mode);
     });
+    tauriAPI.getSidebarWidth().then((w) => {
+      setSidebarWidth(w);
+      setSidebarWidthLoaded(true);
+    });
   }, []);
+
+  useEffect(() => {
+    if (!highlightQuery) return;
+    const timer = setTimeout(() => setHighlightQuery(null), 5000);
+    return () => clearTimeout(timer);
+  }, [highlightQuery]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -246,6 +281,29 @@ export default function App() {
   }, []);
 
   const activeNote = useMemo(() => notes.find((n) => n.id === activeNoteId) || null, [notes, activeNoteId]);
+
+  useEffect(() => {
+    if (!highlightQuery || !activeNote || editorMode === "live") return;
+    const q = highlightQuery.toLowerCase();
+    const content = activeNote.content || "";
+    const idx = content.toLowerCase().indexOf(q);
+    if (idx === -1) return;
+    let attempts = 0;
+    const applyHighlight = () => {
+      const ta = textareaRef.current;
+      if (!ta) {
+        if (attempts < 10) { attempts++; requestAnimationFrame(applyHighlight); }
+        return;
+      }
+      ta.focus();
+      ta.setSelectionRange(idx, idx + q.length);
+      const textBefore = content.substring(0, idx);
+      const linesBefore = textBefore.split("\n").length;
+      const lineHeight = parseInt(getComputedStyle(ta).lineHeight) || 22;
+      ta.scrollTop = Math.max(0, (linesBefore - 3)) * lineHeight;
+    };
+    applyHighlight();
+  }, [highlightQuery, activeNote?.id, editorMode]);
 
   const MAX_TABS = 15;
 
@@ -696,7 +754,10 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen w-full bg-base-950 overflow-hidden text-base-200">
+    <div
+      className="flex h-screen w-full bg-base-950 overflow-hidden text-base-200"
+      style={{ cursor: isResizingSidebar ? "col-resize" : undefined }}
+    >
       {/* Sidebar */}
       <nav className="flex h-full flex-shrink-0">
         {/* Icon Strip */}
@@ -715,6 +776,13 @@ export default function App() {
             title="Settings & actions"
           >
             <Settings size={20} />
+          </button>
+          <button
+            onClick={() => setActivePanel(activePanel === "dataview" ? null : "dataview")}
+            className={`p-2 rounded transition-colors ${activePanel === "dataview" ? "text-accent bg-accent/10" : "text-base-400 hover:text-base-200 hover:bg-base-800"}`}
+            title="Data view"
+          >
+            <Table2 size={20} />
           </button>
           <button
             onClick={() => {
@@ -737,7 +805,8 @@ export default function App() {
 
         {/* Expandable Panel */}
         <div
-          className={`border-r border-base-800 bg-base-900 flex flex-col overflow-hidden transition-[width] duration-200 ease-out ${activePanel ? "w-[280px]" : "w-0"}`}
+          className={`border-r border-base-800 bg-base-900 flex flex-col overflow-hidden ${!isResizingSidebar && "transition-[width] duration-200 ease-out"} ${activePanel ? "" : "w-0"}`}
+          style={{ width: activePanel ? sidebarWidth : 0 }}
         >
             {activePanel === "files" && (
               <div className="flex-1 overflow-y-auto overflow-x-hidden flex flex-col">
@@ -948,6 +1017,28 @@ export default function App() {
                     </button>
                   </div>
                 </div>
+                {activeNote && (
+                  <>
+                    <div className="border-t border-base-800 my-1" />
+                    <div className="py-2">
+                      <PropertiesPanel
+                        properties={activeNote.properties || {}}
+                        tags={activeNote.tags || []}
+                        onSave={(props) => {
+                          const newTags = (props.tags || "").split(",").map((t) => t.trim()).filter(Boolean);
+                          setNotes((prev) =>
+                            prev.map((n) =>
+                              n.id === activeNote.id
+                                ? { ...n, tags: newTags, properties: props }
+                                : n
+                            )
+                          );
+                          tauriAPI.updateNoteProperties(activeNote.id, props);
+                        }}
+                      />
+                    </div>
+                  </>
+                )}
                 <div className="border-t border-base-800 my-1" />
                 <div className="px-1 py-2">
                   <span className="text-xs text-base-500 font-medium px-2 block mb-2">Theme</span>
@@ -1043,6 +1134,15 @@ export default function App() {
                   </div>
                 </div>
               </div>
+            )}
+            {activePanel === "dataview" && (
+              <DataviewPanel
+                notes={notes}
+                onOpenNote={(noteId, query) => {
+                  setActiveNoteId(noteId);
+                  if (query) setHighlightQuery(query);
+                }}
+              />
             )}
             {activePanel === "git" && (
               <div className="flex-1 overflow-y-auto p-2 flex flex-col gap-1">
@@ -1171,6 +1271,23 @@ export default function App() {
               </div>
             )}
           </div>
+          {activePanel && (
+            <div
+              className="w-1.5 bg-transparent hover:bg-base-700 cursor-col-resize flex items-center justify-center transition-colors group shrink-0"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                setIsResizingSidebar(true);
+              }}
+            >
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                <svg width="8" height="24" viewBox="0 0 8 24" fill="none" stroke="currentColor" className="text-base-400">
+                  <circle cx="4" cy="4" r="1.5" fill="currentColor" />
+                  <circle cx="4" cy="12" r="1.5" fill="currentColor" />
+                  <circle cx="4" cy="20" r="1.5" fill="currentColor" />
+                </svg>
+              </div>
+            </div>
+          )}
       </nav>
 
       {/* Main Content */}
@@ -1331,6 +1448,7 @@ export default function App() {
                       key={activeNote.id}
                       content={activeNote.content || ""}
                       onChange={(md) => handleUpdateNote(activeNote.id, { content: md })}
+                      highlightQuery={highlightQuery || undefined}
                     />
                   </div>
                 ) : editorTab === "edit" ? (
@@ -1413,6 +1531,11 @@ export default function App() {
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
+        searchNotes={(query) => tauriAPI.searchNotes(query)}
+        onOpenNote={(id, query) => {
+          setActiveNoteId(id);
+          if (query) setHighlightQuery(query);
+        }}
         commands={[
           {
             id: "new-note",

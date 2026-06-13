@@ -28,7 +28,7 @@ import {
 import { marked } from "marked";
 import TurndownService from "turndown";
 import { gfm } from "turndown-plugin-gfm";
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef } from "react";
 
 const KeyboardShortcuts = Extension.create({
   name: "keyboardShortcuts",
@@ -82,6 +82,7 @@ turndown.addRule("taskListItems", {
 interface WysiwygEditorProps {
   content: string;
   onChange: (content: string) => void;
+  highlightQuery?: string;
 }
 
 interface ToolbarItem {
@@ -91,7 +92,26 @@ interface ToolbarItem {
   isActive: boolean;
 }
 
-export default function WysiwygEditor({ content, onChange }: WysiwygEditorProps) {
+function findAndScroll(editor: NonNullable<ReturnType<typeof useEditor>>, query: string) {
+  const q = query.toLowerCase();
+  const doc = editor.state.doc;
+  let found = false;
+  doc.descendants((node, pos) => {
+    if (found) return false;
+    if (node.isText) {
+      const text = node.text?.toLowerCase() || "";
+      const idx = text.indexOf(q);
+      if (idx !== -1) {
+        editor.chain().focus().setTextSelection({ from: pos + idx, to: pos + idx + q.length }).scrollIntoView().run();
+        found = true;
+        return false;
+      }
+    }
+    return true;
+  });
+}
+
+export default function WysiwygEditor({ content, onChange, highlightQuery }: WysiwygEditorProps) {
   const initialHtml = useMemo(() => {
     try {
       return marked.parse(content || "");
@@ -99,6 +119,9 @@ export default function WysiwygEditor({ content, onChange }: WysiwygEditorProps)
       return content || "";
     }
   }, []);
+
+  const highlightQueryRef = useRef(highlightQuery);
+  highlightQueryRef.current = highlightQuery;
 
   const editor = useEditor({
     content: initialHtml,
@@ -120,6 +143,10 @@ export default function WysiwygEditor({ content, onChange }: WysiwygEditorProps)
       }),
       KeyboardShortcuts,
     ],
+    onCreate: ({ editor }) => {
+      const q = highlightQueryRef.current;
+      if (q) findAndScroll(editor, q);
+    },
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       const md = turndown.turndown(html).replace(/\\([[\]])/g, '$1');
@@ -131,6 +158,11 @@ export default function WysiwygEditor({ content, onChange }: WysiwygEditorProps)
       },
     },
   });
+
+  useEffect(() => {
+    if (!editor || !highlightQuery) return;
+    findAndScroll(editor, highlightQuery);
+  }, [highlightQuery, editor]);
 
   if (!editor) return null;
 

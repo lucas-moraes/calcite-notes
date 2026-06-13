@@ -1,5 +1,6 @@
 use crate::commands::{GraphNote, Note, OperationResult};
 use regex::Regex;
+use std::collections::HashMap;
 use std::fs;
 use std::path::Path;
 use tauri::State;
@@ -9,22 +10,10 @@ pub struct AppState {
     pub notes_dir: std::sync::Mutex<String>,
 }
 
-fn parse_frontmatter(content: &str) -> Vec<String> {
-    let frontmatter_regex = Regex::new(r"^---\n([\s\S]*?)\n---").unwrap();
-    let tags_regex = Regex::new(r"tags:\s*\[(.*?)\]").unwrap();
-
-    if let Some(captures) = frontmatter_regex.captures(content) {
-        if let Some(tags_capture) = tags_regex.captures(&captures[1]) {
-            let tags_str = tags_capture.get(1).map_or("", |m| m.as_str());
-            return tags_str
-                .replace(['\'', '"', ' '], "")
-                .split(',')
-                .filter(|s| !s.is_empty())
-                .map(String::from)
-                .collect();
-        }
-    }
-    Vec::new()
+fn load_note(content: &str) -> (HashMap<String, String>, Vec<String>) {
+    let props = crate::commands::parse_frontmatter_full(content);
+    let tags = crate::commands::parse_tags(&props);
+    (props, tags)
 }
 
 pub fn is_path_within_notes_dir(file_path: &str, notes_dir: &str) -> bool {
@@ -52,7 +41,7 @@ pub fn get_notes(state: State<'_, AppState>) -> Vec<Note> {
             if let Ok(content) = fs::read_to_string(path) {
                 let name = path.file_stem().unwrap_or_default().to_string_lossy().to_string();
                 let metadata = fs::metadata(path).ok();
-                let tags = parse_frontmatter(&content);
+                let (properties, tags) = load_note(&content);
 
                 notes.push(Note {
                     id: path.to_string_lossy().to_string(),
@@ -69,6 +58,7 @@ pub fn get_notes(state: State<'_, AppState>) -> Vec<Note> {
                         .map(|t| t.duration_since(std::time::UNIX_EPOCH).unwrap_or_default().as_millis() as u64)
                         .unwrap_or(0),
                     tags,
+                    properties,
                 });
             }
         }
@@ -96,7 +86,7 @@ pub fn get_all_notes_for_graph(state: State<'_, AppState>) -> Vec<GraphNote> {
             if let Ok(content) = fs::read_to_string(path) {
                 let name = path.file_stem().unwrap_or_default().to_string_lossy().to_string();
                 let metadata = fs::metadata(path).ok();
-                let tags = parse_frontmatter(&content);
+                let (_, tags) = load_note(&content);
 
                 notes.push(GraphNote {
                     id: path.to_string_lossy().to_string(),
@@ -335,4 +325,165 @@ pub fn update_note_tags(
             path: None,
         },
     }
+}
+
+#[tauri::command]
+pub fn update_note_properties(
+    state: State<'_, AppState>,
+    note_id: String,
+    properties: HashMap<String, String>,
+) -> OperationResult {
+    let notes_dir = state.notes_dir.lock().unwrap().clone();
+
+    if !is_path_within_notes_dir(&note_id, &notes_dir) {
+        return OperationResult {
+            success: false,
+            error: Some("Access denied".to_string()),
+            new_path: None,
+            path: None,
+        };
+    }
+
+    let content = match fs::read_to_string(&note_id) {
+        Ok(c) => c,
+        Err(e) => {
+            return OperationResult {
+                success: false,
+                error: Some(e.to_string()),
+                new_path: None,
+                path: None,
+            }
+        }
+    };
+
+    let body = crate::commands::strip_frontmatter(&content);
+
+    let tags_line = properties.get("tags")
+        .filter(|v| !v.is_empty())
+        .map(|v| {
+            let tags: Vec<&str> = v.split(',').map(|s| s.trim()).filter(|s| !s.is_empty()).collect();
+            format!("tags: [{}]", tags.iter().map(|t| format!("'{}'", t)).collect::<Vec<_>>().join(", "))
+        })
+        .unwrap_or_else(|| "tags: []".to_string());
+
+    let mut lines: Vec<String> = Vec::new();
+    lines.push("---".to_string());
+    lines.push(format!("title: {}", properties.get("title").map_or("", |v| v)));
+    lines.push(format!("date: {}", properties.get("date").map_or("", |v| v)));
+    lines.push(tags_line);
+
+    for (key, val) in &properties {
+        if key == "title" || key == "date" || key == "tags" { continue; }
+        if !val.is_empty() {
+            lines.push(format!("{}: {}", key, val));
+        }
+    }
+
+    lines.push("---".to_string());
+
+    let new_content = if body.trim().is_empty() {
+        format!("{}\n", lines.join("\n"))
+    } else {
+        format!("{}\n\n{}", lines.join("\n"), body.trim())
+    };
+
+    match fs::write(&note_id, &new_content) {
+        Ok(_) => OperationResult {
+            success: true,
+            error: None,
+            new_path: None,
+            path: None,
+        },
+        Err(e) => OperationResult {
+            success: false,
+            error: Some(e.to_string()),
+            new_path: None,
+            path: None,
+        },
+    }
+}
+
+#[tauri::command]
+pub fn search_notes(
+    state: State<'_, AppState>,
+    query: Option<String>,
+    filters: Option<HashMap<String, String>>,
+) -> Vec<Note> {
+    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    if notes_dir.is_empty() {
+        return Vec::new();
+    }
+
+    let q = query.unwrap_or_default().to_lowercase();
+    let f = filters.unwrap_or_default();
+
+    let mut results = Vec::new();
+
+    for entry in WalkDir::new(&notes_dir)
+        .follow_links(true)
+        .into_iter()
+        .filter_map(|e| e.ok())
+    {
+        let path = entry.path();
+        if !path.is_file() || path.extension().map_or(false, |ext| ext != "md") {
+            continue;
+        }
+
+        let content = match fs::read_to_string(path) {
+            Ok(c) => c,
+            Err(_) => continue,
+        };
+
+        let title = path.file_stem().unwrap_or_default().to_string_lossy().to_string();
+        let body = crate::commands::strip_frontmatter(&content);
+        let (properties, tags) = load_note(&content);
+
+        // Check filters
+        let passes_filters = f.iter().all(|(fk, fv)| {
+            if fk == "tags" {
+                tags.iter().any(|t| t.eq_ignore_ascii_case(fv))
+            } else {
+                properties.get(fk).map_or(false, |pv| pv.eq_ignore_ascii_case(fv))
+            }
+        });
+
+        if !passes_filters {
+            continue;
+        }
+
+        // Check query
+        let passes_query = if q.is_empty() {
+            true
+        } else {
+            title.to_lowercase().contains(&q)
+                || body.to_lowercase().contains(&q)
+                || tags.iter().any(|t| t.to_lowercase().contains(&q))
+                || properties.values().any(|v| v.to_lowercase().contains(&q))
+        };
+
+        if !passes_query {
+            continue;
+        }
+
+        let metadata = fs::metadata(path).ok();
+        results.push(Note {
+            id: path.to_string_lossy().to_string(),
+            title,
+            content,
+            created_at: metadata
+                .as_ref()
+                .and_then(|m| m.created().ok())
+                .map(|t| t.duration_since(std::time::UNIX_EPOCH).unwrap_or_default().as_millis() as u64)
+                .unwrap_or(0),
+            updated_at: metadata
+                .as_ref()
+                .and_then(|m| m.modified().ok())
+                .map(|t| t.duration_since(std::time::UNIX_EPOCH).unwrap_or_default().as_millis() as u64)
+                .unwrap_or(0),
+            tags,
+            properties,
+        });
+    }
+
+    results
 }

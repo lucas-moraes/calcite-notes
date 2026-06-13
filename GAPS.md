@@ -2,9 +2,9 @@
 
 ## Editor
 
-- **Live Preview** — edição WYSIWYG (renderizado inline). Calcite tem Edit/Preview separados com abas
+- ~**Live Preview** — edição WYSIWYG (renderizado inline). Calcite tem Edit/Preview separados com abas~
 - ~**Múltiplas abas/panéis** — abrir vários notes simultaneamente lado a lado~
-- **Propriedades** — metadados estruturados (YAML frontmatter editável visualmente). Calcite só tem tags
+- ~**Propriedades** — metadados estruturados (YAML frontmatter editável visualmente). Calcite só tem tags~
 - **Templates** — criar note a partir de template com variáveis (`{{date}}`, `{{title}}`)
 - **Imagens/anexos** — embeds de imagens, arquivos, PDF inline
 
