@@ -82,6 +82,12 @@ export const tauriAPI = {
   saveOpenTabs: (tabs: string[]): Promise<boolean> =>
     tauriInvoke<boolean>('save_open_tabs', { tabs }),
 
+  getEditorMode: (): Promise<string> =>
+    tauriInvoke<string>('get_editor_mode'),
+
+  saveEditorMode: (mode: string): Promise<boolean> =>
+    tauriInvoke<boolean>('save_editor_mode', { mode }),
+
   getActiveTab: (): Promise<string | null> =>
     tauriInvoke<string | null>('get_active_tab'),
 

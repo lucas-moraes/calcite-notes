@@ -135,6 +135,30 @@ pub fn get_active_tab(app_handle: tauri::AppHandle) -> Option<String> {
 }
 
 #[tauri::command]
+pub fn get_editor_mode(app_handle: tauri::AppHandle) -> String {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => s
+            .get("editorMode")
+            .and_then(|v| v.as_str().map(String::from))
+            .unwrap_or_else(|| "raw".to_string()),
+        Err(_) => "raw".to_string(),
+    }
+}
+
+#[tauri::command]
+pub fn save_editor_mode(app_handle: tauri::AppHandle, mode: String) -> bool {
+    let store = app_handle.store("settings.json");
+    match store {
+        Ok(s) => {
+            s.set("editorMode", serde_json::Value::String(mode));
+            s.save().is_ok()
+        }
+        Err(_) => false,
+    }
+}
+
+#[tauri::command]
 pub fn save_active_tab(app_handle: tauri::AppHandle, tab: Option<String>) -> bool {
     let store = app_handle.store("settings.json");
     match store {

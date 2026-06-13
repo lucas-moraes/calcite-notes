@@ -3,7 +3,7 @@
 ## Editor
 
 - **Live Preview** — edição WYSIWYG (renderizado inline). Calcite tem Edit/Preview separados com abas
-- **Múltiplas abas/panéis** — abrir vários notes simultaneamente lado a lado
+- ~**Múltiplas abas/panéis** — abrir vários notes simultaneamente lado a lado~
 - **Propriedades** — metadados estruturados (YAML frontmatter editável visualmente). Calcite só tem tags
 - **Templates** — criar note a partir de template com variáveis (`{{date}}`, `{{title}}`)
 - **Imagens/anexos** — embeds de imagens, arquivos, PDF inline
@@ -13,7 +13,7 @@
 - **Backlinks pane** — painel dedicado mostrando todas as referências ao note atual com contexto (não apenas links no graph)
 - **Outgoing links** — lista do que o note atual linka
 - **Outline/TOC** — navegação por headings
-- **Busca全文** — busca com operadores (`path:`, `tag:`, `content:`, `-` para excluir). Calcite não tem busca nenhuma
+- **Busca** — busca com operadores (`path:`, `tag:`, `content:`, `-` para excluir). Calcite não tem busca nenhuma
 - **Tag pane** — visão agregada de todas as tags com contagem
 - **Calendar / Daily notes** — navegação temporal
 - **Bookmarks / Starred** — notes favoritados
@@ -26,7 +26,7 @@
 
 ## Visualização
 
-- ~~**Local graph** — graph focado no note atual (apenas 1 salto de distância)~~
+- ~**Local graph** — graph focado no note atual (apenas 1 salto de distância)~
 - **Canvas** — quadro branco infinito para mapas mentais
 - **Excalidraw** — desenho integrado (via plugin)
 - **Sliding panes (Andy mode)** — painéis aninhados que deslizam

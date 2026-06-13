@@ -133,6 +133,8 @@ pub fn run() {
             commands::config::save_open_tabs,
             commands::config::get_active_tab,
             commands::config::save_active_tab,
+            commands::config::get_editor_mode,
+            commands::config::save_editor_mode,
             commands::git::git_init,
             commands::git::git_status,
             commands::git::git_commit,

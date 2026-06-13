@@ -13,6 +13,7 @@ import CommandPalette from "./components/CommandPalette";
 import WikiLinkPopup from "./components/WikiLinkPopup";
 import Loader from "./components/Loader";
 import ErrorBoundary from "./components/ErrorBoundary";
+import WysiwygEditor from "./components/WysiwygEditor";
 
 import { MarkdownHooks } from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -32,6 +33,7 @@ export default function App() {
   const [themePreset, setThemePreset] = useState<ThemePreset>("gruvbox");
   const [themeMode, setThemeMode] = useState<ThemeMode>("dark");
   const [editorTab, setEditorTab] = useState<"edit" | "preview">("edit");
+  const [editorMode, setEditorMode] = useState<"raw" | "live">("raw");
   const [renamingNoteId, setRenamingNoteId] = useState<string | null>(null);
   const [renamingNoteName, setRenamingNoteName] = useState("");
   const [splitRatio, setSplitRatio] = useState(0.4);
@@ -151,6 +153,9 @@ export default function App() {
     });
     tauriAPI.getShowGraph().then((v) => {
       if (v !== undefined) setShowGraph(v);
+    });
+    tauriAPI.getEditorMode().then((mode) => {
+      if (mode === "raw" || mode === "live") setEditorMode(mode);
     });
   }, []);
 
@@ -276,6 +281,8 @@ export default function App() {
   useEffect(() => {
     tauriAPI.saveActiveTab(activeNoteId);
   }, [activeNoteId]);
+
+
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -911,6 +918,38 @@ export default function App() {
 
                 <div className="border-t border-base-800 my-1" />
                 <div className="px-1 py-2">
+                  <span className="text-xs text-base-500 font-medium px-2 block mb-2">Editor</span>
+                  <div className="grid grid-cols-2 gap-2 px-2">
+                    <button
+                      onClick={() => {
+                        setEditorMode("raw");
+                        tauriAPI.saveEditorMode("raw");
+                      }}
+                      className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                        editorMode === "raw"
+                          ? "bg-accent/20 text-accent"
+                          : "bg-base-800 text-base-400 hover:text-base-200 hover:bg-base-700"
+                      }`}
+                    >
+                      Raw
+                    </button>
+                    <button
+                      onClick={() => {
+                        setEditorMode("live");
+                        tauriAPI.saveEditorMode("live");
+                      }}
+                      className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+                        editorMode === "live"
+                          ? "bg-accent/20 text-accent"
+                          : "bg-base-800 text-base-400 hover:text-base-200 hover:bg-base-700"
+                      }`}
+                    >
+                      Live
+                    </button>
+                  </div>
+                </div>
+                <div className="border-t border-base-800 my-1" />
+                <div className="px-1 py-2">
                   <span className="text-xs text-base-500 font-medium px-2 block mb-2">Theme</span>
                   <div className="grid grid-cols-2 gap-2">
                     {themes.map((t) => {
@@ -1218,7 +1257,7 @@ export default function App() {
           {activeNote ? (
             <div className="flex flex-col flex-1 min-h-0 p-6 bg-base-950 overflow-hidden slide-in-from-right">
               {/* Meta info */}
-              <div className="flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900">
+              <div className="flex items-center gap-6 text-[11px] text-base-500 font-mono tracking-tighter border-b border-base-900 mb-4">
                 <div className="flex items-center gap-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -1259,32 +1298,42 @@ export default function App() {
                 </div>
               </div>
               {/* Tabs */}
-              <div className="flex items-center gap-1 border-b border-base-800 mt-4 mb-4">
-                <button
-                  onClick={() => setEditorTab("edit")}
-                  className={`px-4 py-2 text-sm font-medium transition-colors ${
-                    editorTab === "edit"
-                      ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
-                      : "text-base-500 hover:text-base-300"
-                  }`}
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => setEditorTab("preview")}
-                  className={`px-4 py-2 text-sm font-medium transition-colors ${
-                    editorTab === "preview"
-                      ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
-                      : "text-base-500 hover:text-base-300"
-                  }`}
-                >
-                  Preview
-                </button>
-              </div>
+              {editorMode !== "live" && (
+                <div className="flex items-center gap-1 border-b border-base-800 mt-4 mb-4">
+                  <button
+                    onClick={() => setEditorTab("edit")}
+                    className={`px-4 py-2 text-sm font-medium transition-colors ${
+                      editorTab === "edit"
+                        ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
+                        : "text-base-500 hover:text-base-300"
+                    }`}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => setEditorTab("preview")}
+                    className={`px-4 py-2 text-sm font-medium transition-colors ${
+                      editorTab === "preview"
+                        ? "text-base-100 dark:text-base-300 dark:hover:text-base-300 dark:border-b-2 dark:border-accent"
+                        : "text-base-500 hover:text-base-300"
+                    }`}
+                  >
+                    Preview
+                  </button>
+                </div>
+              )}
 
               {/* Editor Content */}
               <div className="flex-1 relative overflow-hidden">
-                {editorTab === "edit" ? (
+                {editorMode === "live" ? (
+                  <div className="absolute inset-0 animate-fade-in">
+                    <WysiwygEditor
+                      key={activeNote.id}
+                      content={activeNote.content || ""}
+                      onChange={(md) => handleUpdateNote(activeNote.id, { content: md })}
+                    />
+                  </div>
+                ) : editorTab === "edit" ? (
                   <div className="absolute inset-0 py-4 pl-4 animate-fade-in overflow-y-hidden">
                     <textarea
                       ref={textareaRef}
