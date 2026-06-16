@@ -368,6 +368,7 @@ export default function App() {
         createdAt: activeNote.createdAt,
         updatedAt: activeNote.updatedAt,
         tags: activeNote.tags || [],
+        properties: activeNote.properties || {},
       });
       if (!result.success) console.error("Auto-save failed:", result.error);
     }, 800);

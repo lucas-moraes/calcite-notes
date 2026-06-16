@@ -130,7 +130,7 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
         heading: { levels: [1, 2, 3] },
       }),
       Placeholder.configure({
-        placeholder: "Start writing...",
+        placeholder: "Clique aqui para iniciar...",
       }),
       Link.configure({
         openOnClick: true,

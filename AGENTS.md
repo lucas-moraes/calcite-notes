@@ -1,9 +1,9 @@
 # AGENTS.md
 
 ## Dev Commands
-- `npm run dev` - Run Electron dev server
-- `npm run build` - Build production `.app`
-- `npm run lint` - Type-check only (`tsc --noEmit`)
+- `pnpm dev` - Run Tauri dev server
+- `pnpm build` - Build production `.app`
+- `pnpm lint` - Type-check only (`tsc --noEmit`)
 
 ## Architecture
 - Electron 3-process: `electron/main.ts` (main), `electron/preload.ts` (bridge), React renderer

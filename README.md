@@ -27,19 +27,19 @@ A powerful markdown knowledge base with bi-directional linking and graph view.
 ### Install
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Run
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ### Build
 
 ```bash
-npm run build
+pnpm build
 ```
 
 ## Keyboard Shortcuts
