@@ -56,7 +56,6 @@ export default function App() {
     { id: string; name: string; content: string; tags?: string[] }[]
   >([]);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [graphRefresh, setGraphRefresh] = useState(0);
 
   const [openTabIds, setOpenTabIds] = useState<string[]>([]);
   const scrollPosMapRef = useRef<Map<string, number>>(new Map());
@@ -343,7 +342,6 @@ export default function App() {
 
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!textareaRef.current || !activeNoteId) return;
@@ -356,26 +354,29 @@ export default function App() {
   }, [activeNoteId]);
 
   useEffect(() => {
-    if (!activeNote || activeNote.isNew) return;
+    if (!activeNote) return;
 
-    if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-
-    saveTimerRef.current = setTimeout(async () => {
-      const result = await tauriAPI.saveNote({
-        id: activeNote.id,
-        title: activeNote.title,
-        content: activeNote.content,
-        createdAt: activeNote.createdAt,
-        updatedAt: activeNote.updatedAt,
-        tags: activeNote.tags || [],
-        properties: activeNote.properties || {},
-      });
-      if (!result.success) console.error("Auto-save failed:", result.error);
-    }, 800);
-
-    return () => {
-      if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+    const noteToSave = {
+      id: activeNote.id,
+      title: activeNote.title,
+      content: activeNote.content,
+      createdAt: activeNote.createdAt,
+      updatedAt: activeNote.updatedAt,
+      tags: activeNote.tags || [],
+      properties: activeNote.properties || {},
     };
+
+    tauriAPI.saveNote(noteToSave).then((result) => {
+      if (!result.success) console.error("Auto-save failed:", result.error);
+    }).catch((err) => {
+      console.error("Auto-save error:", err);
+    });
+
+    if (activeNote.isNew) {
+      setNotes((prev) => prev.map((n) =>
+        n.id === activeNote.id ? { ...n, isNew: false } : n
+      ));
+    }
   }, [activeNote?.content, activeNote?.id]);
 
   useEffect(() => {
@@ -497,13 +498,41 @@ export default function App() {
     }
   };
 
+  // Graph signature: changes only when id/title/tags change, not on content keystrokes
+  const graphSignature = useMemo(
+    () => notes.map((n) => `${n.id}|${n.title || ""}|${(n.tags || []).join(",")}`).join("::"),
+    [notes]
+  );
+
   const { nodes, links } = useMemo(() => {
+    // Merge disk notes with in-memory notes (in-memory takes precedence)
     const allNotes = allNotesFromDisk.map((n) => ({
       id: n.id,
       name: n.name || "",
       content: n.content || "",
       tags: n.tags || [],
     }));
+
+    const localNotesMap = new Map<string, Note>(notes.map((n) => [n.id, n]));
+    for (let i = 0; i < allNotes.length; i++) {
+      const local = localNotesMap.get(allNotes[i].id);
+      if (local) {
+        allNotes[i].content = local.content || allNotes[i].content;
+        allNotes[i].name = local.title || allNotes[i].name;
+        allNotes[i].tags = local.tags || allNotes[i].tags;
+        localNotesMap.delete(allNotes[i].id);
+      }
+    }
+
+    for (const [, local] of localNotesMap) {
+      if (!local.content) continue;
+      allNotes.push({
+        id: local.id,
+        name: local.title || "",
+        content: local.content || "",
+        tags: local.tags || [],
+      });
+    }
 
     const nodes: GraphNode[] = allNotes.map((n) => ({
       id: n.id,
@@ -554,17 +583,39 @@ export default function App() {
     }
 
     return { nodes, links };
-  }, [allNotesFromDisk, graphRefresh]);
+  }, [allNotesFromDisk, graphSignature]);
 
   const localGraphData = useMemo(() => {
     if (!activeNoteId) return null;
 
+    // Merge disk notes with in-memory notes (in-memory takes precedence)
     const allNotes = allNotesFromDisk.map((n) => ({
       id: n.id,
       name: n.name || "",
       content: n.content || "",
       tags: n.tags || [],
     }));
+
+    const localNotesMap = new Map<string, Note>(notes.map((n) => [n.id, n]));
+    for (let i = 0; i < allNotes.length; i++) {
+      const local = localNotesMap.get(allNotes[i].id);
+      if (local) {
+        allNotes[i].content = local.content || allNotes[i].content;
+        allNotes[i].name = local.title || allNotes[i].name;
+        allNotes[i].tags = local.tags || allNotes[i].tags;
+        localNotesMap.delete(allNotes[i].id);
+      }
+    }
+
+    for (const [, local] of localNotesMap) {
+      if (!local.content) continue;
+      allNotes.push({
+        id: local.id,
+        name: local.title || "",
+        content: local.content || "",
+        tags: local.tags || [],
+      });
+    }
 
     const activeNoteData = allNotes.find((n) => n.id === activeNoteId);
     if (!activeNoteData) return null;
@@ -613,7 +664,7 @@ export default function App() {
         (l) => connectedIds.has(l.source) && connectedIds.has(l.target),
       ),
     };
-  }, [allNotesFromDisk, graphRefresh, activeNoteId, nodes, links]);
+  }, [allNotesFromDisk, activeNoteId, nodes, links, graphSignature]);
 
   useEffect(() => {
     if (notesFolder) {
@@ -653,6 +704,26 @@ export default function App() {
       console.error("Failed to save note:", result.error);
       alert(`Failed to save note: ${result.error || "Unknown error"}`);
       return;
+    }
+
+    // Persist tags/properties to the newly created file (frontmatter)
+    const frontmatterMatch = noteToSave.content.match(/^---\n([\s\S]*?)\n---/);
+    const savedDate = frontmatterMatch
+      ? frontmatterMatch[1].split("\n").find((l) => l.startsWith("date:"))?.split(": ")[1]?.trim() || ""
+      : "";
+    const properties: Record<string, string> = {
+      ...noteToSave.properties,
+      title: noteToSave.title,
+      date: savedDate,
+      tags: noteToSave.tags?.join(", ") || "",
+    };
+    await tauriAPI.updateNoteProperties(filePath, properties).catch((e) => {
+      console.error("Failed to persist tags:", e);
+    });
+
+    if (!id.endsWith(".md")) {
+      const oldPath = `${folder}/${id}.md`;
+      await tauriAPI.deleteNote(oldPath).catch(() => {});
     }
 
     setNotes((prev) =>
@@ -1315,7 +1386,7 @@ export default function App() {
                   {graphMode === "global" ? "Local" : "Global"}
                 </button>
                 <button
-                  onClick={() => setGraphRefresh((r) => r + 1)}
+                  onClick={() => setFileTreeKey((k) => k + 1)}
                   className="flex items-center gap-1.5 px-2.5 py-1.5 bg-base-800/90 backdrop-blur-sm rounded-lg text-xs font-medium text-base-400 hover:text-base-200 hover:bg-base-700 transition-colors"
                   title="Update Graph"
                 >
@@ -1332,7 +1403,7 @@ export default function App() {
                 </div>
               ) : (
                 <GraphView
-                  key={`${graphRefresh}-${graphMode}`}
+                  key={graphMode}
                   nodes={graphMode === "local" ? localGraphData?.nodes || [] : nodes}
                   links={graphMode === "local" ? localGraphData?.links || [] : links}
                   onNodeClick={handleGraphNodeClick}

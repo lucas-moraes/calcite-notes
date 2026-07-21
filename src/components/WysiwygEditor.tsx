@@ -112,13 +112,25 @@ function findAndScroll(editor: NonNullable<ReturnType<typeof useEditor>>, query:
 }
 
 export default function WysiwygEditor({ content, onChange, highlightQuery }: WysiwygEditorProps) {
+  const frontmatterRef = useRef("");
+
+  const { frontmatter, body } = useMemo(() => {
+    const match = content.match(/^---\n[\s\S]*?\n---\n*/);
+    if (match) {
+      return { frontmatter: match[0], body: content.slice(match[0].length) };
+    }
+    return { frontmatter: "", body: content };
+  }, [content]);
+
+  frontmatterRef.current = frontmatter;
+
   const initialHtml = useMemo(() => {
     try {
-      return marked.parse(content || "");
+      return marked.parse(body || "");
     } catch {
-      return content || "";
+      return body || "";
     }
-  }, []);
+  }, [body]);
 
   const highlightQueryRef = useRef(highlightQuery);
   highlightQueryRef.current = highlightQuery;
@@ -150,7 +162,8 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       const md = turndown.turndown(html).replace(/\\([[\]])/g, '$1');
-      onChange(md);
+      const fm = frontmatterRef.current;
+      onChange(fm ? fm + "\n" + md : md);
     },
     editorProps: {
       attributes: {
