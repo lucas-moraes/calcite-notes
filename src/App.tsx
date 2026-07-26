@@ -1,6 +1,6 @@
-import { useState, useEffect, useMemo, useCallback, useRef } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef, type FormEvent } from "react";
 import { Note, GraphNode, GraphLink, GitCommit, GitFileStatus, GitFileDiff } from "./types";
-import { cn, formatTime, wordCount } from "./lib/utils";
+import { cn, formatTime, wordCount, parseFrontmatter, updateFrontmatterField } from "./lib/utils";
 import { tauriAPI } from "./lib/tauri";
 
 import GraphView from "./components/GraphView";
@@ -770,6 +770,16 @@ export default function App() {
     setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates, updatedAt: Date.now() } : n)));
   };
 
+  const handleFrontmatterChange = (id: string, field: "title" | "date" | "tags", value: string) => {
+    setNotes((prev) =>
+      prev.map((n) => {
+        if (n.id !== id) return n;
+        const newContent = updateFrontmatterField(n.content, field, value);
+        return { ...n, content: newContent, updatedAt: Date.now() };
+      }),
+    );
+  };
+
   const handleDeleteNote = async (id: string) => {
     if (confirm("Are you sure you want to delete this note?")) {
       const result = await tauriAPI.deleteNote(id);
@@ -1512,6 +1522,14 @@ export default function App() {
                 </div>
               )}
 
+              {/* Live-mode frontmatter fields */}
+              {editorMode === "live" && (
+                <LiveFrontmatterFields
+                  noteId={activeNote.id}
+                  content={activeNote.content}
+                  onChange={handleFrontmatterChange}
+                />
+              )}
               {/* Editor Content */}
               <div className="flex-1 relative overflow-hidden">
                 {editorMode === "live" ? (
@@ -1641,6 +1659,58 @@ export default function App() {
             )
             .slice(0, 20),
         ]}
+      />
+    </div>
+  );
+}
+
+function LiveFrontmatterFields({
+  noteId,
+  content,
+  onChange,
+}: {
+  noteId: string;
+  content: string;
+  onChange: (id: string, field: "title" | "date" | "tags", value: string) => void;
+}) {
+  const fm = useMemo(() => parseFrontmatter(content), [content]);
+  const [local, setLocal] = useState(fm);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    setLocal(fm);
+  }, [fm.title, fm.date, fm.tags]);
+
+  const commit = (field: "title" | "date" | "tags", value: string) => {
+    setLocal((prev) => ({ ...prev, [field]: value }));
+    onChange(noteId, field, value);
+  };
+
+  return (
+    <div className="flex flex-wrap items-center gap-3 mb-3 pb-3 border-b border-base-800">
+      <input
+        type="text"
+        placeholder="Title"
+        value={local.title}
+        onChange={(e) => commit("title", e.target.value)}
+        className="flex-1 min-w-[200px] bg-transparent text-base-100 text-sm font-semibold outline-none border-b border-transparent focus:border-accent transition-colors placeholder:text-base-600"
+      />
+      <input
+        type="date"
+        value={local.date}
+        onChange={(e) => commit("date", e.target.value)}
+        className="bg-transparent text-base-300 text-xs outline-none border border-base-700 rounded px-2 py-1 focus:border-accent transition-colors"
+      />
+      <input
+        type="text"
+        placeholder="tag1, tag2, ..."
+        value={local.tags}
+        onChange={(e) => commit("tags", e.target.value)}
+        className="flex-1 min-w-[140px] bg-transparent text-base-300 text-xs outline-none border border-base-700 rounded px-2 py-1 focus:border-accent transition-colors placeholder:text-base-600"
       />
     </div>
   );
