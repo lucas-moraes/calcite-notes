@@ -20,8 +20,8 @@
     "semantic_hash": "f3b73b78a301f179c84027ff667b08e6"
   },
   "package.json": {
-    "mtime": 1781553668.7399428,
-    "ast_hash": "0db43dd22a120484710abf5b4b3fa6a5",
+    "mtime": 1781313610.7423162,
+    "ast_hash": "d86994aad8df327b7c9a9c7bccec8f6f",
     "semantic_hash": ""
   },
   "skills-lock.json": {
@@ -95,8 +95,8 @@
     "semantic_hash": "00a3a1970058ba3cb05042fcdb922a9e"
   },
   "src/App.tsx": {
-    "mtime": 1785030010.0139997,
-    "ast_hash": "02bb7cfad48c8aa4baa02f5df13d09e2",
+    "mtime": 1781381160.8046513,
+    "ast_hash": "f0e66704e8d152a5fb1059315d73c137",
     "semantic_hash": ""
   },
   "src/components/CommandPalette.tsx": {
@@ -155,9 +155,9 @@
     "semantic_hash": "42bc6e9ad638838ca7ec15f7dfa423f0"
   },
   "src/lib/utils.ts": {
-    "mtime": 1785030096.983592,
-    "ast_hash": "83c101f4536621123ac0a9bc12bc1ca6",
-    "semantic_hash": ""
+    "mtime": 1778548609.2064884,
+    "ast_hash": "12e1fb5e8c69d238c917af66bb72fbee",
+    "semantic_hash": "12e1fb5e8c69d238c917af66bb72fbee"
   },
   "src/main.tsx": {
     "mtime": 1778548609.206624,
@@ -185,14 +185,14 @@
     "semantic_hash": "64698b9c16bca8c4073f179d90328d2d"
   },
   "AGENTS.md": {
-    "mtime": 1781553425.1562772,
-    "ast_hash": "73f4ff6c0a111ef81133547b66207744",
-    "semantic_hash": ""
+    "mtime": 1780281351.6016483,
+    "ast_hash": "3f833e88473dda58a2d950e270931d4c",
+    "semantic_hash": "3f833e88473dda58a2d950e270931d4c"
   },
   "README.md": {
-    "mtime": 1781553415.2699583,
-    "ast_hash": "d224ab1e33407978bcab1ac4b5e3f3b4",
-    "semantic_hash": ""
+    "mtime": 1779754660.3401113,
+    "ast_hash": "4e1c9d849dca1af2f2facea53e87fe1b",
+    "semantic_hash": "4e1c9d849dca1af2f2facea53e87fe1b"
   },
   "index.html": {
     "mtime": 1779843562.4347472,
@@ -499,9 +499,14 @@
     "ast_hash": "d8f6c5e2efc1fcd6679372da76751b26",
     "semantic_hash": ""
   },
+  "GAPS.md": {
+    "mtime": 1781384176.0018926,
+    "ast_hash": "c979329d0cec96f1b62bf3a835994186",
+    "semantic_hash": ""
+  },
   "src/components/WysiwygEditor.tsx": {
-    "mtime": 1785796693.1973896,
-    "ast_hash": "5ac28ea591e74d89739ff34fb05e5bda",
+    "mtime": 1781381135.3648844,
+    "ast_hash": "ddda96ac8a4ed5b391ddae52e035bc29",
     "semantic_hash": ""
   },
   "src/components/DataviewPanel.tsx": {
@@ -512,26 +517,6 @@
   "src/components/PropertiesPanel.tsx": {
     "mtime": 1781377805.9857616,
     "ast_hash": "f6201fc2fa57cac97c442bd81b0b5f49",
-    "semantic_hash": ""
-  },
-  ".opencode/opencode.json": {
-    "mtime": 1781576391.6685474,
-    "ast_hash": "e5f74d14a81702b55bdf53b33ec991d7",
-    "semantic_hash": ""
-  },
-  ".opencode/plugins/graphify.js": {
-    "mtime": 1781576377.6774464,
-    "ast_hash": "64ccd3c03dbfe0980b6095766f5c4e52",
-    "semantic_hash": ""
-  },
-  "TODO.md": {
-    "mtime": 1783305724.8292558,
-    "ast_hash": "e95932ec9f11e0712c0a680b13820464",
-    "semantic_hash": ""
-  },
-  "pnpm-workspace.yaml": {
-    "mtime": 1781552109.3956647,
-    "ast_hash": "71d750bf975fc42585a2a41196fb788e",
     "semantic_hash": ""
   }
 }

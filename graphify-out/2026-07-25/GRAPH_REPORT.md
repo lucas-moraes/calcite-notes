@@ -1,16 +1,16 @@
-# Graph Report - calcite-notes  (2026-07-25)
+# Graph Report - calcite-notes  (2026-07-20)
 
 ## Corpus Check
-- 49 files · ~199,769 words
+- 49 files · ~199,418 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 941 nodes · 1309 edges · 165 communities (111 shown, 54 thin omitted)
+- 941 nodes · 1304 edges · 157 communities (101 shown, 56 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 32 edges (avg confidence: 0.83)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `ade1835f`
+- Built from commit: `33d63306`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -167,14 +167,6 @@
 - [[_COMMUNITY_Module Group 152|Module Group 152]]
 - [[_COMMUNITY_Module Group 153|Module Group 153]]
 - [[_COMMUNITY_Module Group 154|Module Group 154]]
-- [[_COMMUNITY_Community 157|Community 157]]
-- [[_COMMUNITY_Community 158|Community 158]]
-- [[_COMMUNITY_Community 159|Community 159]]
-- [[_COMMUNITY_Community 160|Community 160]]
-- [[_COMMUNITY_Community 161|Community 161]]
-- [[_COMMUNITY_Community 162|Community 162]]
-- [[_COMMUNITY_Community 163|Community 163]]
-- [[_COMMUNITY_Community 164|Community 164]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `allow` - 76 edges
@@ -219,11 +211,11 @@
 - **Note View Components** — components_dataviewpanel, components_graphview, components_tabbar, components_propertiespanel [INFERRED 0.85]
 - **Plugin System Design Artifacts** — calcite_plugin_system, calcite_feature_gaps, rationale_plugin_storage_path, rationale_manifest_indexjs, rationale_new_function_eval, rationale_react_lazy_panels, rationale_sha256_checksums [EXTRACTED 0.95]
 
-## Communities (165 total, 54 thin omitted)
+## Communities (157 total, 56 thin omitted)
 
 ### Community 0 - "ACL Permission Schema"
 Cohesion: 0.05
-Nodes (40): commands, description, identifier, commands, description, identifier, commands, description (+32 more)
+Nodes (41): commands, description, identifier, commands, description, identifier, commands, description (+33 more)
 
 ### Community 1 - "NPM Dependencies"
 Cohesion: 0.05
@@ -234,12 +226,12 @@ Cohesion: 0.17
 Nodes (34): FileEntry, FileReadResult, GraphNote, Note, OperationResult, parse_frontmatter_full(), parse_tags(), strip_frontmatter() (+26 more)
 
 ### Community 3 - "Event Permission Schema"
-Cohesion: 0.22
-Nodes (9): commands, description, identifier, commands, description, identifier, permissions, allow-emit (+1 more)
+Cohesion: 0.06
+Nodes (33): commands, description, identifier, commands, description, identifier, commands, description (+25 more)
 
 ### Community 4 - "Git Operations"
-Cohesion: 0.32
-Nodes (19): get_repo(), git_commit(), git_diff_file(), git_init(), git_log(), git_restore_file(), git_status(), GitCommit (+11 more)
+Cohesion: 0.27
+Nodes (21): get_repo(), git_commit(), git_diff_file(), git_init(), git_log(), git_restore_file(), git_status(), GitCommit (+13 more)
 
 ### Community 5 - "App Configuration"
 Cohesion: 0.18
@@ -262,8 +254,8 @@ Cohesion: 0.10
 Nodes (20): Default Capability (permissions), app, security, windows, build, beforeBuildCommand, beforeDevCommand, devUrl (+12 more)
 
 ### Community 10 - "Core ACL Manifests"
-Cohesion: 0.25
-Nodes (7): core:app, global_scope_schema, permission_sets, core:event, global_scope_schema, permission_sets, core:menu
+Cohesion: 0.13
+Nodes (22): core, core:app, default_permission, global_scope_schema, permission_sets, default_permission, core:event, default_permission (+14 more)
 
 ### Community 11 - "Filesystem Operations"
 Cohesion: 0.30
@@ -274,8 +266,8 @@ Cohesion: 0.11
 Nodes (17): compilerOptions, allowImportingTsExtensions, allowJs, experimentalDecorators, isolatedModules, jsx, lib, module (+9 more)
 
 ### Community 13 - "UI Components"
-Cohesion: 0.20
-Nodes (8): WikiLinkPopup, DataviewPanelProps, SortDir, SortKey, TabBarProps, WikiLinkPopupProps, Note, Note
+Cohesion: 0.16
+Nodes (10): WikiLinkPopup, Command, CommandPaletteProps, DataviewPanelProps, SortDir, SortKey, TabBarProps, WikiLinkPopupProps (+2 more)
 
 ### Community 14 - "Editor & Architecture"
 Cohesion: 0.29
@@ -290,8 +282,8 @@ Cohesion: 0.12
 Nodes (16): anyOf, description, definitions, Application, Number, PermissionEntry, ShellScopeEntryAllowedArgs, Target (+8 more)
 
 ### Community 17 - "Theming & Branding"
-Cohesion: 0.18
-Nodes (10): setThemeColors(), ThemeColors, ThemeDefinition, ThemeMode, ThemePreset, themes, formatTime(), parseFrontmatter() (+2 more)
+Cohesion: 0.19
+Nodes (7): delays, setThemeColors(), ThemeColors, ThemeDefinition, ThemeMode, ThemePreset, themes
 
 ### Community 18 - "macOS Permission Schema"
 Cohesion: 0.13
@@ -302,12 +294,12 @@ Cohesion: 0.23
 Nodes (12): Box, Error, get_default_notes_dir(), run(), select_notes_folder(), setup_menu(), AppHandle, AppState (+4 more)
 
 ### Community 20 - "Module Group 20"
-Cohesion: 0.22
-Nodes (8): Sidebar, GraphViewProps, SidebarProps, cn(), GraphLink, GraphNode, GraphLink, GraphNode
+Cohesion: 0.18
+Nodes (10): Sidebar, GraphViewProps, SidebarProps, cn(), formatTime(), wordCount(), GraphLink, GraphNode (+2 more)
 
 ### Community 21 - "Module Group 21"
 Cohesion: 0.15
-Nodes (13): commands, description, identifier, commands, description, identifier, deny, commands (+5 more)
+Nodes (13): commands, description, identifier, commands, description, identifier, allow, commands (+5 more)
 
 ### Community 22 - "Module Group 22"
 Cohesion: 0.15
@@ -402,8 +394,8 @@ Cohesion: 0.50
 Nodes (3): permission, skill, $schema
 
 ### Community 45 - "Module Group 45"
-Cohesion: 0.54
-Nodes (8): default_permission, default_permission, default_permission, default_permission, default_permission, description, identifier, permissions
+Cohesion: 0.50
+Nodes (4): commands, description, identifier, allow-append
 
 ### Community 46 - "Module Group 46"
 Cohesion: 0.50
@@ -438,8 +430,8 @@ Cohesion: 0.50
 Nodes (4): commands, description, identifier, allow-items
 
 ### Community 54 - "Module Group 54"
-Cohesion: 0.40
-Nodes (4): Command, CommandPalette(), CommandPaletteProps, doSearch()
+Cohesion: 0.50
+Nodes (4): commands, description, identifier, allow-name
 
 ### Community 55 - "Module Group 55"
 Cohesion: 0.50
@@ -479,7 +471,7 @@ Nodes (4): commands, description, identifier, allow-set-icon
 
 ### Community 64 - "Module Group 64"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-emit-to
+Nodes (4): commands, description, identifier, allow-set-text
 
 ### Community 65 - "Module Group 65"
 Cohesion: 0.50
@@ -487,7 +479,7 @@ Nodes (4): commands, description, identifier, allow-tauri-version
 
 ### Community 66 - "Module Group 66"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-fetch-data-store-identifiers
+Nodes (4): commands, description, identifier, allow-text
 
 ### Community 67 - "Module Group 67"
 Cohesion: 0.50
@@ -515,11 +507,11 @@ Nodes (4): commands, description, identifier, deny-fetch-data-store-identifiers
 
 ### Community 73 - "Module Group 73"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-listen
+Nodes (4): commands, description, identifier, deny-insert
 
 ### Community 74 - "Module Group 74"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-new
+Nodes (4): commands, description, identifier, deny-is-checked
 
 ### Community 75 - "Module Group 75"
 Cohesion: 0.50
@@ -543,7 +535,7 @@ Nodes (4): commands, description, identifier, deny-remove-data-store
 
 ### Community 80 - "Module Group 80"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-remove
+Nodes (4): commands, description, identifier, deny-set-app-theme
 
 ### Community 81 - "Module Group 81"
 Cohesion: 0.50
@@ -579,7 +571,7 @@ Nodes (4): ThemeColors, ThemeDefinition, ThemeMode, ThemePreset
 
 ### Community 90 - "Module Group 90"
 Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-remove-data-store
+Nodes (4): commands, description, identifier, allow-default-window-icon
 
 ### Community 94 - "Module Group 94"
 Cohesion: 0.50
@@ -605,65 +597,25 @@ Nodes (3): Value, anyOf, description
 Cohesion: 0.67
 Nodes (3): ShellScopeEntryAllowedArg, anyOf, description
 
-### Community 149 - "Module Group 149"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-set-as-app-menu
-
-### Community 150 - "Module Group 150"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-set-as-help-menu-for-nsapp
-
-### Community 151 - "Module Group 151"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, allow-set-as-window-menu
-
-### Community 157 - "Community 157"
-Cohesion: 0.50
-Nodes (4): core, global_scope_schema, permission_sets, permissions
-
-### Community 158 - "Community 158"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-app-hide
-
-### Community 159 - "Community 159"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-emit
-
-### Community 160 - "Community 160"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-emit-to
-
-### Community 161 - "Community 161"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-identifier
-
-### Community 162 - "Community 162"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-listen
-
-### Community 163 - "Community 163"
-Cohesion: 0.50
-Nodes (4): commands, description, identifier, deny-unlisten
-
 ## Knowledge Gaps
-- **481 isolated node(s):** `Feature 1: Grafo reflete notas em memória (não só do disco)`, `Feature 2: Grafo recompute só em mudanças de id/title/tags`, `Feature 3: Persistir tags de notas novas ao salvar`, `Feature 4: Botão "Update" funcional`, `Feature 5: Verificação final` (+476 more)
+- **484 isolated node(s):** `Feature 1: Grafo reflete notas em memória (não só do disco)`, `Feature 2: Grafo recompute só em mudanças de id/title/tags`, `Feature 3: Persistir tags de notas novas ao salvar`, `Feature 4: Botão "Update" funcional`, `Feature 5: Verificação final` (+479 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **54 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **56 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `allow` connect `Module Group 22` to `ACL Permission Schema`, `Event Permission Schema`, `Window Permission Schema`, `Menu Permission Schema`, `Module Group 21`, `Module Group 149`, `Module Group 150`, `Module Group 151`, `Community 158`, `Community 159`, `Community 160`, `Community 161`, `Community 162`, `Community 163`, `Module Group 46`, `Module Group 47`, `Module Group 48`, `Module Group 49`, `Module Group 50`, `Module Group 51`, `Module Group 52`, `Module Group 53`, `Module Group 55`, `Module Group 56`, `Module Group 57`, `Module Group 59`, `Module Group 60`, `Module Group 61`, `Module Group 62`, `Module Group 63`, `Module Group 64`, `Module Group 65`, `Module Group 66`, `Module Group 67`, `Module Group 68`, `Module Group 69`, `Module Group 70`, `Module Group 71`, `Module Group 72`, `Module Group 73`, `Module Group 74`, `Module Group 75`, `Module Group 76`, `Module Group 77`, `Module Group 78`, `Module Group 79`, `Module Group 80`, `Module Group 81`, `Module Group 82`, `Module Group 83`, `Module Group 84`, `Module Group 90`?**
+- **Why does `allow` connect `Module Group 21` to `ACL Permission Schema`, `Event Permission Schema`, `Window Permission Schema`, `Menu Permission Schema`, `Module Group 22`, `Module Group 45`, `Module Group 46`, `Module Group 47`, `Module Group 48`, `Module Group 49`, `Module Group 50`, `Module Group 51`, `Module Group 52`, `Module Group 53`, `Module Group 54`, `Module Group 55`, `Module Group 56`, `Module Group 57`, `Module Group 59`, `Module Group 60`, `Module Group 61`, `Module Group 62`, `Module Group 63`, `Module Group 64`, `Module Group 65`, `Module Group 66`, `Module Group 67`, `Module Group 68`, `Module Group 69`, `Module Group 70`, `Module Group 71`, `Module Group 72`, `Module Group 73`, `Module Group 74`, `Module Group 75`, `Module Group 76`, `Module Group 77`, `Module Group 78`, `Module Group 79`, `Module Group 80`, `Module Group 81`, `Module Group 82`, `Module Group 83`, `Module Group 84`, `Module Group 90`?**
   _High betweenness centrality (0.041) - this node is a cross-community bridge._
-- **Why does `deny` connect `Module Group 21` to `ACL Permission Schema`, `Event Permission Schema`, `Window Permission Schema`, `Menu Permission Schema`, `Module Group 149`, `Module Group 22`, `Module Group 150`, `Module Group 151`, `Community 158`, `Community 159`, `Community 160`, `Community 161`, `Community 162`, `Community 163`, `Module Group 46`, `Module Group 47`, `Module Group 48`, `Module Group 49`, `Module Group 50`, `Module Group 51`, `Module Group 52`, `Module Group 53`, `Module Group 55`, `Module Group 56`, `Module Group 57`, `Module Group 59`, `Module Group 60`, `Module Group 61`, `Module Group 62`, `Module Group 63`, `Module Group 64`, `Module Group 65`, `Module Group 66`, `Module Group 67`, `Module Group 68`, `Module Group 69`, `Module Group 70`, `Module Group 71`, `Module Group 72`, `Module Group 73`, `Module Group 74`, `Module Group 75`, `Module Group 76`, `Module Group 77`, `Module Group 78`, `Module Group 79`, `Module Group 80`, `Module Group 81`, `Module Group 82`, `Module Group 83`, `Module Group 84`, `Module Group 90`?**
+- **Why does `deny` connect `Module Group 22` to `ACL Permission Schema`, `Event Permission Schema`, `Window Permission Schema`, `Menu Permission Schema`, `Module Group 21`, `Module Group 45`, `Module Group 46`, `Module Group 47`, `Module Group 48`, `Module Group 49`, `Module Group 50`, `Module Group 51`, `Module Group 52`, `Module Group 53`, `Module Group 54`, `Module Group 55`, `Module Group 56`, `Module Group 57`, `Module Group 59`, `Module Group 60`, `Module Group 61`, `Module Group 62`, `Module Group 63`, `Module Group 64`, `Module Group 65`, `Module Group 66`, `Module Group 67`, `Module Group 68`, `Module Group 69`, `Module Group 70`, `Module Group 71`, `Module Group 72`, `Module Group 73`, `Module Group 74`, `Module Group 75`, `Module Group 76`, `Module Group 77`, `Module Group 78`, `Module Group 79`, `Module Group 80`, `Module Group 81`, `Module Group 82`, `Module Group 83`, `Module Group 84`, `Module Group 90`?**
   _High betweenness centrality (0.041) - this node is a cross-community bridge._
-- **Why does `App()` connect `Git Operations` to `Core Command Types`, `App Configuration`, `Filesystem Operations`, `Theming & Branding`, `Module Group 54`?**
+- **Why does `App()` connect `Git Operations` to `Core Command Types`, `App Configuration`, `Filesystem Operations`, `Theming & Branding`, `Module Group 20`?**
   _High betweenness centrality (0.028) - this node is a cross-community bridge._
 - **What connects `Feature 1: Grafo reflete notas em memória (não só do disco)`, `Feature 2: Grafo recompute só em mudanças de id/title/tags`, `Feature 3: Persistir tags de notas novas ao salvar` to the rest of the system?**
-  _481 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _484 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `ACL Permission Schema` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.04878048780487805 - nodes in this community are weakly interconnected._
 - **Should `NPM Dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.05405405405405406 - nodes in this community are weakly interconnected._
-- **Should `Window Permission Schema` be split into smaller, more focused modules?**
-  _Cohesion score 0.08 - nodes in this community are weakly interconnected._
+- **Should `Event Permission Schema` be split into smaller, more focused modules?**
+  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._

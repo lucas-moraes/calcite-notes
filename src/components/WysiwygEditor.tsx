@@ -117,7 +117,9 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
   const { frontmatter, body } = useMemo(() => {
     const match = content.match(/^---\n[\s\S]*?\n---\n*/);
     if (match) {
-      return { frontmatter: match[0], body: content.slice(match[0].length) };
+      const fm = match[0].replace(/\n+$/, "");
+      const b = content.slice(match[0].length).replace(/^\n+/, "");
+      return { frontmatter: fm, body: b };
     }
     return { frontmatter: "", body: content };
   }, [content]);
@@ -163,7 +165,7 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
       const html = editor.getHTML();
       const md = turndown.turndown(html).replace(/\\([[\]])/g, '$1');
       const fm = frontmatterRef.current;
-      onChange(fm ? fm + "\n" + md : md);
+      onChange(fm ? fm + "\n\n" + md : md);
     },
     editorProps: {
       attributes: {
