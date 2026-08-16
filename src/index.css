@@ -404,6 +404,13 @@ textarea::placeholder {
   margin: 1rem 0;
 }
 
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
 .wysiwyg-wrapper .tiptap-editor p.is-editor-empty:first-child::before {
   color: var(--color-base-500);
   content: attr(data-placeholder);

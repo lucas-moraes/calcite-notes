@@ -25,7 +25,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; connect-src ipc: http://ipc.local https://tauri.local; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; worker-src 'self' blob:; wasm-unsafe-eval"
+      "csp": "default-src 'self'; connect-src ipc: http://ipc.local https://tauri.local; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: http:; worker-src 'self' blob:; wasm-unsafe-eval"
     }
   },
   "bundle": {

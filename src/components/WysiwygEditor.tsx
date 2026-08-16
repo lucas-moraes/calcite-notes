@@ -7,6 +7,7 @@ import Typography from "@tiptap/extension-typography";
 import TaskList from "@tiptap/extension-task-list";
 import TaskItem from "@tiptap/extension-task-item";
 import Underline from "@tiptap/extension-underline";
+import Image from "@tiptap/extension-image";
 import {
   Bold as BoldIcon,
   Italic as ItalicIcon,
@@ -24,21 +25,23 @@ import {
   CodeXml as CodeBlockIcon,
   Minus as HrIcon,
   Link as LinkIcon,
+  Image as ImageIcon,
 } from "lucide-react";
 import { marked } from "marked";
 import TurndownService from "turndown";
 import { gfm } from "turndown-plugin-gfm";
-import { useMemo, useEffect, useRef } from "react";
+import { useMemo, useEffect, useRef, useState, useCallback } from "react";
+import PromptDialog from "./PromptDialog";
 
-const KeyboardShortcuts = Extension.create({
+const KeyboardShortcuts = Extension.create<{ onLink: () => void }>({
   name: "keyboardShortcuts",
+  addOptions() {
+    return { onLink: () => {} };
+  },
   addKeyboardShortcuts() {
     return {
       "Mod-k": () => {
-        const url = prompt("Enter URL:");
-        if (url) {
-          this.editor.chain().focus().toggleLink({ href: url }).run();
-        }
+        this.options.onLink();
         return true;
       },
       "Mod-Shift-l": () => this.editor.commands.toggleBulletList(),
@@ -113,6 +116,10 @@ function findAndScroll(editor: NonNullable<ReturnType<typeof useEditor>>, query:
 
 export default function WysiwygEditor({ content, onChange, highlightQuery }: WysiwygEditorProps) {
   const frontmatterRef = useRef("");
+  const [dialog, setDialog] = useState<null | "link" | "image">(null);
+
+  const openDialog = useCallback((which: "link" | "image") => setDialog(which), []);
+  const closeDialog = useCallback(() => setDialog(null), []);
 
   const { frontmatter, body } = useMemo(() => {
     const match = content.match(/^---\n[\s\S]*?\n---\n*/);
@@ -155,7 +162,13 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
       TaskItem.configure({
         nested: true,
       }),
-      KeyboardShortcuts,
+      Image.configure({
+        inline: false,
+        allowBase64: false,
+      }),
+      KeyboardShortcuts.configure({
+        onLink: () => openDialog("link"),
+      }),
     ],
     onCreate: ({ editor }) => {
       const q = highlightQueryRef.current;
@@ -206,7 +219,8 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
   const blockItems: ToolbarItem[] = [
     { Icon: CodeBlockIcon, label: "Code block (Ctrl+Shift+M)", action: () => editor.chain().focus().toggleCodeBlock().run(), isActive: editor.isActive("codeBlock") },
     { Icon: HrIcon, label: "Horizontal rule (Ctrl+Shift+-)", action: () => editor.chain().focus().setHorizontalRule().run(), isActive: false },
-    { Icon: LinkIcon, label: "Link (Ctrl+K)", action: () => { const url = prompt("Enter URL:"); if (url) { editor.chain().focus().toggleLink({ href: url }).run(); } }, isActive: editor.isActive("link") },
+    { Icon: LinkIcon, label: "Link (Ctrl+K)", action: () => openDialog("link"), isActive: editor.isActive("link") },
+    { Icon: ImageIcon, label: "Image", action: () => openDialog("image"), isActive: editor.isActive("image") },
   ];
 
   const renderBtn = (item: ToolbarItem, i: number) => (
@@ -238,6 +252,28 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
       <div className="wysiwyg-wrapper flex-1 overflow-y-auto">
         <EditorContent editor={editor} />
       </div>
+      <PromptDialog
+        isOpen={dialog === "link"}
+        title="Insert link"
+        placeholder="https://example.com"
+        submitLabel="Insert"
+        onCancel={closeDialog}
+        onConfirm={(url) => {
+          editor.chain().focus().toggleLink({ href: url }).run();
+          closeDialog();
+        }}
+      />
+      <PromptDialog
+        isOpen={dialog === "image"}
+        title="Insert image"
+        placeholder="https://example.com/image.png"
+        submitLabel="Insert"
+        onCancel={closeDialog}
+        onConfirm={(url) => {
+          editor.chain().focus().setImage({ src: url }).run();
+          closeDialog();
+        }}
+      />
     </div>
   );
 }
