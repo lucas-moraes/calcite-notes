@@ -133,16 +133,47 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
 
   frontmatterRef.current = frontmatter;
 
-  const initialHtml = useMemo(() => {
+  // Parse markdown to HTML once per mount (per note) — not on every content change.
+  // The editor only consumes `content` at creation time; recomputing per keystroke is wasted work.
+  const initialHtmlRef = useRef<string | null>(null);
+  if (initialHtmlRef.current === null) {
     try {
-      return marked.parse(body || "");
+      initialHtmlRef.current = marked.parse(body || "", { async: false });
     } catch {
-      return body || "";
+      initialHtmlRef.current = body || "";
     }
-  }, [body]);
+  }
+  const initialHtml = initialHtmlRef.current;
 
   const highlightQueryRef = useRef(highlightQuery);
   highlightQueryRef.current = highlightQuery;
+
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
+
+  // Debounced HTML→Markdown conversion: turndown runs on a timer instead of every keystroke.
+  const convertTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingHtmlRef = useRef<string | null>(null);
+
+  const flushConversion = useCallback(() => {
+    if (convertTimerRef.current !== null) {
+      clearTimeout(convertTimerRef.current);
+      convertTimerRef.current = null;
+    }
+    const html = pendingHtmlRef.current;
+    pendingHtmlRef.current = null;
+    if (html === null) return;
+    try {
+      const md = turndown.turndown(html).replace(/\\([[\]])/g, "$1");
+      const fm = frontmatterRef.current;
+      onChangeRef.current(fm ? fm + "\n\n" + md : md);
+    } catch (err) {
+      console.error("Markdown conversion failed:", err);
+    }
+  }, []);
+
+  const flushRef = useRef(flushConversion);
+  flushRef.current = flushConversion;
 
   const editor = useEditor({
     content: initialHtml,
@@ -175,10 +206,12 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
       if (q) findAndScroll(editor, q);
     },
     onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      const md = turndown.turndown(html).replace(/\\([[\]])/g, '$1');
-      const fm = frontmatterRef.current;
-      onChange(fm ? fm + "\n\n" + md : md);
+      pendingHtmlRef.current = editor.getHTML();
+      if (convertTimerRef.current !== null) clearTimeout(convertTimerRef.current);
+      convertTimerRef.current = setTimeout(() => {
+        convertTimerRef.current = null;
+        flushRef.current();
+      }, 300);
     },
     editorProps: {
       attributes: {
@@ -191,6 +224,11 @@ export default function WysiwygEditor({ content, onChange, highlightQuery }: Wys
     if (!editor || !highlightQuery) return;
     findAndScroll(editor, highlightQuery);
   }, [highlightQuery, editor]);
+
+  // Flush pending conversion when the note changes/unmounts so no edit is lost
+  useEffect(() => {
+    return () => flushConversion();
+  }, [flushConversion]);
 
   if (!editor) return null;
 

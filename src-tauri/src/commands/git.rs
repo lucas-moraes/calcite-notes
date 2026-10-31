@@ -37,7 +37,7 @@ fn get_repo(notes_dir: &str) -> Result<git2::Repository, String> {
 
 #[tauri::command]
 pub fn git_init(state: State<'_, AppState>) -> Result<bool, String> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     let path = std::path::Path::new(&notes_dir);
 
     if git2::Repository::open(path).is_ok() {
@@ -51,7 +51,7 @@ pub fn git_init(state: State<'_, AppState>) -> Result<bool, String> {
 
 #[tauri::command]
 pub fn git_status(state: State<'_, AppState>) -> Result<Vec<GitFileStatus>, String> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     let repo = get_repo(&notes_dir)?;
 
     let mut statuses = Vec::new();
@@ -87,7 +87,7 @@ pub fn git_status(state: State<'_, AppState>) -> Result<Vec<GitFileStatus>, Stri
 
 #[tauri::command]
 pub fn git_commit(state: State<'_, AppState>, message: String) -> Result<crate::commands::OperationResult, String> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     let repo = get_repo(&notes_dir)?;
 
     let mut index = repo.index().map_err(|e| format!("Failed to get index: {}", e))?;
@@ -130,7 +130,7 @@ pub fn git_commit(state: State<'_, AppState>, message: String) -> Result<crate::
 
 #[tauri::command]
 pub fn git_log(state: State<'_, AppState>, limit: u32) -> Result<Vec<GitCommit>, String> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     let repo = get_repo(&notes_dir)?;
 
     let mut revwalk = repo
@@ -178,7 +178,7 @@ pub fn git_diff_file(
     path: String,
     commit_hash: String,
 ) -> Result<GitFileDiff, String> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     let repo = get_repo(&notes_dir)?;
 
     let full_path = if Path::new(&path).is_absolute() {
@@ -259,7 +259,7 @@ pub fn git_restore_file(
     path: String,
     commit_hash: String,
 ) -> Result<crate::commands::OperationResult, String> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     let repo = get_repo(&notes_dir)?;
 
     let full_path = if Path::new(&path).is_absolute() {
@@ -299,7 +299,7 @@ pub fn git_restore_file(
         .map_err(|e| format!("Failed to find blob: {}", e))?;
 
     let content = blob.content();
-    std::fs::write(&full_path, content)
+    crate::commands::write_atomic(std::path::Path::new(&full_path), &String::from_utf8_lossy(content))
         .map_err(|e| format!("Failed to write file: {}", e))?;
 
     Ok(crate::commands::OperationResult {

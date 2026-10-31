@@ -100,6 +100,27 @@ pub struct OperationResult {
     pub path: Option<String>,
 }
 
+/// Atomic write: writes to a temp file in the same directory, then renames
+/// over the target. Prevents truncation/corruption if the process dies
+/// mid-write.
+pub fn write_atomic(path: &std::path::Path, content: &str) -> std::io::Result<()> {
+    use std::io::Write;
+    let dir = path.parent().ok_or_else(|| {
+        std::io::Error::new(std::io::ErrorKind::InvalidInput, "path has no parent dir")
+    })?;
+    let name = path
+        .file_name()
+        .map(|n| n.to_string_lossy().into_owned())
+        .unwrap_or_else(|| "file".into());
+    let tmp = dir.join(format!(".{}.tmp", name));
+    let mut f = std::fs::File::create(&tmp)?;
+    f.write_all(content.as_bytes())?;
+    f.sync_all()?;
+    drop(f);
+    std::fs::rename(&tmp, path)?;
+    Ok(())
+}
+
 pub mod notes;
 pub mod config;
 pub mod filesystem;

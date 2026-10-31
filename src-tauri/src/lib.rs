@@ -159,19 +159,19 @@ pub fn run() {
             if let Ok(store) = app.store("settings.json") {
                 if let Some(val) = store.get("notes_dir") {
                     if let Some(saved) = val.as_str() {
-                        let mut notes_dir = app_state.notes_dir.lock().unwrap();
+                        let mut notes_dir = app_state.notes_dir.lock().unwrap_or_else(|e| e.into_inner());
                         *notes_dir = saved.to_string();
                         log::info!("Notes directory loaded from store: {}", saved);
                     }
                 } else {
-                    let notes_dir = app_state.notes_dir.lock().unwrap().clone();
+                    let notes_dir = app_state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
                     store.set("notes_dir", serde_json::Value::String(notes_dir.clone()));
                     let _ = store.save();
                     log::info!("Notes directory saved to store: {}", notes_dir);
                 }
             }
 
-            let notes_dir = app.state::<AppState>().notes_dir.lock().unwrap().clone();
+            let notes_dir = app.state::<AppState>().notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
             log::info!("Notes directory: {}", notes_dir);
 
             setup_menu(&app.handle())?;
@@ -192,7 +192,7 @@ pub fn run() {
                     }
                 }
                 "open_folder" => {
-                    let dir = app_state.notes_dir.lock().unwrap().clone();
+                    let dir = app_state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
                     if !dir.is_empty() {
                         let _ = tauri_plugin_opener::open_path(&dir, None::<&str>);
                     }
@@ -238,7 +238,7 @@ async fn select_notes_folder(
         Some(path) => {
             let path_str = path.to_string();
             {
-                let mut dir = state.notes_dir.lock().unwrap();
+                let mut dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner());
                 *dir = path_str.clone();
             }
             std::fs::create_dir_all(&path_str).map_err(|e| e.to_string())?;

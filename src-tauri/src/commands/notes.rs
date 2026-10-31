@@ -24,7 +24,7 @@ pub fn is_path_within_notes_dir(file_path: &str, notes_dir: &str) -> bool {
 
 #[tauri::command]
 pub fn get_notes(state: State<'_, AppState>) -> Vec<Note> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     if notes_dir.is_empty() {
         return Vec::new();
     }
@@ -69,7 +69,7 @@ pub fn get_notes(state: State<'_, AppState>) -> Vec<Note> {
 
 #[tauri::command]
 pub fn get_all_notes_for_graph(state: State<'_, AppState>) -> Vec<GraphNote> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     if notes_dir.is_empty() {
         return Vec::new();
     }
@@ -114,7 +114,7 @@ pub fn save_note(
     state: State<'_, AppState>,
     note: Note,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     let file_path = if note.id.ends_with(".md") {
         note.id.clone()
@@ -131,7 +131,7 @@ pub fn save_note(
         };
     }
 
-    match fs::write(&file_path, &note.content) {
+    match super::write_atomic(Path::new(&file_path), &note.content) {
         Ok(_) => OperationResult {
             success: true,
             error: None,
@@ -149,7 +149,7 @@ pub fn save_note(
 
 #[tauri::command]
 pub fn delete_note(state: State<'_, AppState>, file_path: String) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&file_path, &notes_dir) {
         return OperationResult {
@@ -191,7 +191,7 @@ pub fn save_new_note(
     file_path: String,
     content: String,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&file_path, &notes_dir) {
         return OperationResult {
@@ -202,7 +202,7 @@ pub fn save_new_note(
         };
     }
 
-    match fs::write(&file_path, &content) {
+    match super::write_atomic(Path::new(&file_path), &content) {
         Ok(_) => OperationResult {
             success: true,
             error: None,
@@ -224,7 +224,7 @@ pub fn rename_note(
     old_path: String,
     new_file_name: String,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&old_path, &notes_dir) {
         return OperationResult {
@@ -270,7 +270,7 @@ pub fn update_note_tags(
     note_id: String,
     tags: Vec<String>,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&note_id, &notes_dir) {
         return OperationResult {
@@ -311,7 +311,7 @@ pub fn update_note_tags(
         format!("---\n{}\n---\n\n{}", tags_line, content)
     };
 
-    match fs::write(&note_id, new_content) {
+    match super::write_atomic(Path::new(&note_id), &new_content) {
         Ok(_) => OperationResult {
             success: true,
             error: None,
@@ -333,7 +333,7 @@ pub fn update_note_properties(
     note_id: String,
     properties: HashMap<String, String>,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&note_id, &notes_dir) {
         return OperationResult {
@@ -387,7 +387,7 @@ pub fn update_note_properties(
         format!("{}\n\n{}", lines.join("\n"), body.trim())
     };
 
-    match fs::write(&note_id, &new_content) {
+    match super::write_atomic(Path::new(&note_id), &new_content) {
         Ok(_) => OperationResult {
             success: true,
             error: None,
@@ -409,7 +409,7 @@ pub fn search_notes(
     query: Option<String>,
     filters: Option<HashMap<String, String>>,
 ) -> Vec<Note> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
     if notes_dir.is_empty() {
         return Vec::new();
     }

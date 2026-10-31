@@ -1,0 +1,12 @@
+{
+  "permission": {
+    "tools": {
+      "remember": "allow",
+      "edit": "allow",
+      "task": "allow",
+      "write": "allow",
+      "bash": "allow"
+    },
+    "default": null
+  }
+}

@@ -14,7 +14,7 @@ fn is_path_within_notes_dir(file_path: &str, notes_dir: &str) -> bool {
 
 #[tauri::command]
 pub fn delete_folder(state: State<'_, AppState>, folder_path: String) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&folder_path, &notes_dir) {
         return OperationResult {
@@ -72,7 +72,7 @@ pub fn create_folder(
     parent_path: String,
     folder_name: String,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&parent_path, &notes_dir) {
         return OperationResult {
@@ -117,7 +117,7 @@ pub fn rename_folder(
     old_path: String,
     new_name: String,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&old_path, &notes_dir) {
         return OperationResult {
@@ -163,7 +163,7 @@ pub fn move_file(
     source_path: String,
     dest_folder: String,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&source_path, &notes_dir) {
         return OperationResult {
@@ -230,7 +230,7 @@ pub fn create_file(
     file_name: String,
     content: Option<String>,
 ) -> OperationResult {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&dir_path, &notes_dir) {
         return OperationResult {
@@ -261,7 +261,7 @@ pub fn create_file(
         )
     });
 
-    match fs::write(&file_path, default_content) {
+    match crate::commands::write_atomic(&file_path, &default_content) {
         Ok(_) => OperationResult {
             success: true,
             error: None,
@@ -321,7 +321,7 @@ use crate::commands::FileReadResult;
 
 #[tauri::command]
 pub fn read_file(state: State<'_, AppState>, file_path: String) -> Option<FileReadResult> {
-    let notes_dir = state.notes_dir.lock().unwrap().clone();
+    let notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone();
 
     if !is_path_within_notes_dir(&file_path, &notes_dir) {
         log::error!("read_file: Access denied for path: {}", file_path);

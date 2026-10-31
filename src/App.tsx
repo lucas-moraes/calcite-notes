@@ -353,17 +353,29 @@ export default function App() {
     }
   }, [activeNoteId]);
 
-  useEffect(() => {
-    if (!activeNote) return;
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const pendingNoteRef = useRef<Note | null>(null);
+  const dirtyNoteIdRef = useRef<string | null>(null);
 
+  const flushPendingSave = useCallback(() => {
+    if (saveTimerRef.current !== null) {
+      clearTimeout(saveTimerRef.current);
+      saveTimerRef.current = null;
+    }
+    const note = pendingNoteRef.current;
+    pendingNoteRef.current = null;
+    if (!note) return;
+    if (dirtyNoteIdRef.current === note.id) dirtyNoteIdRef.current = null;
+
+    const now = Date.now();
     const noteToSave = {
-      id: activeNote.id,
-      title: activeNote.title,
-      content: activeNote.content,
-      createdAt: activeNote.createdAt,
-      updatedAt: activeNote.updatedAt,
-      tags: activeNote.tags || [],
-      properties: activeNote.properties || {},
+      id: note.id,
+      title: note.title,
+      content: note.content,
+      createdAt: note.createdAt,
+      updatedAt: now,
+      tags: note.tags || [],
+      properties: note.properties || {},
     };
 
     tauriAPI.saveNote(noteToSave).then((result) => {
@@ -372,12 +384,41 @@ export default function App() {
       console.error("Auto-save error:", err);
     });
 
-    if (activeNote.isNew) {
-      setNotes((prev) => prev.map((n) =>
-        n.id === activeNote.id ? { ...n, isNew: false } : n
-      ));
+    setNotes((prev) => prev.map((n) =>
+      n.id === note.id ? { ...n, isNew: false, updatedAt: now } : n
+    ));
+  }, []);
+
+  const cancelPendingSave = useCallback((id?: string) => {
+    if (id && pendingNoteRef.current?.id !== id) return;
+    if (saveTimerRef.current !== null) {
+      clearTimeout(saveTimerRef.current);
+      saveTimerRef.current = null;
     }
-  }, [activeNote?.content, activeNote?.id]);
+    pendingNoteRef.current = null;
+    if (!id || dirtyNoteIdRef.current === id) dirtyNoteIdRef.current = null;
+  }, []);
+
+  // Debounced auto-save: write 800ms after the last edit instead of on every keystroke.
+  // Keyed on the dirty note (not the active one) so edits flushed while switching
+  // notes are still picked up and saved.
+  useEffect(() => {
+    const dirtyId = dirtyNoteIdRef.current;
+    if (!dirtyId) return;
+    const note = notes.find((n) => n.id === dirtyId);
+    if (!note) return;
+    pendingNoteRef.current = note;
+    if (saveTimerRef.current !== null) clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = setTimeout(() => {
+      saveTimerRef.current = null;
+      flushPendingSave();
+    }, 800);
+  }, [notes, flushPendingSave]);
+
+  // Flush any pending save when switching notes or on unmount
+  useEffect(() => {
+    return () => flushPendingSave();
+  }, [activeNoteId, flushPendingSave]);
 
   useEffect(() => {
     if (editorTab === "preview") {
@@ -726,6 +767,8 @@ export default function App() {
       await tauriAPI.deleteNote(oldPath).catch(() => {});
     }
 
+    cancelPendingSave(id);
+
     setNotes((prev) =>
       prev.map((n) => (n.id === id ? { ...n, id: filePath, isNew: false, updatedAt: Date.now() } : n)),
     );
@@ -752,6 +795,8 @@ export default function App() {
       return;
     }
 
+    cancelPendingSave(id);
+
     setNotes((prev) =>
       prev.map((n) => (n.id === id ? { ...n, id: result.newPath || n.id, updatedAt: Date.now() } : n)),
     );
@@ -767,15 +812,18 @@ export default function App() {
   };
 
   const handleUpdateNote = (id: string, updates: Partial<Note>) => {
-    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates, updatedAt: Date.now() } : n)));
+    // Mark as dirty so the debounced auto-save picks it up; updatedAt is set on save, not per keystroke
+    dirtyNoteIdRef.current = id;
+    setNotes((prev) => prev.map((n) => (n.id === id ? { ...n, ...updates } : n)));
   };
 
   const handleFrontmatterChange = (id: string, field: "title" | "date" | "tags", value: string) => {
+    dirtyNoteIdRef.current = id;
     setNotes((prev) =>
       prev.map((n) => {
         if (n.id !== id) return n;
         const newContent = updateFrontmatterField(n.content, field, value);
-        return { ...n, content: newContent, updatedAt: Date.now() };
+        return { ...n, content: newContent };
       }),
     );
   };
@@ -788,6 +836,7 @@ export default function App() {
         alert(`Failed to delete note: ${result.error || "Unknown error"}`);
         return;
       }
+      cancelPendingSave(id);
       setFileTreeKey((prev) => prev + 1);
 
       setOpenTabIds((prev) => prev.filter((tid) => tid !== id));
@@ -1108,6 +1157,7 @@ export default function App() {
                         tags={activeNote.tags || []}
                         onSave={(props) => {
                           const newTags = (props.tags || "").split(",").map((t) => t.trim()).filter(Boolean);
+                          dirtyNoteIdRef.current = activeNote.id;
                           setNotes((prev) =>
                             prev.map((n) =>
                               n.id === activeNote.id

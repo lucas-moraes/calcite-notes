@@ -5,13 +5,13 @@ use serde_json;
 
 #[tauri::command]
 pub fn get_notes_folder(state: State<'_, AppState>) -> String {
-    state.notes_dir.lock().unwrap().clone()
+    state.notes_dir.lock().unwrap_or_else(|e| e.into_inner()).clone()
 }
 
 #[tauri::command]
 pub fn set_notes_dir(app_handle: tauri::AppHandle, state: State<'_, AppState>, dir: String) -> Result<bool, String> {
     {
-        let mut notes_dir = state.notes_dir.lock().unwrap();
+        let mut notes_dir = state.notes_dir.lock().unwrap_or_else(|e| e.into_inner());
         *notes_dir = dir.clone();
     }
     let store = app_handle.store("settings.json");
